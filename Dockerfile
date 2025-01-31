@@ -2,7 +2,7 @@
 FROM node:23-alpine as dependencies
 WORKDIR /app
 COPY package*.json ./
-RUN pnpm install
+RUN npm install -g pnpm@latest-10 && pnpm install
 
 #Билдим приложение
 #Кэширование зависимостей — если файлы в проекте изменились,
