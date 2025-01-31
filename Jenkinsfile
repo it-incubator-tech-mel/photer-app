@@ -29,7 +29,7 @@ pipeline {
                          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                          nvm use --lts
                          npm install -g pnpm@latest-10
-                         pnpm install
+                         pnpm install --ignore-scripts=false
                          pnpm test
                       '''
                   }
