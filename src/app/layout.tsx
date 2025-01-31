@@ -25,7 +25,9 @@ export default function RootLayout({
 }>): ReactElement {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} bg-dark-900`}
+      >
         {children}
       </body>
     </html>
