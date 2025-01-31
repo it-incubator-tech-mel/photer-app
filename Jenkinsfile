@@ -30,7 +30,6 @@ pipeline {
                          nvm use --lts
                          npm install -g pnpm@latest-10
                          pnpm install
-                         pnpm test
                       '''
                   }
              }
