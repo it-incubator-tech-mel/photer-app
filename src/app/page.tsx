@@ -7,10 +7,10 @@ export default function Home(): ReactElement {
     <div>
       <Header />
       <main>
-        <Link href="/login" className={'regular-link'}>
+        <Link href="/login" className="regular-link">
           Sign In
         </Link>
-        <Link href="/registration" className={'small-link'}>
+        <Link href="/registration" className="small-link">
           Sign Up
         </Link>
       </main>
