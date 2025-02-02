@@ -1,5 +1,3 @@
-'use client';
-import { Checkbox } from '@/shared/ui';
 import React from 'react';
 import { ReactElement } from 'react';
 

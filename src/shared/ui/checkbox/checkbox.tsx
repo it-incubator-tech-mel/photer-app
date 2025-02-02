@@ -60,7 +60,7 @@ const Checkbox = React.forwardRef<
       </CheckboxPrimitive.Root>
       <label
         className={cn(
-          'text-light-100 cursor-pointer text-sm',
+          'regular-text-14 text-light-100',
           disabled && 'text-light-900 cursor-not-allowed'
         )}
         htmlFor={id}
