@@ -4,12 +4,5 @@ import React from 'react';
 import { ReactElement } from 'react';
 
 export function Header(): ReactElement {
-  return (
-    <header className="text-light-100">
-      Inctagram
-      <div>
-        <Checkbox label="Checkbox" checked={true} onCheckedChange={() => {}} />
-      </div>
-    </header>
-  );
+  return <header className="text-light-100">Inctagram</header>;
 }

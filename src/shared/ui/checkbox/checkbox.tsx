@@ -34,8 +34,8 @@ const Checkbox = React.forwardRef<
         aria-label={label ? undefined : 'Checkbox'}
         aria-disabled={disabled}
         className={cn(
-          'relative group peer h-5 w-5 border-2 rounded-sm border-light-100 cursor-pointer',
-          'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
+          'group peer border-light-100 relative h-5 w-5 cursor-pointer rounded-sm border-2',
+          'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
           'disabled:cursor-not-allowed disabled:opacity-50',
           'data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground',
           className
@@ -44,7 +44,7 @@ const Checkbox = React.forwardRef<
       >
         <span
           className={cn(
-            'absolute inset-0 w-9 h-9 left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] border border-transparent rounded-full',
+            'absolute inset-0 top-1/2 left-1/2 h-9 w-9 translate-x-[-50%] translate-y-[-50%] rounded-full border border-transparent',
             'group-active:border-dark-100 group-active:bg-dark-100',
             'group-focus:border-dark-500 group-focus:bg-dark-500',
             'group-disabled:border-none group-disabled:bg-transparent',
@@ -55,12 +55,12 @@ const Checkbox = React.forwardRef<
         <CheckboxPrimitive.Indicator
           className={cn('flex items-center justify-center text-current')}
         >
-          <Checked className="absolute w-min-24px h-min-24px" />
+          <Checked className="w-min-24px h-min-24px absolute" />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
       <label
         className={cn(
-          'cursor-pointer text-sm text-light-100',
+          'text-light-100 cursor-pointer text-sm',
           disabled && 'text-light-900 cursor-not-allowed'
         )}
         htmlFor={id}
