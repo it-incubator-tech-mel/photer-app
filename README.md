@@ -12,11 +12,11 @@ This command will turn off automatic conversion of LF characters to CRLF.
 
 ### After Cloning Repository
 
-1. Install all dependencies using this command:
+1.  Install all dependencies using this command:
 
         pnpm install
 
-2. Run DEV server
+2.  Run DEV server
 
         pnpm dev
 
