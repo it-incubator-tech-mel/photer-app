@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithoutRef, JSX, ReactNode } from 'react';
+import React, { ComponentPropsWithoutRef, JSX } from 'react';
 
 type ButtonType = 'default' | 'gray' | 'outlined' | 'ghost';
 
