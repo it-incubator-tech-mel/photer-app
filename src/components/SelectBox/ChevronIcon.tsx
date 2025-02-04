@@ -1,17 +1,12 @@
-import { ReactElement } from 'react';
+import { ComponentProps, ReactElement } from 'react';
 import Image from 'next/image';
 import chevron from './icons/chevron-down.svg';
-import { cn } from '@/utils/cn';
 
-type Props = {
-  direction?: 'up' | 'down';
-};
+type Props = ComponentProps<'div'>;
 
-export function ChevronIcon({ direction }: Props): ReactElement {
-  const summaryClassName = direction === 'up' ? '-rotate-180' : '';
-
+export function ChevronIcon({ ...props }: Props): ReactElement {
   return (
-    <div className={cn('duration-500 ease-in-out', summaryClassName)}>
+    <div {...props}>
       <Image src={chevron} alt={'chevron'} width={24} height={24} />
     </div>
   );
