@@ -5,7 +5,6 @@ type ButtonType = 'default' | 'gray' | 'outlined' | 'ghost';
 type Props = {
   buttonType?: ButtonType;
   width?: number;
-  icon?: ReactNode; // Пропс для иконки (может быть <img />, <svg />, или любой JSX)
 } & ComponentPropsWithoutRef<'button'>;
 
 const Button = ({
@@ -28,7 +27,7 @@ const Button = ({
     <button
       {...props}
       className={`${classesMap[buttonType]}`}
-      style={width ? { width } : undefined} // Динамическая ширина
+      style={width ? { width } : undefined}
     >
       {children}
     </button>
