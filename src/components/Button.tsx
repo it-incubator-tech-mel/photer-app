@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import Image from 'next/image';
 
 type ButtonProps = {
   buttonType?: 'default' | 'gray' | 'outlined' | 'ghost' | 'icon';
@@ -37,10 +38,12 @@ const ButtonTest = ({
       style={width ? { width } : undefined}
     >
       {icon && (
-        <img
+        <Image
           src={`/flags/${icon}.svg`}
           alt={icon.toUpperCase()}
-          className="mr-[10px] h-6 w-6"
+          width={24}
+          height={24}
+          className="mr-[10px]"
         />
       )}
       {children}
