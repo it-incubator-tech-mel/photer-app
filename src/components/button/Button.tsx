@@ -1,3 +1,4 @@
+'use client';
 import React, { JSX } from 'react';
 import Image from 'next/image';
 
@@ -34,16 +35,19 @@ const ButtonTest = ({
     <button
       {...props}
       onClick={onClick}
-      className={appliedClass}
+      className={`${appliedClass} h3-text text-light-100`}
       style={width ? { width } : undefined}
     >
       {icon && (
         <Image
           src={`/flags/${icon}.svg`}
-          alt={icon.toUpperCase()}
+          alt={icon}
           width={24}
           height={24}
           className="mr-[10px]"
+          onError={(e) => {
+            e.currentTarget.outerHTML = `<span class="mr-[10px]">${e.currentTarget.alt}</span>`;
+          }}
         />
       )}
       {children}
