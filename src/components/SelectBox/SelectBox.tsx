@@ -9,19 +9,17 @@ import { validateChildrenValues } from '@/utils/validate-children-values';
 
 type Props = SelectProps & {
   title?: string;
-  width?: number;
+  className?: string;
   placeholder?: string;
 };
 
 export function SelectBox({
   title,
-  width,
   placeholder,
+  className,
   children,
   ...props
 }: Props): ReactElement {
-  const commonStyles = { width: `${width || 210}px` };
-
   validateChildrenValues(children);
 
   function onCloseHandler(e: Event): undefined {
@@ -36,13 +34,13 @@ export function SelectBox({
       <Select.Root {...props}>
         <Select.Trigger
           className={cn(
-            'border-dark-100 group bg-dark-700 regular-text-16 flex h-[36px] cursor-pointer items-center justify-between rounded-[2px] border px-[12px]',
+            'border-dark-100 group bg-dark-700 text-light-100 regular-text-16 flex h-[36px] w-[210px] cursor-pointer items-center justify-between rounded-[2px] border px-[12px]',
             'focus:outline-accent-500 focus:outline-[2px]',
             'hover:text-light-900',
             'disabled:text-dark-100',
-            'data-[state=open]:border-light-100 data-[state=open]:bg-dark-500 data-[state=open]:rounded-b-none'
+            'data-[state=open]:border-light-100 data-[state=open]:bg-dark-500 data-[state=open]:rounded-b-none',
+            className
           )}
-          style={commonStyles}
         >
           <Select.Value placeholder={placeholder} />
           <Select.Icon>
@@ -56,10 +54,10 @@ export function SelectBox({
 
         <Select.Content
           className={cn(
-            'bg-dark-500 border-light-100 cursor-pointer rounded-b-[2px] border',
-            'border-t-0'
+            'bg-dark-500 border-light-100 w-[210px] cursor-pointer rounded-b-[2px] border',
+            'border-t-0',
+            className
           )}
-          style={commonStyles}
           position={'popper'}
           onCloseAutoFocus={onCloseHandler}
         >
