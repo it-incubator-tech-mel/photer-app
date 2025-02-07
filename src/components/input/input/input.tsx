@@ -1,6 +1,6 @@
 'use client';
 import { cn } from '@/utils/cn';
-import { ComponentProps, useId } from 'react';
+import { ComponentProps, ReactElement, useId } from 'react';
 
 type Props = ComponentProps<'input'> & {
   type: 'text' | 'email' | 'password';
@@ -16,14 +16,18 @@ export const Input = ({
   className = 'w-[279px]',
   disabled = false,
   ...rest
-}: Props) => {
+}: Props): ReactElement => {
   const inputId = useId();
 
   const borderColor = errorMessage ? 'border-danger-500' : 'border-dark-100';
 
   let labelColor = 'text-light-900';
-  if (errorMessage) labelColor = 'text-danger-500';
-  if (disabled) labelColor = 'text-dark-100';
+  if (errorMessage) {
+    labelColor = 'text-danger-500';
+  }
+  if (disabled) {
+    labelColor = 'text-dark-100';
+  }
 
   const paddingBottom = errorMessage ? '' : 'pb-6';
 

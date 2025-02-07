@@ -1,5 +1,5 @@
 import { SpriteName } from 'public/icons/spriteNames';
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, ReactElement } from 'react';
 
 type Props = {
   iconName: SpriteName;
@@ -11,7 +11,7 @@ export const IconSprite = ({
   height = '24',
   className = 'fill-white',
   ...rest
-}: Props) => {
+}: Props): ReactElement => {
   return (
     <svg
       width={width}

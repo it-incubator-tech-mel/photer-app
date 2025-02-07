@@ -1,5 +1,5 @@
 'use client';
-import { ComponentProps } from 'react';
+import { ComponentProps, ReactElement } from 'react';
 import { cn } from '@/utils/cn';
 import { IconSprite } from '@/components/icon/iconSprite';
 import { Input } from '../input/input';
@@ -15,7 +15,7 @@ export const SearchInput = ({
   disabled,
   onSearchClick,
   ...rest
-}: Props) => {
+}: Props): ReactElement => {
   return (
     <div className={cn('relative w-[279px]', className)}>
       <button

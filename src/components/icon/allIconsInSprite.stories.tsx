@@ -1,13 +1,14 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { spriteNames } from 'public/icons/spriteNames';
 import { IconSprite } from './iconSprite';
+import { ReactElement } from 'react';
 
 export default {
   title: 'Components/Icon/IconSprite',
   component: IconSprite,
 } as Meta<typeof IconSprite>;
 
-export const AllIconsInSprite = () => (
+export const AllIconsInSprite = (): ReactElement => (
   <div
     style={{
       display: 'flex',

@@ -1,5 +1,5 @@
 'use client';
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, ReactElement, useState } from 'react';
 import { cn } from '@/utils/cn';
 import { IconSprite } from '@/components/icon/iconSprite';
 import { Input } from '../input/input';
@@ -13,7 +13,7 @@ export const PasswordInput = ({
   className,
   disabled,
   ...rest
-}: Props) => {
+}: Props): ReactElement => {
   const [isHidden, setIsHidden] = useState(true);
 
   return (
