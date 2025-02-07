@@ -19,28 +19,28 @@ export const Primary: Story = {
   },
 };
 
-export const Secondary = {
+export const Secondary: Story = {
   args: {
     ...Primary.args,
     variant: 'secondary',
   },
 };
 
-export const Outlined = {
+export const Outlined: Story = {
   args: {
     ...Primary.args,
     variant: 'outlined',
   },
 };
 
-export const Text = {
+export const Text: Story = {
   args: {
     ...Primary.args,
     variant: 'text',
   },
 };
 
-export const Icon = {
+export const Icon: Story = {
   args: {
     ...Primary.args,
     variant: 'icon',
