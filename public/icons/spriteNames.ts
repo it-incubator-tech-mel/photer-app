@@ -1,5 +1,4 @@
 export const spriteNames = [
-  ,
   'trending-up-outline',
   'trending-up',
   'trash-outline',
@@ -83,5 +82,4 @@ export const spriteNames = [
   'arrow-back-outline',
 ] as const;
 
-// export type SpriteName = (typeof SpriteNames)[number];
 export type SpriteName = (typeof spriteNames)[number];
