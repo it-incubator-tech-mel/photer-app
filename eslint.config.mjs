@@ -25,7 +25,6 @@ const eslintConfig = [
       '@typescript-eslint/array-type': 'error',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },
-    ignorePatterns: ['.next/'],
   }),
 ];
 

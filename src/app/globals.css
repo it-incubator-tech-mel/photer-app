@@ -44,9 +44,9 @@
   --font-size-xl: 20px;
   --font-size-2xl: 26px;
 
-  --line-height-s: 16px;
-  --line-height-m: 24px;
-  --line-height-l: 36px;
+  --line-height-s:16px;
+  --line-height-m:24px;
+  --line-height-l:36px;
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -85,9 +85,9 @@
   font-weight: var(--font-weight-bold);
 }
 @utility regular-text-14 {
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-m);
-  font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-m);
+    font-weight: var(--font-weight-regular);
 }
 @utility medium-text-14 {
   font-size: var(--font-size-sm);
@@ -123,3 +123,4 @@
   text-decoration: underline;
   color: var(--color-accent-500);
 }
+
