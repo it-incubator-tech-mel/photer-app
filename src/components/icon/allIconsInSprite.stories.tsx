@@ -7,8 +7,6 @@ export default {
   component: IconSprite,
 } as Meta<typeof IconSprite>;
 
-type Story = StoryObj<typeof IconSprite>;
-
 export const AllIconsInSprite = () => (
   <div
     style={{
