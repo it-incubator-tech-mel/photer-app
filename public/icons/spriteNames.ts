@@ -80,6 +80,21 @@ export const spriteNames = [
   'arrow-ios-back',
   'arrow-forward-outline',
   'arrow-back-outline',
+  'stripe',
+  'recaptcha',
+  'paypal',
+  'paid',
+  'google',
+  'github',
+  'facebook',
+  'yandex',
+  'uc-browser',
+  'safari',
+  'opera',
+  'microsoft-edge',
+  'firefox',
+  'explorer',
+  'brave',
 ] as const;
 
 export type SpriteName = (typeof spriteNames)[number];
