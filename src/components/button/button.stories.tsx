@@ -1,5 +1,6 @@
 import { Button } from './button';
 import { Meta, StoryObj } from '@storybook/react';
+import Link from 'next/link';
 
 const meta = {
   component: Button,
@@ -12,10 +13,6 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     children: 'Hello',
-    onClick: (): void => {
-      alert('hello');
-    },
-    title: 'Click to alert hello',
   },
 };
 
@@ -40,9 +37,10 @@ export const Text: Story = {
   },
 };
 
-export const Icon: Story = {
+export const AsLink: Story = {
   args: {
     ...Primary.args,
-    variant: 'icon',
+    asChild: true,
+    children: <Link href={'/'}>Link</Link>,
   },
 };
