@@ -20,7 +20,23 @@ export const AllIconsInSprite = (): ReactElement => (
     }}
   >
     {spriteNames.map((name) => (
-      <IconSprite key={name} iconName={name} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <IconSprite
+          key={name}
+          height={50}
+          width={50}
+          iconName={name}
+          className="fill-white"
+        />
+        <p style={{ textAlign: 'center', color: 'white' }}>{name}</p>
+      </div>
     ))}
   </div>
 );

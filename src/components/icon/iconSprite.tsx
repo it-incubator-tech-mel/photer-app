@@ -13,13 +13,7 @@ export const IconSprite = ({
   ...rest
 }: Props): ReactElement => {
   return (
-    <svg
-      width={width}
-      height={height}
-      viewBox="0 0 24 24"
-      className={className}
-      {...rest}
-    >
+    <svg width={width} height={height} className={className} {...rest}>
       <use xlinkHref={`/icons/sprite.svg#${iconName}`} />
     </svg>
   );

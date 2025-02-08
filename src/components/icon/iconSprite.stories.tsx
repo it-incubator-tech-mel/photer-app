@@ -20,8 +20,10 @@ type Story = StoryObj<typeof IconSprite>;
 export const Icon: Story = {
   args: {
     iconName: 'search',
-    className: 'fill-white',
-    width: '24',
-    height: '24',
+    width: '300',
+    height: '300',
+  },
+  parameters: {
+    layout: 'centered',
   },
 };
