@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { spriteNames } from 'public/icons/spriteNames';
-import { IconSprite } from './iconSprite';
+import { IconSprite } from './IconSprite';
 
 export default {
-  title: 'Components/Icon/IconSprite',
+  title: 'Components/IconSprite',
   component: IconSprite,
   argTypes: {
     iconName: {

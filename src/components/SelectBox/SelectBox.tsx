@@ -5,7 +5,7 @@ import * as Select from '@radix-ui/react-select';
 import { SelectProps } from '@radix-ui/react-select';
 import { cn } from '@/utils/cn';
 import { validateChildrenValues } from '@/utils/validate-children-values';
-import { IconSprite } from '../icon/iconSprite';
+import { IconSprite } from '../icon/IconSprite';
 
 type Props = SelectProps & {
   title?: string;

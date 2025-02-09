@@ -1,10 +1,10 @@
 import { Meta } from '@storybook/react';
 import { spriteNames } from 'public/icons/spriteNames';
-import { IconSprite } from './iconSprite';
 import { ReactElement } from 'react';
+import { IconSprite } from './IconSprite';
 
 export default {
-  title: 'Components/Icon/IconSprite',
+  title: 'Components/IconSprite',
   component: IconSprite,
 } as Meta<typeof IconSprite>;
 
@@ -21,6 +21,7 @@ export const AllIconsInSprite = (): ReactElement => (
   >
     {spriteNames.map((name) => (
       <div
+        key={name}
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -29,7 +30,6 @@ export const AllIconsInSprite = (): ReactElement => (
         }}
       >
         <IconSprite
-          key={name}
           height={50}
           width={50}
           iconName={name}

@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 
 import { cn } from '@/utils/cn';
-import { IconSprite } from '../icon/iconSprite';
+import { IconSprite } from '../icon/IconSprite';
 
 /**
  * Компонент Checkbox, основанный на Radix UI.
