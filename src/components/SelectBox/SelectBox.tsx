@@ -3,9 +3,9 @@
 import { ReactElement } from 'react';
 import * as Select from '@radix-ui/react-select';
 import { SelectProps } from '@radix-ui/react-select';
-import { ChevronIcon } from '@/components/SelectBox/ChevronIcon';
 import { cn } from '@/utils/cn';
 import { validateChildrenValues } from '@/utils/validate-children-values';
+import { IconSprite } from '../icon/IconSprite';
 
 type Props = SelectProps & {
   title?: string;
@@ -44,9 +44,10 @@ export function SelectBox({
         >
           <Select.Value placeholder={placeholder} />
           <Select.Icon>
-            <ChevronIcon
+            <IconSprite
+              iconName="arrow-ios-Down-outline"
               className={
-                'duration-500 ease-in-out group-data-[state=open]:-rotate-180'
+                'fill-light-100 duration-500 ease-in-out group-data-[state=open]:-rotate-180'
               }
             />
           </Select.Icon>
