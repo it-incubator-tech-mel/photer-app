@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 
 import { cn } from '@/utils/cn';
-import { Checked } from '../icons/checked';
+import { IconSprite } from '../icon/IconSprite';
 
 /**
  * Компонент Checkbox, основанный на Radix UI.
@@ -37,7 +37,7 @@ const Checkbox = React.forwardRef<
           'group peer border-light-100 relative h-5 w-5 cursor-pointer rounded-sm border-2',
           'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
           'disabled:cursor-not-allowed disabled:opacity-50',
-          'data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground',
+          'data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground overflow-hidden',
           className
         )}
         {...props}
@@ -55,7 +55,10 @@ const Checkbox = React.forwardRef<
         <CheckboxPrimitive.Indicator
           className={cn('flex items-center justify-center text-current')}
         >
-          <Checked className="w-min-24px h-min-24px absolute" />
+          <IconSprite
+            iconName="checkmark-outline"
+            className="bg-light-100 w-min-24px h-min-24px absolute"
+          />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
       {label && (
