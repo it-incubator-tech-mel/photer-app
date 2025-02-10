@@ -8,6 +8,9 @@ export default {
     disabled: { control: 'boolean' },
     errorMessage: { control: 'text' },
   },
+  parameters: {
+    layout: 'centered',
+  },
 } as Meta<typeof Input>;
 
 type Story = StoryObj<typeof Input>;
@@ -19,9 +22,6 @@ export const Default: Story = {
     placeholder: 'Type your message',
     className: 'w-[279px]',
   },
-  parameters: {
-    layout: 'centered',
-  },
 };
 
 export const WithError: Story = {
@@ -29,17 +29,11 @@ export const WithError: Story = {
     ...Default.args,
     errorMessage: 'Error text',
   },
-  parameters: {
-    layout: 'centered',
-  },
 };
 
 export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
-  },
-  parameters: {
-    layout: 'centered',
   },
 };
