@@ -7,7 +7,7 @@ import { SelectItem } from './SelectBox/SelectItem';
 
 export function Header(): ReactElement {
   return (
-    <header className="border-dark-300 border-b-1">
+    <header className="text-light-100 border-dark-300 border-b-1">
       <div className="mx-auto flex h-[60px] w-full max-w-[1280px] items-center justify-between px-[60px] max-md:px-[15px]">
         <Link href="/" className="large-text">
           Inctagram
