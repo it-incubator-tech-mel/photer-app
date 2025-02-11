@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { IconSprite } from '../icon/IconSprite';
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 type Props = {
   title: string;
   children: ReactNode;
 };
 
-export const LegalInfo = ({ title, children }: Props) => {
+export const LegalInfo = ({ title, children }: Props): ReactElement => {
   return (
     <div className="mx-auto flex max-w-[1280px] flex-col">
       {/* TODO указать ссылку на страницу регистрации */}
