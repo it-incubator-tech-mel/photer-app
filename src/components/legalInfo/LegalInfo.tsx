@@ -1,19 +1,27 @@
 import Link from 'next/link';
+import { IconSprite } from '../icon/IconSprite';
+import { ReactNode } from 'react';
 
 type Props = {
-  heading: string;
-  text: string;
+  title: string;
+  children: ReactNode;
 };
 
-export const LegalInfo = ({ heading, text }: Props) => {
+export const LegalInfo = ({ title, children }: Props) => {
   return (
-    <div className="mx-auto flex max-w-[1024px] flex-col">
+    <div className="mx-auto flex max-w-[1280px] flex-col">
       {/* TODO указать ссылку на страницу регистрации */}
-      <Link href="/" className="mt-[24px]">
-        {/* <IconSprite /> */} Back to Sign Up
+      <Link
+        href="/"
+        className="mt-[24px] flex gap-[12px] pl-[64px] max-md:pl-[15px]"
+      >
+        <IconSprite iconName="arrow-back-outline" />
+        <span className="max-md:hidden">Back to Sign Up</span>
       </Link>
-      <h1 className="h1-text mx-auto mt-[24px]">{heading}</h1>
-      <p className="px-[97px] text-center">{text}</p>
+      <h1 className="h1-text mx-auto mt-[24px] max-md:mt-[-30px]">{title}</h1>
+      <div className="mt-[14px] px-[97px] pb-[91px] text-center max-md:px-[15px]">
+        {children}
+      </div>
     </div>
   );
 };
