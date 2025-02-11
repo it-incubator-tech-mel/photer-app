@@ -6,7 +6,9 @@ import { Children, ReactElement, ReactNode } from 'react';
  * @param children
  */
 export function validateChildrenValues(children: ReactNode): undefined {
-  const childrenArray = Children.toArray(children) as ReactElement<{value: string}>[]
+  const childrenArray = Children.toArray(children) as ReactElement<{
+    value: string;
+  }>[];
   const values = childrenArray.map((child) => child.props.value);
   const uniqueValues = new Set(values);
 
