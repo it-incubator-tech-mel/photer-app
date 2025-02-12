@@ -34,6 +34,11 @@ export const Modal = ({
   const handleModalClosed = (): void => {
     onClose?.();
   };
+  const modalWidth = {
+    sm: 'w-[367px]',
+    md: 'w-[532px]',
+    lg: 'w-[764px]',
+  };
 
   return (
     <Dialog onOpenChange={handleModalClosed} open={open}>
@@ -41,7 +46,11 @@ export const Modal = ({
         <DialogPortal forceMount>
           <DialogOverlay className="fixed inset-0 z-[998] bg-black/50" />
           <DialogContent
-            className={getContentClassName(size, className)}
+            className={cn(
+              className,
+              'bg-dark-300 text-light-100 fixed top-1/2 left-1/2 z-[999] max-h-[calc(100%-32px)] -translate-x-1/2 -translate-y-1/2 transform overflow-auto',
+              modalWidth[size]
+            )}
             forceMount
           >
             <header className="border-dark-100 h1-text flex items-center justify-between border-b px-6 py-3">
@@ -63,24 +72,3 @@ export const Modal = ({
     </Dialog>
   );
 };
-
-function getContentClassName(size: ModalSize, className?: string): string {
-  return cn(
-    className,
-    'fixed z-[999] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto max-h-[calc(100%-32px)] bg-dark-300 text-light-100',
-    getSizeClassName(size)
-  );
-}
-
-function getSizeClassName(size: ModalSize): string {
-  switch (size) {
-    case 'sm':
-      return 'w-[367px]';
-    case 'md':
-      return 'w-[532px]';
-    case 'lg':
-      return 'w-[764px]';
-    default:
-      return '';
-  }
-}

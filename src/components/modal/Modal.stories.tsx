@@ -43,22 +43,16 @@ export const Default: Story = {
 
 export const Small: Story = {
   args: {
-    open: true,
-    title: 'Modal',
+    ...Default.args,
     size: 'sm',
-    children:
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. At voluptatum voluptas velit. Lorem, ipsum dolor sit amet consectetur adipisicing elit. At voluptatum voluptas velit',
   },
   render: (args) => <ModalWithState {...args} />,
 };
 
 export const Big: Story = {
   args: {
-    open: true,
-    title: 'Modal',
+    ...Default.args,
     size: 'lg',
-    children:
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. At voluptatum voluptas velit. Lorem, ipsum dolor sit amet consectetur adipisicing elit. At voluptatum voluptas velit',
   },
   render: (args) => <ModalWithState {...args} />,
 };
