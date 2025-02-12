@@ -1,5 +1,7 @@
+'use client';
+
 import { ReactElement } from 'react';
 
 export default function Page(): ReactElement {
-  return <p>Profile</p>;
+  return <p>Sign Up</p>;
 }
