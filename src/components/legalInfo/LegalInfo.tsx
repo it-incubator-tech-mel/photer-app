@@ -1,15 +1,21 @@
 import Link from 'next/link';
 import { IconSprite } from '../icon/IconSprite';
 import { ReactElement, ReactNode } from 'react';
+import { cn } from '@/utils/cn';
 
 type Props = {
   title: string;
   children: ReactNode;
+  className?: string;
 };
 
-export const LegalInfo = ({ title, children }: Props): ReactElement => {
+export const LegalInfo = ({
+  title,
+  children,
+  className,
+}: Props): ReactElement => {
   return (
-    <div className="mx-auto flex max-w-[1280px] flex-col">
+    <div className={cn('mx-auto flex max-w-[1280px] flex-col', className)}>
       {/* TODO указать ссылку на страницу регистрации */}
       <Link
         href="/"
