@@ -35,9 +35,9 @@ export const authApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        const response = await queryFulfilled;
+        await queryFulfilled;
         localStorage.removeItem('access-token');
-        await dispatch(authApi.util.resetApiState());
+        dispatch(authApi.util.resetApiState());
       },
     }),
   }),
