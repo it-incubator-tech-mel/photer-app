@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactElement, ReactNode } from 'react';
-import { Alert } from '@/components/alert/Alert';
+import StoreWrapper from '@/store/StoreWrapper';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -24,8 +24,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100`}
       >
-        {children}
-        <Alert />
+        <StoreWrapper>{children}</StoreWrapper>
       </body>
     </html>
   );
