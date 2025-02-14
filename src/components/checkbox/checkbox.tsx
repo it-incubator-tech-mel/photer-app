@@ -37,7 +37,7 @@ const Checkbox = React.forwardRef<
           'group peer border-light-100 relative h-5 w-5 cursor-pointer rounded-sm border-2',
           'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
           'disabled:cursor-not-allowed disabled:opacity-50',
-          'data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground overflow-hidden',
+          'data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground',
           className
         )}
         {...props}
@@ -57,7 +57,7 @@ const Checkbox = React.forwardRef<
         >
           <IconSprite
             iconName="checkmark-outline"
-            className="bg-light-100 w-min-24px h-min-24px absolute"
+            className="bg-light-100 absolute h-[18px] w-[18px] rounded-[1px]"
           />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
