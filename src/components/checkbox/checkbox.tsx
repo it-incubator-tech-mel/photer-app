@@ -17,15 +17,14 @@ type Props = {
   label?: React.ReactNode;
   disabled?: boolean;
   id?: string;
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
+  onCheckedChange?: (checked: boolean) => void;
 };
 export const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> & Props
 >(
   (
-    { label, disabled, checked, onCheckedChange, id, className, ...props },
+    { label, disabled, onCheckedChange, id, className, ...props },
     ref
   ): React.ReactElement => {
     const uniqueId = React.useId();
@@ -39,7 +38,6 @@ export const Checkbox = React.forwardRef<
           disabled={disabled}
           aria-label={label ? undefined : 'Checkbox'}
           aria-disabled={disabled}
-          checked={checked}
           onCheckedChange={onCheckedChange}
           className={cn(
             'group peer border-light-100 relative h-5 w-5 cursor-pointer rounded-sm border-2',
