@@ -6,7 +6,7 @@ import { Button } from '@/components/button/Button';
 
 export const ConfirmEmail = (): ReactElement => {
   return (
-    <div className="m-auto mt-[35px] flex flex-col items-center">
+    <div className="text-light-100 m-auto mt-[35px] flex flex-col items-center">
       <h1 className="h1-text"> Congratulations! </h1>
       <p className="regular-text-16 mt-[19px]">Your email has been confirmed</p>
       <Button className="mt-[54px] w-[182px]">Sign In</Button>

@@ -13,7 +13,7 @@ export const ResendEmail = (): ReactElement => {
   };
 
   return (
-    <div className="m-auto mt-[35px] flex flex-col items-center">
+    <div className="text-light-100 m-auto mt-[35px] flex flex-col items-center">
       <h1 className="h1-text"> Email verification link expired </h1>
       <p className="regular-text-16 mt-[19px] mb-7 max-w-74 text-center">
         Looks like the verification link has expired. Not to worry, we can send
