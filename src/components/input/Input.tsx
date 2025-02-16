@@ -63,13 +63,18 @@ export const Input = ({
   };
 
   return (
-    <div className={cn('box relative w-full', !errorMessage && 'pb-6')}>
+    <div
+      className={cn(
+        'relative flex flex-col',
+        className,
+        !errorMessage && 'pb-6'
+      )}
+    >
       {label && type !== 'search' && (
         <label
           htmlFor={inputId}
           className={cn(
             'regular-text-14 text-light-900 flex flex-col text-sm leading-6',
-            errorMessage && 'text-danger-500',
             disabled && 'text-dark-100'
           )}
         >
@@ -80,7 +85,7 @@ export const Input = ({
         <button
           onClick={onSearchClick}
           disabled={disabled}
-          className="absolute bottom-8 left-2 cursor-pointer border-none focus-visible:outline-none"
+          className="absolute top-[9px] left-2 border-none focus-visible:outline-none"
         >
           <IconSprite
             iconName="search"
@@ -94,11 +99,14 @@ export const Input = ({
         id={inputId}
         type={inputType}
         className={cn(
-          'placeholder:text-light-900 disabled:placeholder:text-dark-100 text-light-900 active:text-light-100 active:border-light-100 hover:border-light-900 hover:text-light-900 disabled:border-dark-100 disabled:text-dark-100 focus:text-light-100 focus:border-accent-500 focus-visible:border-accent-500 border-dark-100 h-[36px] w-[279px] rounded-[2px] border-1 px-3 py-1.5 text-base focus-visible:outline-none',
+          'placeholder:text-light-900 disabled:placeholder:text-dark-100 text-light-900',
+          'active:text-light-100 active:border-light-100 hover:border-light-900 hover:text-light-900',
+          'disabled:border-dark-100 disabled:text-dark-100 focus:text-light-100',
+          'focus:border-accent-500 focus-visible:border-accent-500 border-dark-100',
+          'mounded-[2px] h-[36px] border-1 px-3 py-1.5 text-base focus-visible:outline-none',
           errorMessage && 'border-danger-500',
           type === 'password' && 'pr-10',
-          type === 'search' && 'pr-2 pl-10',
-          className
+          type === 'search' && 'pr-2 pl-10'
         )}
         onBlur={() => setIsFocused(false)}
         onFocus={() => setIsFocused(true)}
@@ -111,7 +119,7 @@ export const Input = ({
       {type === 'password' && (
         <button
           onClick={() => setIsHidden(!isHidden)}
-          className="absolute right-2 bottom-8 cursor-pointer border-none focus-visible:outline-none"
+          className="absolute top-[30px] right-2 border-none focus-visible:outline-none"
           disabled={disabled}
         >
           <IconSprite
