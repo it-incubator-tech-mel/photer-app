@@ -6,3 +6,5 @@ export { Header } from './header/Header';
 export { IconSprite } from './icon/IconSprite';
 export { Input } from './input/Input';
 export { Button } from './button/Button';
+export { ConfirmEmail } from './confirmEmail/ConfirmEmail';
+export { ResendEmail } from './resendEmail/ResendEmail';

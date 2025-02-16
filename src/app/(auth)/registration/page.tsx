@@ -1,10 +1,17 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Input, Button, Card, IconSprite } from '@/components';
+import {
+  Input,
+  Button,
+  Card,
+  IconSprite,
+  ConfirmEmail,
+  ResendEmail,
+} from '@/components';
 import Link from 'next/link';
 
 const schema = z
@@ -41,6 +48,8 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 export default function Page(): ReactElement {
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -52,6 +61,7 @@ export default function Page(): ReactElement {
 
   const onSubmit = (data: z.infer<typeof schema>): void => {
     console.log('✅ Form submitted:', data);
+    setIsSuccess(true);
   };
 
   return (
@@ -144,6 +154,8 @@ export default function Page(): ReactElement {
           </Link>
         </div>
       </Card>
+      {isSuccess && <ConfirmEmail />}
+      {isSuccess && <ResendEmail />}
     </>
   );
 }
