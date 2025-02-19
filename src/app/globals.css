@@ -177,3 +177,10 @@
   --toastify-toast-max-height: 800px;
   --toastify-text-color-light: var(--color-light-100);
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: all 5000s ease-in-out 0s;
+}
