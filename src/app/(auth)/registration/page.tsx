@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ReactElement, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
@@ -11,6 +11,7 @@ import {
   IconSprite,
   ConfirmEmail,
   ResendEmail,
+  Checkbox,
 } from '@/components';
 import Link from 'next/link';
 
@@ -53,6 +54,7 @@ export default function Page(): ReactElement {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isValid },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -115,29 +117,40 @@ export default function Page(): ReactElement {
               {...register('confirmPassword')}
               autoComplete="new-password"
             />
+
             <div className="flex items-center justify-center gap-3">
-              <input
-                {...register('terms')}
-                type="checkbox"
-                className="h-4 w-4"
+              <Controller
+                name="terms"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    id="terms"
+                    label={
+                      <span className="small-text">
+                        I agree to the{' '}
+                        <Link
+                          href="/terms-of-service"
+                          className="text-accent-300 underline"
+                        >
+                          Terms of Service
+                        </Link>{' '}
+                        and{' '}
+                        <Link
+                          href="/privacy-policy"
+                          className="text-accent-300 underline"
+                        >
+                          Privacy Policy
+                        </Link>
+                      </span>
+                    }
+                    onCheckedChange={(checked: boolean) =>
+                      field.onChange(checked)
+                    }
+                  />
+                )}
               />
-              <label htmlFor="terms" className="small-text">
-                I agree to the{' '}
-                <Link
-                  href="/terms-of-service"
-                  className="text-accent-300 underline"
-                >
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link
-                  href="/privacy-policy"
-                  className="text-accent-300 underline"
-                >
-                  Privacy Policy
-                </Link>
-              </label>
             </div>
+
             <Button
               className="my-5 w-[330px]"
               disabled={!isValid}
