@@ -1,19 +1,24 @@
 'use client';
-import { ReactElement, useRef } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import { Card } from '@/components';
-import { Input } from '@/components/input/Input';
-import { Button } from '@/components/button/Button';
-import Link from 'next/link';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   ForgotPasswordFormSchema,
   FormSchemaType,
-} from '@/app/(auth)/forgot-password/forgotPasswordFormSchema/forgotPasswordFormSchema';
+} from '@/app/(auth)/forgot-password/forgotPasswordForm/forgotPasswordFormSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ForgotPasswordForm } from '@/app/(auth)/forgot-password/forgotPasswordForm/ForgotPasswordForm';
+import { Modal } from '@/components/modal/Modal';
+import { Button } from '@/components/button/Button';
 
 export default function ForgotPasswordPage(): ReactElement {
   const reCaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const [email, setEmail] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const onModalClose = (): void => {
+    setIsModalOpen(false);
+  };
 
   const {
     control,
@@ -31,44 +36,50 @@ export default function ForgotPasswordPage(): ReactElement {
     recaptcha,
   }): void => {
     console.log(email, recaptcha);
+    setEmail(email);
     reset();
     reCaptchaRef.current?.reset();
+    setIsModalOpen(true);
   };
   return (
     <Card className={'max-w-sm p-6'}>
       <h1 className={'h1-text mb-9 text-center'}>Forgot Password</h1>
       <form onSubmit={handleSubmit(onFormSubmit)}>
-        <Input
-          type={'email'}
-          label={'Email'}
-          placeholder={'Epam@epam.com'}
-          errorMessage={errors.email?.message}
-          {...register('email')}
+        <ForgotPasswordForm
+          errors={errors}
+          register={register}
+          isValid={isValid}
         />
-        <p className={'regular-text-14 text-light-900'}>
-          Enter your email address and we will send you further instructions
-        </p>
-        <div className={'mt-4 flex flex-col items-center gap-6'}>
-          <Button className={'w-full'} type={'submit'} disabled={!isValid}>
-            Send Link
-          </Button>
-          <Button variant={'text'} className={'w-full'} asChild>
-            <Link href={'/login'}>Back to Sign In</Link>
-          </Button>
-          <Controller
-            render={({ field }) => (
-              <ReCAPTCHA
-                {...field}
-                sitekey={'6Ldd-9YqAAAAAIW0yWxfHAqcOOMdElboBEOOj4Bc'}
-                theme={'dark'}
-                ref={reCaptchaRef}
-              />
-            )}
-            name={'recaptcha'}
-            control={control}
-          />
-        </div>
+        <Controller
+          render={({ field }) => (
+            <ReCAPTCHA
+              {...field}
+              sitekey={'6Ldd-9YqAAAAAIW0yWxfHAqcOOMdElboBEOOj4Bc'}
+              theme={'dark'}
+              ref={reCaptchaRef}
+              className={'flex justify-center'}
+            />
+          )}
+          name={'recaptcha'}
+          control={control}
+        />
+        {errors.recaptcha && (
+          <span className={'text-danger-500'}>{errors.recaptcha.message}</span>
+        )}
       </form>
+      <Modal
+        open={isModalOpen}
+        onClose={onModalClose}
+        title={'Email sent'}
+        size={'sm'}
+      >
+        <div className={'flex flex-col'}>
+          <p>{`We have sent a link to confirm your email to ${email}`}</p>
+          <Button className={'mt-5 w-min self-end'} onClick={onModalClose}>
+            OK
+          </Button>
+        </div>
+      </Modal>
     </Card>
   );
 }
