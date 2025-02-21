@@ -32,7 +32,7 @@ export const authApi = baseApi.injectEndpoints({
     logout: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
-        method: 'DELETE',
+        method: 'POST',
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         await queryFulfilled;
