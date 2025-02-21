@@ -35,9 +35,6 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.0.1
         version: 4.0.6
-      '@types/react-google-recaptcha':
-        specifier: ^2.1.9
-        version: 2.1.9
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -105,6 +102,9 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.0.3(@types/react@19.0.8)
+      '@types/react-google-recaptcha':
+        specifier: ^2.1.9
+        version: 2.1.9
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.5.2)
