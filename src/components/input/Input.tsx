@@ -118,7 +118,11 @@ export const Input = ({
       />
       {type === 'password' && (
         <button
-          onClick={() => setIsHidden(!isHidden)}
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsHidden(!isHidden);
+          }}
           className="absolute top-[30px] right-2 border-none focus-visible:outline-none"
           disabled={disabled}
         >
