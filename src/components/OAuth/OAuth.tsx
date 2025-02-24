@@ -5,9 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 const clientId = {
-  github: 'Ov23lir8x9I7B8X9reDt',
-  google:
-    '1099297385916-a16ljifvg90k44o95br2upvucoi5qej4.apps.googleusercontent.com',
+  github: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
+  google: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
 };
 const serviceApi = {
   github: `https://github.com/login/oauth/authorize?client_id=${clientId.github}`,
@@ -15,10 +14,10 @@ const serviceApi = {
 };
 
 type Props = {
-  oauthService: 'github' | 'google';
+  service: 'github' | 'google';
 };
 
-export const OAuth = ({ oauthService }: Props) => {
+export const OAuth = ({ service }: Props) => {
   const searchParams = useSearchParams(); // Получаем параметры запроса
   useEffect(() => {
     const code = searchParams.get('code'); // Получаем значение параметра code
@@ -26,8 +25,8 @@ export const OAuth = ({ oauthService }: Props) => {
   }, [searchParams]);
 
   return (
-    <Link href={serviceApi[oauthService]}>
-      <IconSprite iconName={oauthService} width="36" height="36" />
+    <Link href={serviceApi[service]}>
+      <IconSprite iconName={service} width="36" height="36" />
     </Link>
   );
 };

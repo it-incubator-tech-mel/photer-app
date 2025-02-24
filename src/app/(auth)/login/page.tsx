@@ -66,8 +66,8 @@ export default function LogIn(): ReactElement {
     <>
       <h1 className="h1-text text-center">Sign In</h1>
       <div className="mt-[13px] flex justify-center gap-15">
-        <OAuth oauthService="google" />
-        <OAuth oauthService="github" />
+        <OAuth service="google" />
+        <OAuth service="github" />
       </div>
       <div className="mt-6 flex w-full flex-col justify-center align-middle">
         <form
@@ -101,7 +101,7 @@ export default function LogIn(): ReactElement {
             className="my-5 w-full"
             type="submit"
             disabled={
-              isDirty ||
+              !isDirty ||
               isLoading ||
               !!errors.email?.message ||
               !!errors.password?.message
