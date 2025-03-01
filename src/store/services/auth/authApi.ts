@@ -1,4 +1,5 @@
 import { baseApi } from '@/store/services/baseApi';
+import { FormSchemaType } from '@/app/(auth)/forgot-password/forgotPasswordForm/forgotPasswordFormSchema';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,6 +26,23 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
+    passwordRecovery: builder.mutation<number | undefined, FormSchemaType>({
+      query: (body) => ({
+        url: '/auth/password-recovery',
+        method: 'POST',
+        body: body,
+      }),
+      // async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      //   try {
+      //     const response = await queryFulfilled;
+      //     localStorage.setItem('access-token', response.data.accessToken);
+      //     //await dispatch(authApi.endpoints.getMe.initiate());
+      //   } catch (error) {
+      //     console.error(error);
+      //     throw error;
+      //   }
+      // },
+    }),
     getMe: builder.query<{ userId: number }, void>({
       query: () => '/auth/me',
       providesTags: ['me'],
@@ -43,4 +61,9 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useGetMeQuery, useLogoutMutation } = authApi;
+export const {
+  useLoginMutation,
+  useGetMeQuery,
+  useLogoutMutation,
+  usePasswordRecoveryMutation,
+} = authApi;

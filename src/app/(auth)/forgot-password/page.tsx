@@ -1,74 +1,59 @@
 'use client';
-import { ReactElement, useRef, useState } from 'react';
-import { Card } from '@/components';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
-  ForgotPasswordFormSchema,
-  FormSchemaType,
-} from '@/app/(auth)/forgot-password/forgotPasswordForm/forgotPasswordFormSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { ReactElement, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+import { FormSchemaType } from '@/app/(auth)/forgot-password/forgotPasswordForm/forgotPasswordFormSchema';
 import { ForgotPasswordForm } from '@/app/(auth)/forgot-password/forgotPasswordForm/ForgotPasswordForm';
 import { Modal } from '@/components/modal/Modal';
 import { Button } from '@/components/button/Button';
+import { usePasswordRecoveryMutation } from '@/store/services/auth/authApi';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+
+export type ErrorMessage = {
+  field: string;
+  message: string;
+};
 
 export default function ForgotPasswordPage(): ReactElement {
-  const reCaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const [recoveryPassword, { isLoading }] = usePasswordRecoveryMutation();
   const [email, setEmail] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormSend, setIsFormSend] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({} as ErrorMessage);
+
   const onModalClose = (): void => {
-    setIsModalOpen(false);
+    setIsFormSend(false);
   };
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    register,
-    formState: { errors, isValid },
-  } = useForm<FormSchemaType>({
-    mode: 'onBlur',
-    resolver: zodResolver(ForgotPasswordFormSchema),
-  });
-
-  const onFormSubmit: SubmitHandler<FormSchemaType> = ({
+  const onSubmit: SubmitHandler<FormSchemaType> = async ({
     email,
     recaptcha,
-  }): void => {
-    console.log(email, recaptcha);
-    setEmail(email);
-    reset();
-    reCaptchaRef.current?.reset();
-    setIsModalOpen(true);
+  }) => {
+    try {
+      await recoveryPassword({ email, recaptcha }).unwrap();
+      setEmail(email);
+      setIsFormSend(true);
+    } catch (e) {
+      const error = e as { errorsMessages: ErrorMessage };
+      if (Array.isArray(error.errorsMessages)) {
+        setErrorMessage(error.errorsMessages[0]);
+      }
+      console.error(e);
+    }
   };
+
   return (
-    <Card className={'max-w-sm p-6'}>
-      <h1 className={'h1-text mb-9 text-center'}>Forgot Password</h1>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
-        <ForgotPasswordForm
-          errors={errors}
-          register={register}
-          isValid={isValid}
-        />
-        <Controller
-          render={({ field }) => (
-            <ReCAPTCHA
-              {...field}
-              sitekey={'6Ldd-9YqAAAAAIW0yWxfHAqcOOMdElboBEOOj4Bc'}
-              theme={'dark'}
-              ref={reCaptchaRef}
-              className={'flex justify-center'}
-            />
-          )}
-          name={'recaptcha'}
-          control={control}
-        />
-        {errors.recaptcha && (
-          <span className={'text-danger-500'}>{errors.recaptcha.message}</span>
-        )}
-      </form>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={'6LeZReQqAAAAAJ-4OO2JYFnhUGFbeCdiBjlJ56kj'}
+      container={{
+        parameters: { theme: 'dark', badge: 'bottomleft' },
+      }}
+    >
+      <ForgotPasswordForm
+        isLoading={isLoading}
+        onSubmit={onSubmit}
+        errorMessage={errorMessage}
+      />
       <Modal
-        open={isModalOpen}
+        open={isFormSend}
         onClose={onModalClose}
         title={'Email sent'}
         size={'sm'}
@@ -80,6 +65,6 @@ export default function ForgotPasswordPage(): ReactElement {
           </Button>
         </div>
       </Modal>
-    </Card>
+    </GoogleReCaptchaProvider>
   );
 }
