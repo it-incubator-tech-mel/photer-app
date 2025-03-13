@@ -29,3 +29,10 @@ Run this command to check for Eslint and Prettier errors:
 Add `--fix` argument to auto fix all Prettier errors:
 
     pnpm lint --fix
+
+# Структура проекта
+
+- `app/`: Маршруты и страницы Next.js.
+- `entities/`: Бизнес-сущности (например, пользователь, продукт).
+- `features/`: Функциональные возможности (например, авторизация).
+- `shared/`: Общие модули (UI, API, состояние, типы).
