@@ -72,18 +72,30 @@ export default function Page(): ReactElement {
         <h1 className="h1-text mt-[23px]">Sign Up</h1>
 
         <div className="mt-[13px] flex gap-15">
-          <IconSprite
-            iconName="google"
-            width="36"
-            height="36"
-            className="fill-red-500"
-          />
-          <IconSprite
-            iconName="github"
-            width="36"
-            height="36"
-            className="fill-white"
-          />
+          <Button
+            onClick={() => console.log('google registration')}
+            asChild
+            variant={'text'}
+          >
+            <IconSprite
+              iconName="google"
+              width="36"
+              height="36"
+              className="fill-red-500"
+            />
+          </Button>
+          <Button
+            onClick={() => console.log('github registration')}
+            asChild
+            variant={'text'}
+          >
+            <IconSprite
+              iconName="github"
+              width="36"
+              height="36"
+              className="fill-white"
+            />
+          </Button>
         </div>
         <div className="m-6 mx-auto w-[330px]">
           <form onSubmit={handleSubmit(onSubmit)}>
