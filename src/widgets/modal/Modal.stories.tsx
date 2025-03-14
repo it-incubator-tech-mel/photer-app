@@ -1,7 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ReactElement, useState } from 'react';
+
+import { Button } from '@/shared/ui';
 import { Modal, ModalProps } from './Modal';
-import { Button } from '@/components/button/Button';
 
 const meta = {
   component: Modal,

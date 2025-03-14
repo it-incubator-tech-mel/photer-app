@@ -1,8 +1,9 @@
-import { SelectBox } from '@/components/SelectBox/SelectBox';
 import { Meta, StoryObj } from '@storybook/react';
-import { SelectItem } from '@/components/SelectBox/SelectItem';
+
 import ruFlag from 'public/icons/ru-flag.png';
 import ukFlag from 'public/icons/uk-flag.png';
+import { SelectBox } from './SelectBox';
+import { SelectItem } from './SelectItem';
 
 const meta = {
   component: SelectBox,

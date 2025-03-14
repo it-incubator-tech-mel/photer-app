@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@/components/button/Button';
+
 import ukFlag from 'public/icons/uk-flag.png';
+import { Button } from '..';
 
 const meta = {
   title: 'Components/Button',

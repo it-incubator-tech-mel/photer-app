@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import { Spinner } from '@/components/spinner/Spinner';
+import { Spinner } from '..';
 
 export default {
   title: 'Components/Spinner',

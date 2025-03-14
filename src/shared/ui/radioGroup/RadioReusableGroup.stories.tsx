@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { RadioReusableGroup } from '@/components';
+import { RadioReusableGroup } from '..';
 
 export default {
   title: 'Components/RadioGroup',

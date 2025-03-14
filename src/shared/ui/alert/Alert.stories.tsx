@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
-import { Alert } from '@/components/alert/Alert';
-import { Button } from '@/components/button/Button';
 import { ReactElement } from 'react';
+import { Alert } from './Alert';
+import { Button } from '../button/Button';
 
 export default {
   title: 'Components/Alert',

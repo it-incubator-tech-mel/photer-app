@@ -9,8 +9,8 @@ import {
   DialogTitle,
 } from '@radix-ui/react-dialog';
 import { ComponentProps, ReactElement } from 'react';
-import { IconSprite } from '@/components/icon/IconSprite';
 import { cn } from '@/shared/lib/cn';
+import { IconSprite } from '@/shared/ui';
 
 export type ModalSize = 'lg' | 'md' | 'sm';
 

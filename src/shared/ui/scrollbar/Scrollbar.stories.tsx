@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import { Scrollbar } from '@/components/scrollbar/Scrollbar';
+import { Scrollbar } from './Scrollbar';
 
 export default {
   title: 'Components/Scrollbar',
