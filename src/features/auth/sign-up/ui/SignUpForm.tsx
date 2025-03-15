@@ -1,31 +1,24 @@
 'use client';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+
 import { FormFields } from './FormFields';
 import { SubmitButton } from './SubmitButton';
 import { Card } from '@/widgets/card/card';
-import { SignUpFormData, signUpSchema } from '../hooks/validationSchema';
 import { SocialAuthButtons } from './SocialAuthButtons';
-import { useState } from 'react';
 import { ConfirmEmail } from './ConfirmEmail';
 import { ResendEmail } from './ResendEmail';
+import { useSignUpForm } from '../hooks/useSignUpForm';
 
 export default function SignUpForm(): React.ReactElement {
-  const [isSuccess, setIsSuccess] = useState(false);
   const {
+    isSuccess,
     register,
     handleSubmit,
     control,
-    formState: { errors, isValid },
-  } = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpSchema),
-    mode: 'onBlur',
-  });
+    errors,
+    isValid,
+    onSubmit,
+  } = useSignUpForm();
 
-  const onSubmit = (data: SignUpFormData): void => {
-    console.log('✅ Form submitted:', data);
-    setIsSuccess(true);
-  };
   if (isSuccess) {
     return (
       <>
