@@ -3,5 +3,5 @@
 import { ReactElement } from 'react';
 
 export default function Page(): ReactElement {
-  return <p>Sign In</p>;
+  return <div>Sign In</div>;
 }
