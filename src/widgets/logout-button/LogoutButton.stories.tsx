@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { LogoutModal } from '@/features/auth/ui/login-form/LoginForm';
+import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
 import { LogoutButton } from './LogoutButton';
 
 const meta: Meta<typeof LogoutButton> = {
