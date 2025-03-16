@@ -7,6 +7,7 @@ import type {
 } from '@reduxjs/toolkit/query';
 
 import { Mutex } from 'async-mutex';
+import Router from 'next/router';
 
 // create a new mutex
 const mutex = new Mutex();
@@ -36,20 +37,21 @@ export const baseQueryWithReauth: BaseQueryFn<
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
-        const refreshResult = await baseQuery(
+        const refreshResult = (await baseQuery(
           {
             url: '/auth/refresh-token',
             method: 'POST',
           },
           api,
           extraOptions
-        );
+        )) as { data: { accessToken: string } };
         if (refreshResult.data) {
           localStorage.setItem('accessToken', refreshResult.data.accessToken);
           // api.dispatch(tokenReceived(refreshResult.data));
           // retry the initial query
           result = await baseQuery(args, api, extraOptions);
         } else {
+          await Router.push('/sign-in');
           localStorage.removeItem('accessToken');
           api.dispatch(authApi.util.resetApiState());
         }
