@@ -17,7 +17,7 @@ export const authApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled;
-          localStorage.setItem('access-token', response.data.accessToken);
+          localStorage.setItem('accessToken', response.data.accessToken);
           //await dispatch(authApi.endpoints.getMe.initiate());
         } catch (error) {
           console.error(error);
@@ -26,18 +26,18 @@ export const authApi = baseApi.injectEndpoints({
       },
     }),
 
-    getMe: builder.query<{ userId: number }, void>({
+    getMe: builder.query<{ userId: number; email: string }, void>({
       query: () => '/auth/me',
       providesTags: ['me'],
     }),
     logout: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
-        method: 'DELETE',
+        method: 'POST',
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         await queryFulfilled;
-        localStorage.removeItem('access-token');
+        localStorage.removeItem('accessToken');
         dispatch(authApi.util.resetApiState());
       },
     }),
