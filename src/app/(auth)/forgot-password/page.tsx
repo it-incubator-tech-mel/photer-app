@@ -25,18 +25,19 @@ export default function ForgotPasswordPage(): ReactElement {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async ({
     email,
-    recaptcha,
+    recaptchaValue,
   }) => {
     try {
-      await recoveryPassword({ email, recaptcha }).unwrap();
+      await recoveryPassword({ email, recaptchaValue }).unwrap();
       setEmail(email);
       setIsFormSend(true);
+      localStorage.setItem('email', email);
     } catch (e) {
-      const error = e as { errorsMessages: ErrorMessage };
-      if (Array.isArray(error.errorsMessages)) {
-        setErrorMessage(error.errorsMessages[0]);
+      const error = e as { data: { errorsMessages: ErrorMessage[] } };
+      if (Array.isArray(error.data.errorsMessages)) {
+        setErrorMessage(error.data.errorsMessages[0]);
       }
-      console.error(e);
+      console.log(e);
     }
   };
 
@@ -44,13 +45,15 @@ export default function ForgotPasswordPage(): ReactElement {
     <GoogleReCaptchaProvider
       reCaptchaKey={'6LeZReQqAAAAAJ-4OO2JYFnhUGFbeCdiBjlJ56kj'}
       container={{
-        parameters: { theme: 'dark', badge: 'bottomleft' },
+        element: 'recaptcha',
+        parameters: { theme: 'dark' },
       }}
     >
       <ForgotPasswordForm
         isLoading={isLoading}
         onSubmit={onSubmit}
         errorMessage={errorMessage}
+        email={email}
       />
       <Modal
         open={isFormSend}

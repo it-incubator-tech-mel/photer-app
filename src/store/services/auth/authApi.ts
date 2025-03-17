@@ -26,12 +26,23 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
-    passwordRecovery: builder.mutation<number | undefined, FormSchemaType>({
+    newPassword: builder.mutation<
+      void,
+      { newPassword: string; recoveryCode: string }
+    >({
+      query: (body) => ({
+        url: '/auth/new-password',
+        method: 'POST',
+        body: body,
+      }),
+    }),
+    passwordRecovery: builder.mutation<void, FormSchemaType>({
       query: (body) => ({
         url: '/auth/password-recovery',
         method: 'POST',
         body: body,
       }),
+
       // async onQueryStarted(arg, { dispatch, queryFulfilled }) {
       //   try {
       //     const response = await queryFulfilled;
@@ -66,4 +77,5 @@ export const {
   useGetMeQuery,
   useLogoutMutation,
   usePasswordRecoveryMutation,
+  useNewPasswordMutation,
 } = authApi;
