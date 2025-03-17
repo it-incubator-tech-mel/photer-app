@@ -1,7 +1,8 @@
+import { cn } from '@/shared/lib/cn';
+import { IconSprite } from '@/shared/ui';
 import Link from 'next/link';
-import { IconSprite } from '../icon/IconSprite';
+
 import { ReactElement, ReactNode } from 'react';
-import { cn } from '@/utils/cn';
 
 type Props = {
   title: string;
@@ -16,9 +17,8 @@ export const LegalInfo = ({
 }: Props): ReactElement => {
   return (
     <div className={cn('mx-auto flex max-w-[1280px] flex-col', className)}>
-      {/* TODO указать ссылку на страницу регистрации */}
       <Link
-        href="/"
+        href="/sign-up"
         className="mt-[24px] flex gap-[12px] pl-[64px] max-md:pl-[15px]"
       >
         <IconSprite iconName="arrow-back-outline" />
