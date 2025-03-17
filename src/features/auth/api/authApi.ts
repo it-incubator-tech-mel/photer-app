@@ -25,6 +25,7 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
+
     getMe: builder.query<{ userId: number; email: string }, void>({
       query: () => '/auth/me',
       providesTags: ['me'],
@@ -40,7 +41,38 @@ export const authApi = baseApi.injectEndpoints({
         dispatch(authApi.util.resetApiState());
       },
     }),
+
+    register: builder.mutation<
+      void,
+      {
+        username: string;
+        email: string;
+        password: string;
+      }
+    >({
+      query: (body) => ({
+        url: '/auth/registration',
+        method: 'POST',
+        body: body,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          console.log(
+            'Registration successful. Check your email for confirmation.'
+          );
+        } catch (error) {
+          console.error(error);
+          throw error;
+        }
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation, useGetMeQuery, useLogoutMutation } = authApi;
+export const {
+  useLoginMutation,
+  useGetMeQuery,
+  useLogoutMutation,
+  useRegisterMutation,
+} = authApi;

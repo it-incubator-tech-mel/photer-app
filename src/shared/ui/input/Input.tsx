@@ -10,6 +10,7 @@ import {
   ChangeEvent,
 } from 'react';
 import { IconSprite } from '../icon/IconSprite';
+import { Button } from '../button/Button';
 
 type Props = ComponentProps<'input'> & {
   type?: 'text' | 'email' | 'password' | 'search';
@@ -118,9 +119,10 @@ export const Input = ({
       />
       {type === 'password' && (
         <button
+          type="button"
           onClick={() => setIsHidden(!isHidden)}
           className="absolute top-[30px] right-2 border-none focus-visible:outline-none"
-          disabled={disabled}
+          // disabled={disabled}
         >
           <IconSprite
             iconName={isHidden ? 'eye-off-outline' : 'eye-outline'}
