@@ -39,10 +39,10 @@ export const Header = ({ withLoginBtn = false }: Props): ReactElement => {
           {withLoginBtn && (
             <>
               <Button asChild variant="text" className="w-[100px]">
-                <Link href="/login">Log In</Link>
+                <Link href="/sign-in">Log In</Link>
               </Button>
               <Button asChild>
-                <Link href="/registration">Sign Up</Link>
+                <Link href="/sign-up">Sign Up</Link>
               </Button>
             </>
           )}

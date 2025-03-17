@@ -27,6 +27,7 @@ export function useSignUpForm(): UseSignUpFormReturn {
       email: data.email,
       password: data.password,
     };
+    console.log('payload:', payload);
     try {
       await registerUser(payload).unwrap();
       setIsSuccess(true);

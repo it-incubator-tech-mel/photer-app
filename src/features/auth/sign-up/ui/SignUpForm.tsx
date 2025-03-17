@@ -4,29 +4,11 @@ import { FormFields } from './FormFields';
 import { SubmitButton } from './SubmitButton';
 import { Card } from '@/widgets/card/card';
 import { SocialAuthButtons } from './SocialAuthButtons';
-import { ConfirmEmail } from './ConfirmEmail';
-import { ResendEmail } from './ResendEmail';
 import { useSignUpForm } from '../hooks/useSignUpForm';
 
 export default function SignUpForm(): React.ReactElement {
-  const {
-    isSuccess,
-    register,
-    handleSubmit,
-    control,
-    errors,
-    isValid,
-    onSubmit,
-  } = useSignUpForm();
-
-  if (isSuccess) {
-    return (
-      <>
-        <ConfirmEmail />
-        <ResendEmail />
-      </>
-    );
-  }
+  const { register, handleSubmit, control, errors, isValid, onSubmit } =
+    useSignUpForm();
 
   return (
     <Card className="m-auto mt-6 flex min-h-162 w-[378px] flex-col items-center">

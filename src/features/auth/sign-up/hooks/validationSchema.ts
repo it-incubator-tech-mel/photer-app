@@ -19,7 +19,7 @@ export const signUpSchema = z
       .max(30, 'Maximum number of characters 30')
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,30}$/,
-        'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character.'
+        'Password must contain at least one lowercase letter, one uppercase letter, one digit.'
       ),
     terms: z.boolean().refine((val) => val, {
       message: 'You must accept the terms',

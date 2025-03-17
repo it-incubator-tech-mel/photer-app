@@ -25,6 +25,7 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
+
     getMe: builder.query<{ userId: number }, void>({
       query: () => '/auth/me',
       providesTags: ['me'],
@@ -40,6 +41,7 @@ export const authApi = baseApi.injectEndpoints({
         dispatch(authApi.util.resetApiState());
       },
     }),
+
     register: builder.mutation<
       void,
       {
