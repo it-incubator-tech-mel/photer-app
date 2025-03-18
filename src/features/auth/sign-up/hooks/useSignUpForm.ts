@@ -4,10 +4,12 @@ import { SignUpFormData, signUpSchema } from './validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRegisterMutation } from '../../api/authApi';
 import { UseSignUpFormReturn } from '../types/useSignUpFormReturn';
+import { useModal } from '@/shared/hooks/useModal';
 
 export function useSignUpForm(): UseSignUpFormReturn {
   const [registerUser, { isLoading, error }] = useRegisterMutation();
   const [isSuccess, setIsSuccess] = useState(false);
+  const { showModal } = useModal();
 
   const {
     register,
@@ -30,6 +32,10 @@ export function useSignUpForm(): UseSignUpFormReturn {
     console.log('payload:', payload);
     try {
       await registerUser(payload).unwrap();
+      showModal(
+        'Sign Up',
+        `We have sent a link to confirm your email to ${payload.email}`
+      );
       setIsSuccess(true);
     } catch (error) {
       console.error(error);
