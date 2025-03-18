@@ -1,39 +1,42 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { SignUpFormData, signUpSchema } from './validationSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRegisterMutation } from '../../api/authApi';
+import { useSignUpFormValidation } from './useSignUpFormValidation';
+import { useRegistration } from './useRegistration';
+import type { SignUpFormData } from './validationSchema';
 import { UseSignUpFormReturn } from '../types/useSignUpFormReturn';
+import { useEffect } from 'react';
 
-export function useSignUpForm(): UseSignUpFormReturn {
-  const [registerUser, { isLoading, error }] = useRegisterMutation();
-  const [isSuccess, setIsSuccess] = useState(false);
+export function useSignUpForm(): Omit<
+  UseSignUpFormReturn,
+  'error' | 'setError'
+> {
+  const { register, handleSubmit, control, errors, isValid, setError } =
+    useSignUpFormValidation();
 
   const {
-    register,
-    handleSubmit,
-    control,
-    setError,
-    formState: { errors, isValid },
-  } = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpSchema),
-    mode: 'onBlur',
-  });
+    registerNewUser,
+    isLoading,
+    isSuccess,
+    setIsSuccess,
+    userData,
+    error,
+  } = useRegistration();
+
+  useEffect(() => {
+    if (error?.data?.errorsMessages) {
+      error.data?.errorsMessages.forEach((err) => {
+        const field = err.field === 'login' ? 'username' : err.field;
+
+        setError(field as keyof SignUpFormData, {
+          type: 'server',
+          message: err.message,
+        });
+      });
+    }
+  }, [error, setError]);
 
   const onSubmit = async (data: SignUpFormData) => {
     console.log('✅ Form submitted:', data);
-    const payload = {
-      username: data.username,
-      email: data.email,
-      password: data.password,
-    };
-    console.log('payload:', payload);
-    try {
-      await registerUser(payload).unwrap();
-      setIsSuccess(true);
-    } catch (error) {
-      console.error(error);
-    }
+
+    await registerNewUser(data);
   };
 
   return {
@@ -43,6 +46,9 @@ export function useSignUpForm(): UseSignUpFormReturn {
     errors,
     isValid,
     onSubmit,
+    userData,
     isSuccess,
+    setIsSuccess,
+    isLoading,
   };
 }
