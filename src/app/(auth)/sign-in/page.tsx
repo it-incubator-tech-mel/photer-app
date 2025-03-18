@@ -1,11 +1,13 @@
 "use client";
 
-import { Button } from "@/components/button/Button";
-import { Input } from "@/components/input/Input";
-import { useLoginMutation } from "@/store/services/auth/authApi";
+import { useLoginMutation } from "@/features/auth/api/authApi";
+import { cn } from "@/shared/lib/cn";
+import { Button } from "@/shared/ui/button/Button";
+import { Input } from "@/shared/ui/input/Input";
+import { Card } from "@/widgets/card/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import { FocusEvent, ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -25,6 +27,7 @@ const logInSchema = z.object({
 type LogInSchema = z.infer<typeof logInSchema>;
 
 export default function LogIn(): ReactElement {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -42,26 +45,26 @@ export default function LogIn(): ReactElement {
 			setError(fieldName, { message: "" });
 		} catch (err) {
 			if (err instanceof z.ZodError) {
-				console.log(err);
 				setError(fieldName, { message: err.errors[0].message });
 			}
 		}
 	};
 	const onSubmit = async (data: LogInSchema) => {
-		console.log("onSubmit");
-		console.log(data);
 		try {
-			const result = await loginQuery(data).unwrap();
+			await loginQuery(data).unwrap();
 			reset();
-			console.log("Login successful:", result);
-			router.push("/");
+			router.push("/profile");
 		} catch (err) {
 			console.error("Login failed:", err);
-			console.error("The email or password are incorrect. Try again please");
 		}
 	};
 	return (
-		<>
+		<Card
+			className={cn(
+				"align-center mt-[24px] flex w-full max-w-[378px] flex-col justify-center p-[24px]",
+				"max-sm:bg-dark-900 max-sm:border-hidden",
+			)}
+		>
 			<h1 className="h1-text text-center">Sign In</h1>
 			<div className="mt-[13px] flex justify-center gap-15">
 				{/* TODO OAuth */}
@@ -109,11 +112,15 @@ export default function LogIn(): ReactElement {
 					</Button>
 				</form>
 				<p className="regular-text-16 text-center">Don’t have an account? </p>
-				{/* TODO добавить ссылку на Sign Up */}
-				<Link href="/" className={"mx-auto w-20 p-2"}>
+				<Link
+					href="/sign-up"
+					className={
+						"text-primary-500 font-semibold text-accent-500 mx-auto w-20 p-2"
+					}
+				>
 					Sign Up
 				</Link>
 			</div>
-		</>
+		</Card>
 	);
 }
