@@ -61,8 +61,8 @@ export const authApi = baseApi.injectEndpoints({
             'Registration successful. Check your email for confirmation.'
           );
         } catch (error) {
-          console.error(error);
-          throw error;
+          // TODO: DISPATCH TOAST ERROR
+          console.log('Registration failed:', error);
         }
       },
     }),
