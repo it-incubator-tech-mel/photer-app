@@ -1,6 +1,7 @@
 'use client';
 
 import { useLogInForm } from '@/features/auth/sign-in/hooks/useLogInForm';
+import { SocialAuthButtons } from '@/features/auth/sign-up/ui/SocialAuthButtons';
 import { cn } from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button/Button';
 import { Input } from '@/shared/ui/input/Input';
@@ -26,8 +27,12 @@ export default function LogIn(): ReactElement {
       )}
     >
       <h1 className="h1-text text-center">Sign In</h1>
-      <div className="mt-[13px] flex justify-center gap-15">
+      <div className="mt-[13px] flex justify-center gap-10">
         {/* TODO OAuth */}
+        <SocialAuthButtons
+          onGoogleClick={() => console.log('google registration')}
+          onGithubClick={() => console.log('github registration')}
+        />
       </div>
       <div className="mt-6 flex w-full flex-col justify-center align-middle">
         <form onSubmit={handleSubmit} className={'flex flex-col items-end'}>
