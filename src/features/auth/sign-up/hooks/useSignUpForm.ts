@@ -2,7 +2,9 @@ import { useSignUpFormValidation } from './useSignUpFormValidation';
 import { useRegistration } from './useRegistration';
 import type { SignUpFormData } from './validationSchema';
 import { UseSignUpFormReturn } from '../types/useSignUpFormReturn';
+
 import { useEffect } from 'react';
+import { useModal } from '@/shared/hooks/useModal';
 
 export function useSignUpForm(): Omit<
   UseSignUpFormReturn,
@@ -10,6 +12,8 @@ export function useSignUpForm(): Omit<
 > {
   const { register, handleSubmit, control, errors, isValid, setError } =
     useSignUpFormValidation();
+
+  const { showModal } = useModal();
 
   const {
     registerNewUser,
@@ -34,8 +38,6 @@ export function useSignUpForm(): Omit<
   }, [error, setError]);
 
   const onSubmit = async (data: SignUpFormData) => {
-    console.log('✅ Form submitted:', data);
-
     await registerNewUser(data);
   };
 
