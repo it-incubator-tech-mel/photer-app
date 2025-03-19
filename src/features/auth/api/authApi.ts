@@ -21,7 +21,6 @@ export const authApi = baseApi.injectEndpoints({
           //await dispatch(authApi.endpoints.getMe.initiate());
         } catch (error) {
           console.log(error);
-          throw error;
         }
       },
     }),

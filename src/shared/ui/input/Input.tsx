@@ -1,16 +1,14 @@
 'use client';
-
 import { cn } from '@/shared/lib/cn';
 import {
+  ChangeEvent,
   ComponentProps,
+  KeyboardEvent,
   ReactElement,
   useId,
   useState,
-  KeyboardEvent,
-  ChangeEvent,
 } from 'react';
 import { IconSprite } from '../icon/IconSprite';
-import { Button } from '../button/Button';
 
 type Props = ComponentProps<'input'> & {
   type?: 'text' | 'email' | 'password' | 'search';
