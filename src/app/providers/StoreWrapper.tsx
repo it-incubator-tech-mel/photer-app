@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { Alert } from '@/shared/ui/alert/Alert';
 import { Header } from '@/widgets/header/Header';
 import { store } from '@/shared/state/store';
+import { ModalProvider } from './ModalProviders';
 
 export default function StoreWrapper({
   children,
@@ -19,6 +20,7 @@ export default function StoreWrapper({
         <div className="flex w-full flex-col items-center justify-center">
           {children}
         </div>
+        <ModalProvider />
         <Alert />
       </div>
     </Provider>

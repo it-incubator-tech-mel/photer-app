@@ -4,9 +4,11 @@ import { useDispatch } from 'react-redux';
 
 import { authApi } from '@/features/auth/api/authApi';
 import { baseApi } from '../lib/baseApi';
+import { modalReducer } from './slices/modalSlice';
 
 export const store = configureStore({
   reducer: {
+    modal: modalReducer,
     ['authApi']: authApi.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
