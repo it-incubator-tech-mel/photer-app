@@ -1,3 +1,4 @@
+'use client';
 import { useRouter } from 'next/navigation';
 import { logInSchema, LogInSchema } from './validationSchema';
 import { useForm } from 'react-hook-form';
@@ -5,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FocusEvent } from 'react';
 import { z } from 'zod';
 import { useLoginMutation } from '../../api/authApi';
+import { decodeJwt } from '@/shared/lib/decodeJwt';
 
 export function useLogInForm() {
   const router = useRouter();
@@ -31,11 +33,16 @@ export function useLogInForm() {
   };
   const onSubmit = async (data: LogInSchema) => {
     try {
-      await loginQuery(data).unwrap();
+      const result = await loginQuery(data).unwrap();
+
       reset();
-      router.push('/profile');
+      const accessToken = result.accessToken;
+      const payload = decodeJwt(accessToken);
+      const userId = payload.userId || payload.sub;
+
+      router.push(`/profile/${userId}`);
     } catch (err) {
-      console.error('Login failed:', err);
+      console.log('Login failed:', err);
     }
   };
   return {

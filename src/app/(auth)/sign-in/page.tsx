@@ -1,5 +1,4 @@
 'use client';
-
 import { useLogInForm } from '@/features/auth/sign-in/hooks/useLogInForm';
 import { SocialAuthButtons } from '@/features/auth/sign-up/ui/SocialAuthButtons';
 import { cn } from '@/shared/lib/cn';
