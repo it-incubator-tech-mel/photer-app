@@ -5,7 +5,6 @@ import { UseSignUpFormReturn } from '../types/useSignUpFormReturn';
 
 import { useEffect } from 'react';
 import { useModal } from '@/shared/hooks/useModal';
-
 export function useSignUpForm(): Omit<
   UseSignUpFormReturn,
   'error' | 'setError'

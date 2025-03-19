@@ -6,7 +6,6 @@ import { Card } from '@/widgets/card/card';
 import { SocialAuthButtons } from './SocialAuthButtons';
 import { useSignUpForm } from '../hooks/useSignUpForm';
 import { SignUpPrompt } from './SignUpPrompt';
-import { EmailSentModal } from './EmailSentModal';
 
 export default function SignUpForm(): React.ReactElement {
   const formState = useSignUpForm();
@@ -32,11 +31,6 @@ export default function SignUpForm(): React.ReactElement {
           href={'/sign-in'}
         />
       </form>
-      <EmailSentModal
-        email={formState.userData?.email || ''}
-        open={formState.isSuccess}
-        onClose={() => formState.setIsSuccess(false)}
-      />
     </Card>
   );
 }
