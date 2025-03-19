@@ -16,21 +16,12 @@ export function useLogInForm() {
     reset,
     setError,
     formState: { isDirty, errors },
-  } = useForm<LogInSchema>({ resolver: zodResolver(logInSchema) });
+  } = useForm<LogInSchema>({
+    resolver: zodResolver(logInSchema),
+    mode: 'onBlur',
+  });
   const [loginQuery, { isLoading, isError }] = useLoginMutation();
 
-  const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
-    const fieldName = e.target.name as keyof LogInSchema;
-    try {
-      const mask = { [fieldName]: true } as { [K in keyof LogInSchema]?: true };
-      logInSchema.pick(mask).parse({ [fieldName]: e.target.value });
-      setError(fieldName, { message: '' });
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        setError(fieldName, { message: err.errors[0].message });
-      }
-    }
-  };
   const onSubmit = async (data: LogInSchema) => {
     try {
       const result = await loginQuery(data).unwrap();
@@ -52,6 +43,5 @@ export function useLogInForm() {
     hasLoginError: isError,
     formErrors: errors,
     isLoading,
-    handleOnBlur,
   };
 }

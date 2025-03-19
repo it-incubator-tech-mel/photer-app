@@ -16,7 +16,6 @@ export default function LogIn(): ReactElement {
     hasLoginError,
     formErrors,
     isLoading,
-    handleOnBlur,
   } = useLogInForm();
   return (
     <Card
@@ -44,16 +43,14 @@ export default function LogIn(): ReactElement {
             className="w-full"
             label={'Email'}
             errorMessage={formErrors.email?.message}
-            {...register('email', { onBlur: handleOnBlur })}
+            {...register('email')}
           />
           <Input
             type="password"
             className="w-full"
             label={'Password'}
             errorMessage={formErrors.password?.message}
-            {...register('password', {
-              onBlur: handleOnBlur,
-            })}
+            {...register('password')}
           />
           {/* TODO добавить ссылку на Forgot Password */}
           <Link href="/" className={'text-light-900'}>
