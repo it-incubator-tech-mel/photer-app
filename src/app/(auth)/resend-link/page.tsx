@@ -1,39 +1,27 @@
 'use client';
 import timeImage from 'public/images/time.png';
 import Image from 'next/image';
-import { ReactElement, useCallback, useState } from 'react';
+import { ReactElement } from 'react';
 import { Button } from '@/shared/ui';
-import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi';
-import {
-  GoogleReCaptcha,
-  GoogleReCaptchaProvider,
-} from 'react-google-recaptcha-v3';
+import { useRecoveryPasswordResendingMutation } from '@/features/auth/api/authApi';
 import { ErrorMessage } from '@/app/(auth)/forgot-password/page';
 import { toast } from 'react-toastify';
 import { useModal } from '@/shared/hooks/useModal';
 
 export default function ResendLink(): ReactElement {
-  const [resendLink, { isLoading }] = usePasswordRecoveryMutation();
-  const [token, setToken] = useState('');
-  const [refreshCaptcha, setRefreshCaptcha] = useState(false);
+  const [resendLink, { isLoading }] = useRecoveryPasswordResendingMutation();
   const { showModal } = useModal();
-
-  const onVerify = useCallback((token: string) => {
-    setToken(token);
-  }, []);
 
   const handleResendLink = async (): Promise<void> => {
     try {
       await resendLink({
         email: localStorage.getItem('email') as string,
-        recaptchaValue: token,
       }).unwrap();
       showModal(
         'Email sent',
         `We have sent a link to confirm your email to ${localStorage.getItem('email')}`
       );
       localStorage.removeItem('email');
-      setRefreshCaptcha((prevState) => !prevState);
     } catch (e) {
       const error = e as { data: { errorsMessages: ErrorMessage[] } };
       if (Array.isArray(error.data.errorsMessages)) {
@@ -44,9 +32,7 @@ export default function ResendLink(): ReactElement {
   };
 
   return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={'6LeZReQqAAAAAJ-4OO2JYFnhUGFbeCdiBjlJ56kj'}
-    >
+    <>
       <div className={'max-w-74 text-center'}>
         <h1 className={'h1-text'}>Email verification link expired</h1>
         <p className={'regular-text-16 mb mt-5 mb-7'}>
@@ -62,7 +48,6 @@ export default function ResendLink(): ReactElement {
         </Button>
       </div>
       <Image src={timeImage} alt={'time'} width={470} />
-      <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshCaptcha} />
-    </GoogleReCaptchaProvider>
+    </>
   );
 }

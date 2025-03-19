@@ -46,6 +46,13 @@ export const authApi = baseApi.injectEndpoints({
         localStorage.setItem('email', arg.email);
       },
     }),
+    recoveryPasswordResending: builder.mutation<void, { email: string }>({
+      query: (body) => ({
+        url: '/auth/password-recovery-resending',
+        method: 'POST',
+        body: body,
+      }),
+    }),
     getMe: builder.query<{ userId: number }, void>({
       query: () => '/auth/me',
       providesTags: ['me'],
@@ -96,5 +103,5 @@ export const {
   useRegisterMutation,
   usePasswordRecoveryMutation,
   useNewPasswordMutation,
-  useResendLinkMutation,
+  useRecoveryPasswordResendingMutation,
 } = authApi;
