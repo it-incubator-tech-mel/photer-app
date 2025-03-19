@@ -1,4 +1,5 @@
 import { baseApi } from '@/shared/lib/baseApi';
+import { FormSchemaType } from '@/features/forgot-password/types/forgotPasswordFormSchema';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,7 +26,6 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
-
     newPassword: builder.mutation<
       void,
       { newPassword: string; recoveryCode: string }
@@ -42,6 +42,9 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
+      async onQueryStarted(arg) {
+        localStorage.setItem('email', arg.email);
+      },
     }),
     getMe: builder.query<{ userId: number }, void>({
       query: () => '/auth/me',
@@ -58,7 +61,6 @@ export const authApi = baseApi.injectEndpoints({
         dispatch(authApi.util.resetApiState());
       },
     }),
-
     register: builder.mutation<
       void,
       {
@@ -92,4 +94,7 @@ export const {
   useGetMeQuery,
   useLogoutMutation,
   useRegisterMutation,
+  usePasswordRecoveryMutation,
+  useNewPasswordMutation,
+  useResendLinkMutation,
 } = authApi;

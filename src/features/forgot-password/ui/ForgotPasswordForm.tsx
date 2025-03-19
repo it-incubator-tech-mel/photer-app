@@ -1,16 +1,17 @@
-import { Input } from '@/components/input/Input';
-import { Button } from '@/components/button/Button';
 import Link from 'next/link';
 import { ReactElement, useCallback, useEffect } from 'react';
 import {
   ForgotPasswordFormSchema,
   FormSchemaType,
-} from '@/app/(auth)/forgot-password/forgotPasswordForm/forgotPasswordFormSchema';
+} from '@/features/forgot-password/types/forgotPasswordFormSchema';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Card } from '@/components';
 import { ErrorMessage } from '@/app/(auth)/forgot-password/page';
+import { Card } from '@/widgets/card/card';
+import { Button, Input } from '@/shared/ui';
+import { cn } from '@/shared/lib/cn';
+import { toast } from 'react-toastify';
 
 type Props = {
   isLoading: boolean;
@@ -57,14 +58,14 @@ export const ForgotPasswordForm = ({
 
   useEffect(() => {
     handleVerify();
-  }, [handleVerify]);
+  }, [handleVerify, email]);
 
   useEffect(() => {
     if (errorMessage.field === 'Captcha') {
-      setError('recaptchaValue', { message: errorMessage.message });
+      toast(errorMessage.message, { type: 'error' });
     }
     if (errorMessage.field === 'email') {
-      setError('recaptchaValue', { message: errorMessage.message });
+      setError('email', { message: errorMessage.message });
     }
     // setError(errorMessage.field as 'email' | 'recaptchaValue', {
     //   message: errorMessage.message,
@@ -101,9 +102,10 @@ export const ForgotPasswordForm = ({
         <Button variant={'text'} className={'my-6 w-full'} asChild>
           <Link href={'/login'}>Back to Sign In</Link>
         </Button>
-        {!email && (
-          <div id={'recaptcha'} className={'flex justify-center'}></div>
-        )}
+        <div
+          id={'recaptcha'}
+          className={cn(!email ? 'flex justify-center' : 'hidden')}
+        ></div>
         <p className={'text-danger-500 text-center'}>
           {errors.recaptchaValue?.message}
         </p>

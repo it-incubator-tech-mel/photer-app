@@ -1,16 +1,22 @@
 'use client';
 import { ReactElement, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { FormSchemaType } from '@/app/(auth)/forgot-password/forgotPasswordForm/forgotPasswordFormSchema';
-import { ForgotPasswordForm } from '@/app/(auth)/forgot-password/forgotPasswordForm/ForgotPasswordForm';
-import { Modal } from '@/components/modal/Modal';
-import { Button } from '@/components/button/Button';
-import { usePasswordRecoveryMutation } from '@/store/services/auth/authApi';
+import { FormSchemaType } from '@/features/forgot-password/types/forgotPasswordFormSchema';
+import { ForgotPasswordForm } from '@/features/forgot-password/ui/ForgotPasswordForm';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { Button } from '@/shared/ui';
+import { Modal } from '@/widgets/modal/Modal';
+import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi';
 
 export type ErrorMessage = {
   field: string;
   message: string;
+};
+type Error404Type = {
+  message: string;
+  path: string;
+  statusCode: number;
+  timestamp: string;
 };
 
 export default function ForgotPasswordPage(): ReactElement {
@@ -31,8 +37,14 @@ export default function ForgotPasswordPage(): ReactElement {
       await recoveryPassword({ email, recaptchaValue }).unwrap();
       setEmail(email);
       setIsFormSend(true);
-      localStorage.setItem('email', email);
     } catch (e) {
+      const er = e as { data: Error404Type };
+      if (er.data.statusCode === 404) {
+        setErrorMessage({
+          field: 'email',
+          message: "User with this email doesn't exist",
+        });
+      }
       const error = e as { data: { errorsMessages: ErrorMessage[] } };
       if (Array.isArray(error.data.errorsMessages)) {
         setErrorMessage(error.data.errorsMessages[0]);
