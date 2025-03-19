@@ -4,9 +4,8 @@ import { SubmitHandler } from 'react-hook-form';
 import { FormSchemaType } from '@/features/forgot-password/types/forgotPasswordFormSchema';
 import { ForgotPasswordForm } from '@/features/forgot-password/ui/ForgotPasswordForm';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import { Button } from '@/shared/ui';
-import { Modal } from '@/widgets/modal/Modal';
 import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi';
+import { useModal } from '@/shared/hooks/useModal';
 
 export type ErrorMessage = {
   field: string;
@@ -21,13 +20,9 @@ type Error404Type = {
 
 export default function ForgotPasswordPage(): ReactElement {
   const [recoveryPassword, { isLoading }] = usePasswordRecoveryMutation();
-  const [email, setEmail] = useState('');
   const [isFormSend, setIsFormSend] = useState(false);
   const [errorMessage, setErrorMessage] = useState({} as ErrorMessage);
-
-  const onModalClose = (): void => {
-    setIsFormSend(false);
-  };
+  const { showModal } = useModal();
 
   const onSubmit: SubmitHandler<FormSchemaType> = async ({
     email,
@@ -35,8 +30,11 @@ export default function ForgotPasswordPage(): ReactElement {
   }) => {
     try {
       await recoveryPassword({ email, recaptchaValue }).unwrap();
-      setEmail(email);
       setIsFormSend(true);
+      showModal(
+        'Email sent',
+        `We have sent a link to confirm your email to ${email}`
+      );
     } catch (e) {
       const er = e as { data: Error404Type };
       if (er.data.statusCode === 404) {
@@ -65,21 +63,8 @@ export default function ForgotPasswordPage(): ReactElement {
         isLoading={isLoading}
         onSubmit={onSubmit}
         errorMessage={errorMessage}
-        email={email}
+        isFormSend={isFormSend}
       />
-      <Modal
-        open={isFormSend}
-        onClose={onModalClose}
-        title={'Email sent'}
-        size={'sm'}
-      >
-        <div className={'flex flex-col'}>
-          <p>{`We have sent a link to confirm your email to ${email}`}</p>
-          <Button className={'mt-5 w-min self-end'} onClick={onModalClose}>
-            OK
-          </Button>
-        </div>
-      </Modal>
     </GoogleReCaptchaProvider>
   );
 }

@@ -10,11 +10,13 @@ import {
 } from 'react-google-recaptcha-v3';
 import { ErrorMessage } from '@/app/(auth)/forgot-password/page';
 import { toast } from 'react-toastify';
+import { useModal } from '@/shared/hooks/useModal';
 
 export default function ResendLink(): ReactElement {
   const [resendLink, { isLoading }] = usePasswordRecoveryMutation();
   const [token, setToken] = useState('');
   const [refreshCaptcha, setRefreshCaptcha] = useState(false);
+  const { showModal } = useModal();
 
   const onVerify = useCallback((token: string) => {
     setToken(token);
@@ -26,6 +28,10 @@ export default function ResendLink(): ReactElement {
         email: localStorage.getItem('email') as string,
         recaptchaValue: token,
       }).unwrap();
+      showModal(
+        'Email sent',
+        `We have sent a link to confirm your email to ${localStorage.getItem('email')}`
+      );
       localStorage.removeItem('email');
       setRefreshCaptcha((prevState) => !prevState);
     } catch (e) {

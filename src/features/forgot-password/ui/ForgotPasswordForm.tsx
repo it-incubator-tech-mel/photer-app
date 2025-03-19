@@ -17,14 +17,14 @@ type Props = {
   isLoading: boolean;
   onSubmit: SubmitHandler<FormSchemaType>;
   errorMessage: ErrorMessage;
-  email: string;
+  isFormSend: boolean;
 };
 
 export const ForgotPasswordForm = ({
   isLoading,
   onSubmit,
   errorMessage,
-  email,
+  isFormSend,
 }: Props): ReactElement => {
   const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -58,7 +58,7 @@ export const ForgotPasswordForm = ({
 
   useEffect(() => {
     handleVerify();
-  }, [handleVerify, email]);
+  }, [handleVerify, isFormSend]);
 
   useEffect(() => {
     if (errorMessage.field === 'Captcha') {
@@ -86,7 +86,7 @@ export const ForgotPasswordForm = ({
         <p className={'regular-text-14 text-light-900 mb-4'}>
           Enter your email address and we will send you further instructions
         </p>
-        {email && (
+        {isFormSend && (
           <p className={'regular-text-14 text-light-100 mb-4 pt-2'}>
             The link has been sent by email.
             <br /> If you don’t receive an email send link again
@@ -97,18 +97,15 @@ export const ForgotPasswordForm = ({
           type={'submit'}
           disabled={!isValid || isLoading}
         >
-          {email ? 'Send Link Again' : 'Send Link'}
+          {isFormSend ? 'Send Link Again' : 'Send Link'}
         </Button>
         <Button variant={'text'} className={'my-6 w-full'} asChild>
           <Link href={'/login'}>Back to Sign In</Link>
         </Button>
         <div
           id={'recaptcha'}
-          className={cn(!email ? 'flex justify-center' : 'hidden')}
+          className={cn(!isFormSend ? 'flex justify-center' : 'hidden')}
         ></div>
-        <p className={'text-danger-500 text-center'}>
-          {errors.recaptchaValue?.message}
-        </p>
       </form>
     </Card>
   );
