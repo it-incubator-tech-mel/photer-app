@@ -1,13 +1,12 @@
 'use client';
-import { useLogoutMutation } from '@/features/auth/api/authApi';
+
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
 import { LogoutButton } from '@/widgets/logout-button/LogoutButton';
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 
 export default function Page(): ReactElement {
-  const { isOpen, openModal, closeModal, confirmLogout, isLoading, isError } =
-    useLogout();
+  const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
 
   return (
     <div>
