@@ -21,8 +21,7 @@ export const authApi = baseApi.injectEndpoints({
           localStorage.setItem('accessToken', response.data.accessToken);
           //await dispatch(authApi.endpoints.getMe.initiate());
         } catch (error) {
-          console.error(error);
-          throw error;
+          console.log(error);
         }
       },
     }),
@@ -88,8 +87,8 @@ export const authApi = baseApi.injectEndpoints({
             'Registration successful. Check your email for confirmation.'
           );
         } catch (error) {
-          console.error(error);
-          throw error;
+          // TODO: DISPATCH TOAST ERROR
+          console.log('Registration failed:', error);
         }
       },
     }),

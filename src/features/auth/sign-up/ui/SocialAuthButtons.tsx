@@ -11,7 +11,7 @@ export function SocialAuthButtons({
   onGithubClick,
 }: SocialAuthButtonsProps): ReactElement {
   return (
-    <div className="mt-[13px] flex gap-15">
+    <div className="mt-[13px] flex gap-3">
       <Button onClick={onGoogleClick} asChild variant="text">
         <IconSprite
           iconName="google"

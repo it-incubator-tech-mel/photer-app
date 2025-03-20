@@ -100,7 +100,7 @@ export const ForgotPasswordForm = ({
           {isFormSend ? 'Send Link Again' : 'Send Link'}
         </Button>
         <Button variant={'text'} className={'my-6 w-full'} asChild>
-          <Link href={'/login'}>Back to Sign In</Link>
+          <Link href={'/sign-in'}>Back to Sign In</Link>
         </Button>
         <div
           id={'recaptcha'}
