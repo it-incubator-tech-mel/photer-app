@@ -1,13 +1,12 @@
 'use client';
-
 import { cn } from '@/shared/lib/cn';
 import {
+  ChangeEvent,
   ComponentProps,
+  KeyboardEvent,
   ReactElement,
   useId,
   useState,
-  KeyboardEvent,
-  ChangeEvent,
 } from 'react';
 import { IconSprite } from '../icon/IconSprite';
 
@@ -118,9 +117,10 @@ export const Input = ({
       />
       {type === 'password' && (
         <button
+          type="button"
           onClick={() => setIsHidden(!isHidden)}
           className="absolute top-[30px] right-2 border-none focus-visible:outline-none"
-          disabled={disabled}
+          // disabled={disabled}
         >
           <IconSprite
             iconName={isHidden ? 'eye-off-outline' : 'eye-outline'}

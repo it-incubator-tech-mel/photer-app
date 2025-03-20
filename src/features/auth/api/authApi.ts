@@ -20,24 +20,19 @@ export const authApi = baseApi.injectEndpoints({
           localStorage.setItem('accessToken', response.data.accessToken);
           //await dispatch(authApi.endpoints.getMe.initiate());
         } catch (error) {
-          console.error(error);
-          throw error;
+          console.log(error);
         }
       },
     }),
-    getMe: builder.query<{ userId: number }, void>({
+
+    getMe: builder.query<{ userId: number; email: string }, void>({
       query: () => '/auth/me',
       providesTags: ['me'],
     }),
     logout: builder.mutation<void, void>({
       query: () => ({
-        url: 'auth/logout',
+        url: '/auth/logout',
         method: 'POST',
-
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         await queryFulfilled;
@@ -45,7 +40,38 @@ export const authApi = baseApi.injectEndpoints({
         dispatch(authApi.util.resetApiState());
       },
     }),
+
+    register: builder.mutation<
+      void,
+      {
+        username: string;
+        email: string;
+        password: string;
+      }
+    >({
+      query: (body) => ({
+        url: '/auth/registration',
+        method: 'POST',
+        body: body,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          console.log(
+            'Registration successful. Check your email for confirmation.'
+          );
+        } catch (error) {
+          // TODO: DISPATCH TOAST ERROR
+          console.log('Registration failed:', error);
+        }
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation, useGetMeQuery, useLogoutMutation } = authApi;
+export const {
+  useLoginMutation,
+  useGetMeQuery,
+  useLogoutMutation,
+  useRegisterMutation,
+} = authApi;
