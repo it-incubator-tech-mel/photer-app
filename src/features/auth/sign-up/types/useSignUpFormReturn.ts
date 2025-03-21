@@ -9,6 +9,7 @@ export type UseSignUpFormValidationReturn = {
   setError: ReturnType<typeof useForm<SignUpFormData>>['setError'];
   errors: ReturnType<typeof useForm<SignUpFormData>>['formState']['errors'];
   isValid: ReturnType<typeof useForm<SignUpFormData>>['formState']['isValid'];
+  reset: ReturnType<typeof useForm<SignUpFormData>>['reset'];
 };
 
 export type UseRegistrationReturn = {

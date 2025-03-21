@@ -3,9 +3,11 @@ import { ReactElement } from 'react';
 import { Alert } from './Alert';
 import { Button } from '../button/Button';
 
-export default {
+const meta = {
   title: 'Components/Alert',
 };
+
+export default meta;
 
 export const Default = {
   render: (): ReactElement => {
