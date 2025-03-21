@@ -4,15 +4,18 @@ import type { SignUpFormData } from './validationSchema';
 import { UseSignUpFormReturn } from '../types/useSignUpFormReturn';
 
 import { useEffect } from 'react';
-import { useModal } from '@/shared/hooks/useModal';
+type ErrorWithData = {
+  data?: {
+    errorsMessages?: { field: string; message: string }[];
+  };
+};
+
 export function useSignUpForm(): Omit<
   UseSignUpFormReturn,
   'error' | 'setError'
 > {
   const { register, handleSubmit, control, errors, isValid, setError } =
     useSignUpFormValidation();
-
-  const { showModal } = useModal();
 
   const {
     registerNewUser,
@@ -24,7 +27,7 @@ export function useSignUpForm(): Omit<
   } = useRegistration();
 
   useEffect(() => {
-    if (error?.data?.errorsMessages) {
+    if ((error as ErrorWithData)?.data?.errorsMessages) {
       error.data?.errorsMessages.forEach((err) => {
         const field = err.field === 'login' ? 'username' : err.field;
 

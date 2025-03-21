@@ -22,7 +22,7 @@ export function useRegistration(): UseRegistrationReturn {
 
     setUserData(data);
     try {
-      // await registerUser(payload).unwrap();
+      await registerUser(payload).unwrap();
       dispatch(
         openModal({
           modalProps: {
