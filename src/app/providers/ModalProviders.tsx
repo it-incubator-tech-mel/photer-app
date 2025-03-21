@@ -7,11 +7,10 @@ import { RootState } from '@/shared/state/store';
 
 export function ModalProvider() {
   const dispatch = useDispatch();
-  const {
-    isOpen,
-    modalProps: { title, description },
-  } = useSelector((state: RootState) => state.modal);
 
+  const { isOpen, modalProps } = useSelector((state: RootState) => state.modal);
+  const title = modalProps?.title || 'Заголовок по умолчанию';
+  const description = modalProps?.description || 'Описание по умолчанию';
   if (!isOpen) {
     return null;
   }
