@@ -5,6 +5,7 @@ import { UseSignUpFormValidationReturn } from '../types/useSignUpFormReturn';
 
 export function useSignUpFormValidation(): UseSignUpFormValidationReturn {
   const {
+    reset,
     register,
     handleSubmit,
     control,
@@ -16,6 +17,7 @@ export function useSignUpFormValidation(): UseSignUpFormValidationReturn {
   });
 
   return {
+    reset,
     register,
     handleSubmit,
     control,

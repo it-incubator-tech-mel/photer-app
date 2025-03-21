@@ -18,7 +18,6 @@ export function LogoutModal({
   onCanceled,
   errorMessage,
   className,
-  ...rest
 }: Props): ReactElement {
   return (
     <Modal

@@ -6,12 +6,14 @@ import type { SignUpFormData } from './validationSchema';
 import { UseRegistrationReturn } from '../types/useSignUpFormReturn';
 import { useDispatch } from 'react-redux';
 import { openModal } from '@/shared/state/slices/modalSlice';
+import { useRouter } from 'next/navigation';
 
 export function useRegistration(): UseRegistrationReturn {
   const [registerUser, { isLoading, error }] = useRegisterMutation();
   const [isSuccess, setIsSuccess] = useState(false);
   const [userData, setUserData] = useState<SignUpFormData | null>(null);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const registerNewUser = async (data: SignUpFormData): Promise<boolean> => {
     const payload = {
@@ -31,6 +33,7 @@ export function useRegistration(): UseRegistrationReturn {
           },
         })
       );
+      router.push('/sign-in');
       return true;
     } catch (error) {
       console.log(error);

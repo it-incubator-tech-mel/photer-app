@@ -4,6 +4,7 @@ import type { SignUpFormData } from './validationSchema';
 import { UseSignUpFormReturn } from '../types/useSignUpFormReturn';
 
 import { useEffect } from 'react';
+
 type ErrorWithData = {
   data?: {
     errorsMessages?: { field: string; message: string }[];
@@ -12,9 +13,9 @@ type ErrorWithData = {
 
 export function useSignUpForm(): Omit<
   UseSignUpFormReturn,
-  'error' | 'setError'
+  'error' | 'setError' | 'reset'
 > {
-  const { register, handleSubmit, control, errors, isValid, setError } =
+  const { register, handleSubmit, control, errors, isValid, setError, reset } =
     useSignUpFormValidation();
 
   const {
@@ -41,8 +42,9 @@ export function useSignUpForm(): Omit<
     }
   }, [error, setError]);
 
-  const onSubmit = async (data: SignUpFormData) => {
+  const onSubmit = async (data: SignUpFormData): Promise<void> => {
     await registerNewUser(data);
+    reset();
   };
 
   return {

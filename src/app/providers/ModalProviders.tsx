@@ -5,7 +5,7 @@ import { Button } from '@/shared/ui';
 import { closeModal } from '@/shared/state/slices/modalSlice';
 import { RootState } from '@/shared/state/store';
 
-export function ModalProvider() {
+export function ModalProvider(): React.ReactElement | null {
   const dispatch = useDispatch();
 
   const { isOpen, modalProps } = useSelector((state: RootState) => state.modal);

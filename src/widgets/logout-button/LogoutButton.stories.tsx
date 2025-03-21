@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
@@ -21,17 +21,17 @@ export const Default: Story = {
   args: {
     openModal: () => console.log('Logout modal opened'),
   },
-  render: (args) => {
+  render: function DefaultStory(): React.ReactElement {
     const [isOpen, setIsOpen] = useState(false);
 
-    const openModal = () => {
+    const openModal = (): void => {
       console.log('Logout modal opened');
       setIsOpen(true);
     };
 
-    const closeModal = () => setIsOpen(false);
+    const closeModal = (): void => setIsOpen(false);
 
-    const handleConfirmLogout = () => {
+    const handleConfirmLogout = (): void => {
       console.log('User confirmed logout');
       closeModal();
     };
