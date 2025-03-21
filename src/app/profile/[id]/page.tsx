@@ -3,6 +3,7 @@
 import { useGetMeQuery } from '@/features/auth/api/authApi';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
+import { Button } from '@/shared/ui';
 import { LogoutButton } from '@/widgets/logout-button/LogoutButton';
 import { ReactElement } from 'react';
 

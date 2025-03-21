@@ -24,9 +24,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100`}
       >
-        <div>
-          <StoreWrapper>{children}</StoreWrapper>
-        </div>
+        <StoreWrapper>{children}</StoreWrapper>
       </body>
     </html>
   );
