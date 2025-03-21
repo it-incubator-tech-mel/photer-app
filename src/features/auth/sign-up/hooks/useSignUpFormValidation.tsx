@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type SignUpFormData, signUpSchema } from './validationSchema';
+import { SignUpFormData, signUpSchema } from './validationSchema';
 import { UseSignUpFormValidationReturn } from '../types/useSignUpFormReturn';
 
 export function useSignUpFormValidation(): UseSignUpFormValidationReturn {

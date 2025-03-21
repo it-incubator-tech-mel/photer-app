@@ -27,15 +27,17 @@ export function useSignUpForm(): Omit<
   } = useRegistration();
 
   useEffect(() => {
-    if ((error as ErrorWithData)?.data?.errorsMessages) {
-      error.data?.errorsMessages.forEach((err) => {
-        const field = err.field === 'login' ? 'username' : err.field;
-
-        setError(field as keyof SignUpFormData, {
-          type: 'server',
-          message: err.message,
+    if (error) {
+      const typedError = error as ErrorWithData;
+      if (typedError?.data?.errorsMessages) {
+        typedError.data.errorsMessages.forEach((err) => {
+          const field = err.field === 'login' ? 'username' : err.field;
+          setError(field as keyof SignUpFormData, {
+            type: 'server',
+            message: err.message,
+          });
         });
-      });
+      }
     }
   }, [error, setError]);
 
