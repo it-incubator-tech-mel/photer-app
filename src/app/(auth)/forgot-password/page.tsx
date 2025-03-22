@@ -1,9 +1,8 @@
 'use client';
-import { ReactElement, useMemo, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { FormSchemaType } from '@/features/forgot-password/types/forgotPasswordFormSchema';
 import { ForgotPasswordForm } from '@/features/forgot-password/ui/ForgotPasswordForm';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi';
 import { useModal } from '@/shared/hooks/useModal';
 
@@ -50,21 +49,20 @@ export default function ForgotPasswordPage(): ReactElement {
       console.log(e);
     }
   };
-
   return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={'6LeZReQqAAAAAJ-4OO2JYFnhUGFbeCdiBjlJ56kj'}
-      container={{
-        element: 'recaptcha',
-        parameters: { theme: 'dark' },
-      }}
-    >
-      <ForgotPasswordForm
-        isLoading={isLoading}
-        onSubmit={onSubmit}
-        errorMessage={errorMessage}
-        isFormSend={isFormSend}
-      />
-    </GoogleReCaptchaProvider>
+    // <GoogleReCaptchaProvider
+    //   reCaptchaKey={reCaptchaSiteKey}
+    //   container={{
+    //     element: 'recaptcha',
+    //     parameters: { theme: 'dark' },
+    //   }}
+    // >
+    <ForgotPasswordForm
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      errorMessage={errorMessage}
+      isFormSend={isFormSend}
+    />
+    // </GoogleReCaptchaProvider>
   );
 }

@@ -5,7 +5,7 @@ export const ForgotPasswordFormSchema = z.object({
     .string()
     .min(1, { message: 'Email is required' })
     .email({ message: 'Invalid email' }),
-  recaptchaValue: z.string(),
+  recaptchaValue: z.string().optional(),
 });
 
 export type FormSchemaType = z.infer<typeof ForgotPasswordFormSchema>;
