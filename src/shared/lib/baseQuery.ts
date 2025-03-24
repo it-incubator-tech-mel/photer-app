@@ -7,7 +7,6 @@ import type {
 } from '@reduxjs/toolkit/query';
 
 import { Mutex } from 'async-mutex';
-import Router from 'next/router';
 
 // create a new mutex
 const mutex = new Mutex();
@@ -51,7 +50,7 @@ export const baseQueryWithReauth: BaseQueryFn<
           // retry the initial query
           result = await baseQuery(args, api, extraOptions);
         } else {
-          await Router.push('/sign-in');
+          window.location.href = '/sign-in';
           localStorage.removeItem('accessToken');
           api.dispatch(authApi.util.resetApiState());
         }
