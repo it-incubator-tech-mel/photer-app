@@ -26,8 +26,6 @@ export const ForgotPasswordForm = ({
   errorMessage,
   isFormSend,
 }: Props): ReactElement => {
-  console.log('render form');
-  // const { executeRecaptcha } = useGoogleReCaptcha();
   const { executeRecaptchaToken } = useRecaptcha();
 
   const {
@@ -43,23 +41,9 @@ export const ForgotPasswordForm = ({
 
   const onFormSubmit: SubmitHandler<FormSchemaType> = async ({ email }) => {
     const token = await executeRecaptchaToken('recoveryPassword');
-
     setValue('recaptchaValue', token as string);
     await onSubmit({ email, recaptchaValue: token as string });
   };
-
-  // const handleVerify = useCallback(async () => {
-  //   if (!executeRecaptcha) {
-  //     return;
-  //   }
-  //   const token = await executeRecaptcha('recoveryPassword');
-  //   setValue('recaptchaValue', token);
-  //   trigger('recaptchaValue');
-  // }, [executeRecaptcha, setValue, trigger]);
-  //
-  // useEffect(() => {
-  //   handleVerify();
-  // }, [handleVerify, isFormSend]);
 
   useEffect(() => {
     if (errorMessage.field === 'Captcha') {
@@ -103,7 +87,6 @@ export const ForgotPasswordForm = ({
         <Button variant={'text'} className={'my-6 w-full'} asChild>
           <Link href={'/sign-in'}>Back to Sign In</Link>
         </Button>
-        <div id={'recaptcha'}></div>
       </form>
     </Card>
   );

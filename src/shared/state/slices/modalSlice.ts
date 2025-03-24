@@ -5,7 +5,7 @@ type ModalProps = {
 };
 type ModalState = {
   isOpen: boolean;
-  modalProps: ModalProps | null;
+  modalProps: ModalProps;
 };
 
 const initialState: ModalState = {
@@ -27,7 +27,7 @@ const modalSlice = createSlice({
       }>
     ) => {
       state.isOpen = true;
-      state.modalProps = action.payload.modalProps || null;
+      state.modalProps = action.payload.modalProps || initialState.modalProps;
     },
     closeModal: (state) => {
       state.isOpen = false;

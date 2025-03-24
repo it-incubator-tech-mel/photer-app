@@ -13,10 +13,12 @@ export const useRecaptcha = () => {
     return () => {
       script.remove();
 
-      const nodeBadge = document.querySelector('.grecaptcha-badge');
-      if (nodeBadge && nodeBadge.parentNode) {
-        document.body.removeChild(nodeBadge.parentNode);
-      }
+      const nodeBadges = document.querySelectorAll('.grecaptcha-badge');
+      nodeBadges.forEach((nodeBadge) => {
+        if (nodeBadge && nodeBadge.parentNode) {
+          document.body.removeChild(nodeBadge.parentNode);
+        }
+      });
     };
   }, []);
 

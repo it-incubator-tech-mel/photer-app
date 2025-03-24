@@ -49,20 +49,15 @@ export default function ForgotPasswordPage(): ReactElement {
       console.log(e);
     }
   };
+
   return (
-    // <GoogleReCaptchaProvider
-    //   reCaptchaKey={reCaptchaSiteKey}
-    //   container={{
-    //     element: 'recaptcha',
-    //     parameters: { theme: 'dark' },
-    //   }}
-    // >
-    <ForgotPasswordForm
-      isLoading={isLoading}
-      onSubmit={onSubmit}
-      errorMessage={errorMessage}
-      isFormSend={isFormSend}
-    />
-    // </GoogleReCaptchaProvider>
+    <>
+      <ForgotPasswordForm
+        isLoading={isLoading}
+        onSubmit={onSubmit}
+        errorMessage={errorMessage}
+        isFormSend={isFormSend}
+      />
+    </>
   );
 }
