@@ -4,15 +4,19 @@ import type { SignUpFormData } from './validationSchema';
 import { UseSignUpFormReturn } from '../types/useSignUpFormReturn';
 
 import { useEffect } from 'react';
-import { useModal } from '@/shared/hooks/useModal';
+
+type ErrorWithData = {
+  data?: {
+    errorsMessages?: { field: string; message: string }[];
+  };
+};
+
 export function useSignUpForm(): Omit<
   UseSignUpFormReturn,
-  'error' | 'setError'
+  'error' | 'setError' | 'reset'
 > {
-  const { register, handleSubmit, control, errors, isValid, setError } =
+  const { register, handleSubmit, control, errors, isValid, setError, reset } =
     useSignUpFormValidation();
-
-  const { showModal } = useModal();
 
   const {
     registerNewUser,
@@ -24,20 +28,23 @@ export function useSignUpForm(): Omit<
   } = useRegistration();
 
   useEffect(() => {
-    if (error?.data?.errorsMessages) {
-      error.data?.errorsMessages.forEach((err) => {
-        const field = err.field === 'login' ? 'username' : err.field;
-
-        setError(field as keyof SignUpFormData, {
-          type: 'server',
-          message: err.message,
+    if (error) {
+      const typedError = error as ErrorWithData;
+      if (typedError?.data?.errorsMessages) {
+        typedError.data.errorsMessages.forEach((err) => {
+          const field = err.field === 'login' ? 'username' : err.field;
+          setError(field as keyof SignUpFormData, {
+            type: 'server',
+            message: err.message,
+          });
         });
-      });
+      }
     }
   }, [error, setError]);
 
-  const onSubmit = async (data: SignUpFormData) => {
+  const onSubmit = async (data: SignUpFormData): Promise<void> => {
     await registerNewUser(data);
+    reset();
   };
 
   return {
