@@ -15,7 +15,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled }) {
         try {
           const response = await queryFulfilled;
           localStorage.setItem('accessToken', response.data.accessToken);
@@ -80,7 +80,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled }) {
         try {
           await queryFulfilled;
           console.log(
