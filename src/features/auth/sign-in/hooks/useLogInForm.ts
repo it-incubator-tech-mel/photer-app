@@ -1,20 +1,25 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { logInSchema, LogInSchema } from './validationSchema';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FocusEvent } from 'react';
-import { z } from 'zod';
+
 import { useLoginMutation } from '../../api/authApi';
 import { decodeJwt } from '@/shared/lib/decodeJwt';
+import { LogInSchema, logInSchema } from './validationSchema';
 
-export function useLogInForm() {
+export function useLogInForm(): {
+  register: ReturnType<typeof useForm<LogInSchema>>['register'];
+  handleSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
+  isDirty: boolean;
+  hasLoginError: boolean;
+  formErrors: ReturnType<typeof useForm<LogInSchema>>['formState']['errors'];
+  isLoading: boolean;
+} {
   const router = useRouter();
   const {
     register,
     handleSubmit,
     reset,
-    setError,
     formState: { isDirty, errors },
   } = useForm<LogInSchema>({
     resolver: zodResolver(logInSchema),
@@ -22,7 +27,9 @@ export function useLogInForm() {
   });
   const [loginQuery, { isLoading, isError }] = useLoginMutation();
 
-  const onSubmit = async (data: LogInSchema) => {
+  const onSubmit: SubmitHandler<LogInSchema> = async (
+    data: LogInSchema
+  ): Promise<void> => {
     try {
       const result = await loginQuery(data).unwrap();
 
