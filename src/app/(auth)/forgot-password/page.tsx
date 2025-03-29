@@ -1,11 +1,10 @@
 'use client';
-import { ReactElement, useMemo, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { FormSchemaType } from '@/features/forgot-password/types/forgotPasswordFormSchema';
-import { ForgotPasswordForm } from '@/features/forgot-password/ui/ForgotPasswordForm';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { FormSchemaType } from '@/features/auth/forgot-password/types/forgotPasswordFormSchema';
 import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi';
 import { useModal } from '@/shared/hooks/useModal';
+import { ForgotPasswordForm } from '@/features/auth/forgot-password/ui/ForgotPasswordForm';
 
 export type ErrorMessage = {
   field: string;
@@ -52,19 +51,13 @@ export default function ForgotPasswordPage(): ReactElement {
   };
 
   return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={'6LeZReQqAAAAAJ-4OO2JYFnhUGFbeCdiBjlJ56kj'}
-      container={{
-        element: 'recaptcha',
-        parameters: { theme: 'dark' },
-      }}
-    >
+    <>
       <ForgotPasswordForm
         isLoading={isLoading}
         onSubmit={onSubmit}
         errorMessage={errorMessage}
         isFormSend={isFormSend}
       />
-    </GoogleReCaptchaProvider>
+    </>
   );
 }

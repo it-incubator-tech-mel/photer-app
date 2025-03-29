@@ -1,17 +1,17 @@
+'use client';
 import Link from 'next/link';
-import { ReactElement, useCallback, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import {
   ForgotPasswordFormSchema,
   FormSchemaType,
-} from '@/features/forgot-password/types/forgotPasswordFormSchema';
+} from '@/features/auth/forgot-password/types/forgotPasswordFormSchema';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorMessage } from '@/app/(auth)/forgot-password/page';
 import { Card } from '@/widgets/card/card';
 import { Button, Input } from '@/shared/ui';
-import { cn } from '@/shared/lib/cn';
 import { toast } from 'react-toastify';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRecaptcha } from '@/features/auth/forgot-password/hooks/useRecaptcha';
 
 type Props = {
   isLoading: boolean;
@@ -26,39 +26,24 @@ export const ForgotPasswordForm = ({
   errorMessage,
   isFormSend,
 }: Props): ReactElement => {
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const { executeRecaptchaToken } = useRecaptcha();
 
   const {
     handleSubmit,
     setValue,
     setError,
     register,
-    trigger,
     formState: { errors, isValid },
   } = useForm<FormSchemaType>({
     mode: 'onBlur',
     resolver: zodResolver(ForgotPasswordFormSchema),
   });
 
-  const onFormSubmit: SubmitHandler<FormSchemaType> = async ({
-    email,
-    recaptchaValue,
-  }) => {
-    await onSubmit({ email, recaptchaValue });
+  const onFormSubmit: SubmitHandler<FormSchemaType> = async ({ email }) => {
+    const token = await executeRecaptchaToken('recoveryPassword');
+    setValue('recaptchaValue', token as string);
+    await onSubmit({ email, recaptchaValue: token as string });
   };
-
-  const handleVerify = useCallback(async () => {
-    if (!executeRecaptcha) {
-      return;
-    }
-    const token = await executeRecaptcha('recoveryPassword');
-    setValue('recaptchaValue', token);
-    trigger('recaptchaValue');
-  }, [executeRecaptcha, setValue, trigger]);
-
-  useEffect(() => {
-    handleVerify();
-  }, [handleVerify, isFormSend]);
 
   useEffect(() => {
     if (errorMessage.field === 'Captcha') {
@@ -102,10 +87,6 @@ export const ForgotPasswordForm = ({
         <Button variant={'text'} className={'my-6 w-full'} asChild>
           <Link href={'/sign-in'}>Back to Sign In</Link>
         </Button>
-        <div
-          id={'recaptcha'}
-          className={cn(!isFormSend ? 'flex justify-center' : 'hidden')}
-        ></div>
       </form>
     </Card>
   );
