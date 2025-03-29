@@ -2,13 +2,15 @@
 import { cn } from '@/shared/lib/cn';
 import {
   ChangeEvent,
+  ChangeEvent,
   ComponentProps,
+  KeyboardEvent,
   KeyboardEvent,
   ReactElement,
   useId,
   useState,
 } from 'react';
-import { IconSprite } from '../icon/IconSprite';
+import { IconSprite } from '@/shared/ui';
 
 type Props = ComponentProps<'input'> & {
   type?: 'text' | 'email' | 'password' | 'search';

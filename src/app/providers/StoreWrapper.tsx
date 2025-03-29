@@ -17,7 +17,7 @@ export default function StoreWrapper({
     <Provider store={store}>
       <div className="flex h-screen w-full flex-col">
         <Header withLoginBtn={true} />
-        <div className="flex w-full flex-col items-center justify-center">
+        <div className="flex w-full grow flex-col items-center justify-center">
           {children}
         </div>
         <ModalProvider />

@@ -1,7 +1,7 @@
 'use client';
 
 import { Flip, ToastContainer, ToastContainerProps } from 'react-toastify';
-import { IconSprite } from '../icon/IconSprite';
+import { IconSprite } from '@/shared/ui';
 import { ReactElement } from 'react';
 
 export const Alert = (props: ToastContainerProps): ReactElement => {

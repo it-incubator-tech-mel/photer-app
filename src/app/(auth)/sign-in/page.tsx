@@ -47,7 +47,7 @@ export default function LogIn(): ReactElement {
             {...register('password')}
           />
           {/* TODO добавить ссылку на Forgot Password */}
-          <Link href="/" className={'text-light-900'}>
+          <Link href="/forgot-password" className={'text-light-900'}>
             Forgot Password
           </Link>
           <Button
