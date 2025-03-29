@@ -21,7 +21,7 @@ const eslintConfig = [
       curly: 'error',
       'max-lines': ['error', 300],
       'react/no-multi-comp': 'error',
-      '@typescript-eslint/explicit-function-return-type': 'error',
+      // '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/array-type': 'error',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },

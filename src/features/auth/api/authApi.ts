@@ -1,5 +1,5 @@
 import { baseApi } from '@/shared/lib/baseApi';
-import { FormSchemaType } from '@/features/forgot-password/types/forgotPasswordFormSchema';
+import { FormSchemaType } from '@/features/auth/forgot-password/types/forgotPasswordFormSchema';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -52,7 +52,7 @@ export const authApi = baseApi.injectEndpoints({
         body: body,
       }),
     }),
-    getMe: builder.query<{ userId: number }, void>({
+    getMe: builder.query<{ userId: number; email: string }, void>({
       query: () => '/auth/me',
       providesTags: ['me'],
     }),
