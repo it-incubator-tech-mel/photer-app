@@ -12,7 +12,7 @@ export default function SignUpForm(): React.ReactElement {
   const onFormSubmit = formState.handleSubmit(formState.onSubmit);
 
   return (
-    <Card className="m-auto mt-6 flex min-h-162 w-[378px] flex-col items-center">
+    <Card className="m-0-auto mt-6 flex min-h-162 w-[378px] flex-col items-center justify-center">
       <h1 className="h1-text mt-[23px]">Sign Up</h1>
       <OAuthLinks />
       <form onSubmit={onFormSubmit} className="w-full px-6">
