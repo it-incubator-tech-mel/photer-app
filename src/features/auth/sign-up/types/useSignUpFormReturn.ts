@@ -13,7 +13,10 @@ export type UseSignUpFormValidationReturn = {
 };
 
 export type UseRegistrationReturn = {
-  registerNewUser: (data: SignUpFormData) => Promise<boolean>;
+  registerNewUser: (
+    data: SignUpFormData,
+    reset: () => void
+  ) => Promise<boolean>;
   isLoading: boolean;
   error: ApiError | unknown;
   isSuccess: boolean;

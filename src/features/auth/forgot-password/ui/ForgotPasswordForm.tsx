@@ -1,17 +1,17 @@
 'use client';
 import Link from 'next/link';
 import { ReactElement, useEffect } from 'react';
-import {
-  ForgotPasswordFormSchema,
-  FormSchemaType,
-} from '@/features/auth/forgot-password/types/forgotPasswordFormSchema';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@/app/(auth)/forgot-password/page';
 import { Card } from '@/widgets/card/card';
 import { Button, Input } from '@/shared/ui';
 import { toast } from 'react-toastify';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRecaptcha } from '@/features/auth/forgot-password/hooks/useRecaptcha';
+import {
+  ForgotPasswordFormSchema,
+  FormSchemaType,
+} from '@/features/forgot-password/types/forgotPasswordFormSchema';
+import { useRecaptcha } from '@/features/forgot-password/hooks/useRecaptcha';
 
 type Props = {
   isLoading: boolean;
