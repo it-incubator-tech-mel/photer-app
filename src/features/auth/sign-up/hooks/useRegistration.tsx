@@ -15,7 +15,10 @@ export function useRegistration(): UseRegistrationReturn {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const registerNewUser = async (data: SignUpFormData): Promise<boolean> => {
+  const registerNewUser = async (
+    data: SignUpFormData,
+    reset?: () => void
+  ): Promise<boolean> => {
     const payload = {
       username: data.username,
       email: data.email,
@@ -33,6 +36,7 @@ export function useRegistration(): UseRegistrationReturn {
           },
         })
       );
+      reset?.();
       router.push('/sign-in');
       return true;
     } catch (error) {

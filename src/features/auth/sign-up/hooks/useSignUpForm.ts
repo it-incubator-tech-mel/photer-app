@@ -43,8 +43,7 @@ export function useSignUpForm(): Omit<
   }, [error, setError]);
 
   const onSubmit = async (data: SignUpFormData): Promise<void> => {
-    await registerNewUser(data);
-    reset();
+    await registerNewUser(data, reset);
   };
 
   return {
