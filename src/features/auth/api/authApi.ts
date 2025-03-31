@@ -1,5 +1,5 @@
-import { FormSchemaType } from '@/features/forgot-password/types/forgotPasswordFormSchema';
 import { baseApi } from '@/shared/lib/baseApi';
+import { FormSchemaType } from '../forgot-password/types/forgotPasswordFormSchema';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

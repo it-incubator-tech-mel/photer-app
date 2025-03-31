@@ -10,8 +10,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ForgotPasswordFormSchema,
   FormSchemaType,
-} from '@/features/forgot-password/types/forgotPasswordFormSchema';
-import { useRecaptcha } from '@/features/forgot-password/hooks/useRecaptcha';
+} from '../types/forgotPasswordFormSchema';
+import { useRecaptcha } from '../hooks/useRecaptcha';
 
 type Props = {
   isLoading: boolean;

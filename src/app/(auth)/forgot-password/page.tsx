@@ -4,7 +4,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi';
 import { useModal } from '@/shared/hooks/useModal';
 import { ForgotPasswordForm } from '@/features/auth/forgot-password/ui/ForgotPasswordForm';
-import { FormSchemaType } from '@/features/forgot-password/types/forgotPasswordFormSchema';
+import { FormSchemaType } from '@/features/auth/forgot-password/types/forgotPasswordFormSchema';
 
 export type ErrorMessage = {
   field: string;
