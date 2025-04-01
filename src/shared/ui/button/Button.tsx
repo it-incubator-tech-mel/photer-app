@@ -9,6 +9,7 @@ type Props = {
   variant?: 'primary' | 'secondary' | 'outlined' | 'text';
   asChild?: boolean;
   icon?: StaticImageData | string | ReactNode;
+  ref?: never;
 } & ComponentPropsWithoutRef<'button'>;
 
 function isImageSource(

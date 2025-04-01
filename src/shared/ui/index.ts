@@ -7,3 +7,4 @@ export { Button } from './button/Button';
 export { IconSprite } from './icon/IconSprite';
 export { Spinner } from './spinner/Spinner';
 export { Scrollbar } from './scrollbar/Scrollbar';
+export { Separator } from './separotor/separator';
