@@ -11,6 +11,8 @@ import { SidebarFooter } from './sidebar-footer';
 import { LogoutButton } from '@/widgets/logout-button/LogoutButton';
 import Link from 'next/link';
 import { SpriteName } from 'public/icons/spriteNames';
+import { cn } from '@/shared/lib/cn';
+import { SIDEBAR_WIDTH } from '../hooks/use-sidebar';
 // Типы для пунктов меню
 type MenuItem = {
   title: string;
@@ -77,14 +79,14 @@ export function AppSidebar({
   className?: string;
 }): React.ReactElement {
   return (
-    <Sidebar className={className}>
+    <Sidebar className={cn(`w-[${SIDEBAR_WIDTH}]`, className)}>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="mt-[72px]">
               {items.map((item) => (
                 <SidebarMenuItem
-                  className="text-light-100 ml-[60px]"
+                  className="text-light-100 mb-6 ml-[60px]"
                   key={item.title}
                 >
                   <SidebarMenuButton asChild>
@@ -126,7 +128,7 @@ export function AppSidebar({
             <SidebarMenu>
               {items2.map((item) => (
                 <SidebarMenuItem
-                  className="text-light-100 ml-[60px]"
+                  className="text-light-100 mb-6 ml-[60px]"
                   key={item.title}
                 >
                   <SidebarMenuButton asChild>

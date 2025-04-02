@@ -6,6 +6,7 @@ import { SidebarTrigger } from './sidebar-trigger';
 const meta = {
   component: AppSidebar,
   title: 'Components/App-sidebar',
+  tags: ['autodocs'],
 } satisfies Meta<typeof AppSidebar>;
 
 export default meta;
