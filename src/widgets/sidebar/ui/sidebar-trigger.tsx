@@ -17,14 +17,14 @@ export const SidebarTrigger = ({
     <Button
       data-sidebar="trigger"
       variant="primary"
-      className={cn('h-7 w-7', className)}
+      className={cn('w-full/2 h-10', className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
       }}
       {...props}
     >
-      <div>закрыть/открыть</div>
+      <div>open/close</div>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
