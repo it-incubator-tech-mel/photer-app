@@ -1,19 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-type ModalProps = {
-  title: string;
-  description: React.ReactNode;
-};
+
+export type ModalType = 'post-create' | 'auth' | null;
+
 type ModalState = {
   isOpen: boolean;
-  modalProps: ModalProps;
+  type: ModalType;
+  props: Record<string, unknown>;
 };
 
 const initialState: ModalState = {
   isOpen: false,
-  modalProps: {
-    title: '',
-    description: '',
-  },
+  type: null,
+  props: {},
 };
 
 const modalSlice = createSlice({
@@ -23,19 +21,15 @@ const modalSlice = createSlice({
     openModal: (
       state,
       action: PayloadAction<{
-        modalProps?: ModalState['modalProps'];
+        type: ModalType;
+        props?: Record<string, unknown>;
       }>
     ) => {
       state.isOpen = true;
-      state.modalProps = action.payload.modalProps || initialState.modalProps;
+      state.type = action.payload.type;
+      state.props = action.payload.props || {};
     },
-    closeModal: (state) => {
-      state.isOpen = false;
-      state.modalProps = {
-        title: '',
-        description: '',
-      };
-    },
+    closeModal: () => initialState,
   },
 });
 
