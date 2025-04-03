@@ -9,6 +9,7 @@ import { modalReducer } from './slices/modalSlice';
 export const store = configureStore({
   reducer: {
     modal: modalReducer,
+    authReducer: authApi.reducer,
     ['authApi']: authApi.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
