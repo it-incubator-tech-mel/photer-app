@@ -1,4 +1,4 @@
-import { PixelCrop } from '@/features/post/modal/CroppingModal';
+import { PixelCrop } from '@/features/post/modal/CroppingModal/CroppingModal';
 
 export async function getCroppedImg(
   imageSrc: string,

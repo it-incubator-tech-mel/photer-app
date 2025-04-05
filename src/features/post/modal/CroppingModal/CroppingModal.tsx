@@ -127,20 +127,36 @@ export function CroppingModal({
             }}
           />
           <div className="">
-            <div
-              className="absolute top-[50%] left-0"
-              onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-            >
-              prev
-            </div>
-            <div
-              className="absolute top-[50%] right-0"
-              onClick={() =>
-                setCurrentIndex((prev) => Math.min(prev + 1, photos.length - 1))
-              }
-            >
-              next
-            </div>
+            {currentIndex > 0 && (
+              <Button
+                variant="text"
+                className="bg-dark-500/80 absolute top-[50%] left-0 p-3"
+                onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
+              >
+                <IconSprite
+                  iconName={'arrow-ios-back'}
+                  width={24}
+                  height={24}
+                />
+              </Button>
+            )}
+            {photos.length > 1 && currentIndex < photos.length - 1 && (
+              <Button
+                className="bg-dark-500/80 absolute top-[50%] right-0 p-3"
+                variant="text"
+                onClick={() =>
+                  setCurrentIndex((prev) =>
+                    Math.min(prev + 1, photos.length - 1)
+                  )
+                }
+              >
+                <IconSprite
+                  iconName={'arrow-ios-forward'}
+                  width={24}
+                  height={24}
+                />
+              </Button>
+            )}
           </div>
         </div>
 
@@ -192,7 +208,6 @@ export function CroppingModal({
                   photos={photos}
                   currentIndex={currentIndex}
                   onSelect={setCurrentIndex}
-                  onDelete={() => {}}
                 />
               )}
             </div>

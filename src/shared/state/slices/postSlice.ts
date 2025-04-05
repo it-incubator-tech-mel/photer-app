@@ -41,6 +41,9 @@ const postSlice = createSlice({
       state.photos = action.payload;
       state.currentStep = 'crop';
     },
+    deletePhoto: (state, action: PayloadAction<number>) => {
+      state.photos.splice(action.payload, 1);
+    },
     setCropRatio: (state, action: PayloadAction<'1:1' | '4:5' | '16:9'>) => {
       state.cropRatio = action.payload;
     },
@@ -57,5 +60,6 @@ export const {
   setPhotos,
   setCropRatio,
   setCroppedImage,
+  deletePhoto,
 } = postSlice.actions;
 export const postReducer = postSlice.reducer;
