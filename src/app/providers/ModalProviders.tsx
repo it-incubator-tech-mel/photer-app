@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '@/shared/state/store';
 import { AuthModal } from '@/features/auth/modal/AuthModal';
+import { PostCreationModal } from '@/features/post/modal/PostCreationModal';
 
 export function ModalProvider(): React.ReactElement | null {
   const { isOpen, type } = useSelector((state: RootState) => state.modal);
@@ -11,5 +12,10 @@ export function ModalProvider(): React.ReactElement | null {
     return null;
   }
 
-  return <>{type === 'auth' && <AuthModal />}</>;
+  return (
+    <>
+      {type === 'auth' && <AuthModal />}
+      {type === 'post-create' && <PostCreationModal />}
+    </>
+  );
 }
