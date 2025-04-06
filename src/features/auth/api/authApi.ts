@@ -95,6 +95,19 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
+export const postApi = baseApi.injectEndpoints({
+  endpoints: (builder) => ({
+    deletePost: builder.mutation<void, number>({
+      query: (postId) => ({
+        url: `/posts/${postId}`,
+        method: 'DELETE',
+      }),
+    }),
+  }),
+});
+
+export const { useDeletePostMutation } = postApi;
+
 export const {
   useLoginMutation,
   useGetMeQuery,
