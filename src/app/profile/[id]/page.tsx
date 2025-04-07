@@ -1,38 +1,30 @@
 'use client';
 
-import {
-  useDeletePostMutation,
-  useGetMeQuery,
-} from '@/features/auth/api/authApi';
+import { useGetMeQuery } from '@/features/auth/api/authApi';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
 import { LogoutButton } from '@/widgets/logout-button/LogoutButton';
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 import { IconSprite } from '@/shared/ui';
-import { mockPosts } from '@/app/profile/[id]/mockPosts';
-
-type Post = {
-  id: number;
-  title: string;
-};
+import {
+  useDeletePostMutation,
+  useGetPostsQuery,
+} from '@/features/auth/api/postApi';
 
 export default function Page(): ReactElement {
   const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
   const { data } = useGetMeQuery();
 
-  const [posts, setPosts] = useState<Post[]>(mockPosts);
+  const { data: posts = [] } = useGetPostsQuery();
 
   const [deletePostRequest] = useDeletePostMutation();
 
   const deletePost = async (postId: number): Promise<void> => {
-    // try {
-    //   await deletePostRequest(postId).unwrap(); // Выполняем запрос на сервер
-    //   setPosts((prev) => prev.filter((post) => post.id !== postId)); // Убираем пост из локального состояния
-    // } catch (error) {
-    //   console.error('Ошибка при удалении поста:', error);
-    // }
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setPosts((prev) => prev.filter((post) => post.id !== postId));
+    try {
+      await deletePostRequest(postId).unwrap();
+    } catch (error) {
+      console.error('Ошибка при удалении поста:', error);
+    }
   };
 
   return (
@@ -42,7 +34,7 @@ export default function Page(): ReactElement {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="border-color-dark-100 border-dark-100 mb-2 w-[137px] rounded-[2px] border p-2 p-3 text-[14px]"
+            className="border-color-dark-100 border-dark-100 mb-2 w-[137px] rounded-[2px] border p-3 text-[14px]"
           >
             <p>{post.title}</p>
             <button
