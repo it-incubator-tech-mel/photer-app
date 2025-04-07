@@ -20,11 +20,12 @@ export const EllipsisMenu = ({ menuItems }: Props) => {
         <div className="bg-dark-900 border-dark-100 absolute top-[25px] right-[24px] flex flex-col gap-[12px] rounded-[2px] border-[1px] p-[12px]">
           {menuItems.map((item: MenuItem) => (
             <button
+              key={item.title}
               onClick={() => {
                 setIsOpen(false);
                 item.callback();
               }}
-              className="flex cursor-pointer items-center gap-[12px]"
+              className="flex cursor-pointer items-center gap-[12px] whitespace-nowrap"
             >
               <IconSprite iconName={item.iconName} />
               <span>{item.title}</span>

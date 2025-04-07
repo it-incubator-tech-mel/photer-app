@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/shared/ui';
-import Post from '@/shared/ui/post/Post';
+import { Post } from '@/shared/ui/post/Post';
 import Link from 'next/link';
 import { ReactElement } from 'react';
 
