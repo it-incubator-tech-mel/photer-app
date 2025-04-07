@@ -3,8 +3,9 @@ import { Button, IconSprite } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
 import { Modal } from '@/widgets/modal/Modal';
 import { useSelector } from 'react-redux';
-import { goToStep, setPhotos } from '@/shared/state/slices/postSlice';
+import { addPhotos } from '@/shared/state/slices/postSlice';
 import { CroppingModal } from './CroppingModal/CroppingModal';
+import { FiltersModal } from './filters-modal';
 
 export function PostCreationModal(): React.ReactElement {
   const dispatch = useAppDispatch();
@@ -16,14 +17,57 @@ export function PostCreationModal(): React.ReactElement {
   ): void => {
     const files = event.target.files;
     if (files) {
-      const fileUrls = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
+      const newPhotosPromises = Array.from(files).map((file) => {
+        return new Promise<{
+          url: string;
+          crop: { x: number; y: number };
+          zoom: number;
+          rotation: number;
+          croppedAreaPixels: null;
+          naturalAspect: number;
+          originalWidth: number;
+          originalHeight: number;
+        }>((resolve) => {
+          const url = URL.createObjectURL(file);
+          const img = new Image();
 
-      dispatch(setPhotos(fileUrls));
-      dispatch(goToStep('crop'));
+          img.onload = (): void => {
+            resolve({
+              url,
+              crop: { x: 0, y: 0 },
+              zoom: 1,
+              rotation: 0,
+              croppedAreaPixels: null,
+              naturalAspect: img.naturalWidth / img.naturalHeight,
+              originalWidth: img.naturalWidth,
+              originalHeight: img.naturalHeight,
+            });
+          };
+
+          img.onerror = (): void => {
+            // В случае ошибки загрузки изображения
+            resolve({
+              url,
+              crop: { x: 0, y: 0 },
+              zoom: 1,
+              rotation: 0,
+              croppedAreaPixels: null,
+              naturalAspect: 1,
+              originalWidth: 100,
+              originalHeight: 100,
+            });
+          };
+
+          img.src = url;
+        });
+      });
+
+      Promise.all(newPhotosPromises).then((newPhotos) => {
+        dispatch(addPhotos(newPhotos));
+      });
     }
   };
+
   return (
     <>
       {currentStep === 'upload' && (
@@ -51,9 +95,8 @@ export function PostCreationModal(): React.ReactElement {
         </Modal>
       )}
 
-      {currentStep === 'crop' && photos.length > 0 && (
-        <CroppingModal photos={photos} handleFileChange={handleFileChange} />
-      )}
+      {currentStep === 'crop' && photos.length > 0 && <CroppingModal />}
+      {currentStep === 'filters' && photos.length > 0 && <FiltersModal />}
     </>
   );
 }

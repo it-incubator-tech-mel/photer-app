@@ -1,23 +1,27 @@
 'use client';
 
-import { deletePhoto, setPhotos } from '@/shared/state/slices/postSlice';
+import {
+  addPhotos,
+  deletePhoto,
+  setCurrentPhotoIndex,
+} from '@/shared/state/slices/postSlice';
 import { useAppDispatch } from '@/shared/state/store';
 import { Button, IconSprite } from '@/shared/ui';
 
 type ThumbnailsPreviewProps = {
   photos: string[];
   currentIndex: number;
-  onSelect: (index: number) => void;
 };
 
 export function ThumbnailsPreview({
   photos,
   currentIndex,
-  onSelect,
 }: ThumbnailsPreviewProps): React.ReactElement {
   const dispatch = useAppDispatch();
   // Определяем видимые фотографии на основе currentIndex
   const visiblePhotos = [];
+  console.log(photos);
+
   if (currentIndex === 0) {
     // Если первая фотография, показываем ее и следующую
     visiblePhotos.push(photos[0]);
@@ -34,30 +38,75 @@ export function ThumbnailsPreview({
     visiblePhotos.push(photos[currentIndex + 1]);
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = e.target.files;
-      if (files) {
-        const fileUrls = Array.from(files).map((file) =>
-          URL.createObjectURL(file)
-        );
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const files = event.target.files;
+    if (files) {
+      const newPhotosPromises = Array.from(files).map((file) => {
+        return new Promise<{
+          url: string;
+          crop: { x: number; y: number };
+          zoom: number;
+          rotation: number;
+          croppedAreaPixels: null;
+          naturalAspect: number;
+          originalWidth: number;
+          originalHeight: number;
+        }>((resolve) => {
+          const url = URL.createObjectURL(file);
+          const img = new Image();
 
-        dispatch(setPhotos([...fileUrls, ...photos]));
-      }
+          img.onload = (): void => {
+            resolve({
+              url,
+              crop: { x: 0, y: 0 },
+              zoom: 1,
+              rotation: 0,
+              croppedAreaPixels: null,
+              naturalAspect: img.naturalWidth / img.naturalHeight,
+              originalWidth: img.naturalWidth,
+              originalHeight: img.naturalHeight,
+            });
+          };
+
+          img.onerror = (): void => {
+            // В случае ошибки загрузки изображения
+            resolve({
+              url,
+              crop: { x: 0, y: 0 },
+              zoom: 1,
+              rotation: 0,
+              croppedAreaPixels: null,
+              naturalAspect: 1,
+              originalWidth: 100,
+              originalHeight: 100,
+            });
+          };
+
+          img.src = url;
+        });
+      });
+
+      Promise.all(newPhotosPromises).then((newPhotos) => {
+        dispatch(addPhotos(newPhotos));
+      });
     }
   };
 
   const handlePrev = (): void => {
-    onSelect(Math.max(0, currentIndex - 1));
+    dispatch(setCurrentPhotoIndex(Math.max(0, currentIndex - 1)));
   };
 
   const handleNext = (): void => {
-    onSelect(Math.min(currentIndex + 1, photos.length - 1));
+    dispatch(
+      setCurrentPhotoIndex(Math.min(currentIndex + 1, photos.length - 1))
+    );
   };
   const onDeletePhoto = (index: number): void => {
     dispatch(deletePhoto(index));
     if (index === currentIndex) {
-      onSelect(Math.max(0, currentIndex - 1));
+      dispatch(setCurrentPhotoIndex(Math.max(0, currentIndex - 1)));
     }
   };
 
@@ -74,7 +123,7 @@ export function ThumbnailsPreview({
           return (
             <div key={photoIndex} className="relative">
               <button
-                onClick={() => onSelect(photoIndex)}
+                onClick={() => dispatch(setCurrentPhotoIndex(photoIndex))}
                 className={`h-20 w-20 p-0 ${currentIndex === photoIndex ? 'ring-2 ring-blue-500' : ''}`}
               >
                 <img

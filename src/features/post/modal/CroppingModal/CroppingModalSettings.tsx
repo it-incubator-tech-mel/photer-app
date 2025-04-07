@@ -1,8 +1,6 @@
 // components/CroppingModalSettings.tsx
 'use client';
 
-import { setCropRatio } from '@/shared/state/slices/postSlice';
-import { useAppDispatch } from '@/shared/state/store';
 import { Slider } from '@/shared/ui';
 import { SettingControl } from './SettingControl';
 import React from 'react';
@@ -23,6 +21,8 @@ type SettigsProps = {
   onZoomChange: (value: number) => void;
   onRotationChange: (value: number) => void;
   onToggleSetting: (type: 'zoom' | 'rotation' | 'ratio') => void;
+  onCropRatioChange: (ratio: string) => void;
+  currentCropRatio?: string;
 };
 
 export function CroppingModalSettings({
@@ -33,9 +33,9 @@ export function CroppingModalSettings({
   onZoomChange,
   onRotationChange,
   onToggleSetting,
+  onCropRatioChange,
+  currentCropRatio,
 }: SettigsProps): React.ReactElement {
-  const dispatch = useAppDispatch();
-
   return (
     <div className="flex justify-between gap-4">
       <SettingControl
@@ -78,10 +78,12 @@ export function CroppingModalSettings({
         {aspectRatios.map(({ label, icon }) => (
           <button
             key={label}
-            className="group regular-text-16 text-light-900 focus:text-light-100 active:text-light-100 inline-flex w-full justify-between border-0 px-3 focus:border-0 active:border-0"
-            onClick={() =>
-              dispatch(setCropRatio(label as '1:1' | '4:5' | '16:9'))
-            }
+            className={`group regular-text-16 inline-flex w-full justify-between border-0 px-3 focus:border-0 active:border-0 ${
+              currentCropRatio === label
+                ? 'text-accent-500'
+                : 'text-light-900 focus:text-light-100 active:text-light-100'
+            }`}
+            onClick={() => onCropRatioChange(label)}
           >
             <span>{label}</span>
             <span>{icon}</span>

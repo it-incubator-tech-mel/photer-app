@@ -1,7 +1,7 @@
 export const aspectRatios = [
   {
     label: 'Original',
-    value: null,
+    value: 1,
     icon: (
       <svg
         width="18"

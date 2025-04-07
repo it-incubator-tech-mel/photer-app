@@ -1,15 +1,29 @@
+import { PixelCrop } from '@/features/post/modal/CroppingModal/CroppingModal';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type CreationStep = 'upload' | 'crop' | 'filters' | 'description';
+
+type PhotoSettings = {
+  url: string;
+  crop: { x: number; y: number };
+  zoom: number;
+  rotation: number;
+  croppedAreaPixels: PixelCrop | null;
+  naturalAspect: number;
+  filter?: string;
+  cropRatio?: string;
+  originalWidth?: number;
+  originalHeight?: number;
+  croppedWidth?: number;
+  croppedHeight?: number;
+};
 
 type PostCreationState = {
   isModalOpen: boolean;
   currentStep: CreationStep;
   maxPhotos: number;
-  photos: string[];
+  photos: PhotoSettings[];
   currentPhotoIndex: number;
-  cropRatio: '1:1' | '4:5' | '16:9';
-  filters: string[];
   description: string;
   error?: string;
 };
@@ -19,8 +33,6 @@ const initialState: PostCreationState = {
   maxPhotos: 10,
   photos: [],
   currentPhotoIndex: 0,
-  cropRatio: '1:1',
-  filters: [],
   description: '',
 };
 const postSlice = createSlice({
@@ -31,24 +43,40 @@ const postSlice = createSlice({
       state.isModalOpen = true;
       state.currentStep = 'upload';
       state.photos = [];
-      console.log(state.isModalOpen);
     },
     closePostModal: () => initialState,
     goToStep: (state, action: PayloadAction<CreationStep>) => {
       state.currentStep = action.payload;
     },
-    setPhotos: (state, action: PayloadAction<string[]>) => {
-      state.photos = action.payload;
+    addPhotos: (state, action: PayloadAction<PhotoSettings[]>) => {
+      const photosWithDefaults = action.payload.map((photo) => ({
+        ...photo,
+        cropRatio: 'Original',
+      }));
+      state.photos = [...state.photos, ...photosWithDefaults];
       state.currentStep = 'crop';
+    },
+
+    setCurrentPhotoIndex: (state, action: PayloadAction<number>) => {
+      state.currentPhotoIndex = action.payload;
+    },
+    setPhotoSettings: (
+      state,
+      action: PayloadAction<Partial<PhotoSettings>>
+    ) => {
+      const currentPhoto = state.photos[state.currentPhotoIndex];
+      if (currentPhoto) {
+        state.photos[state.currentPhotoIndex] = {
+          ...currentPhoto,
+          ...action.payload,
+        };
+      }
     },
     deletePhoto: (state, action: PayloadAction<number>) => {
       state.photos.splice(action.payload, 1);
     },
-    setCropRatio: (state, action: PayloadAction<'1:1' | '4:5' | '16:9'>) => {
-      state.cropRatio = action.payload;
-    },
     setCroppedImage: (state, action: PayloadAction<string>) => {
-      state.photos[state.currentPhotoIndex] = action.payload;
+      state.photos[state.currentPhotoIndex].url = action.payload;
     },
   },
 });
@@ -57,8 +85,9 @@ export const {
   openPostModal,
   closePostModal,
   goToStep,
-  setPhotos,
-  setCropRatio,
+  setCurrentPhotoIndex,
+  setPhotoSettings,
+  addPhotos,
   setCroppedImage,
   deletePhoto,
 } = postSlice.actions;
