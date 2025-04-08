@@ -1,22 +1,33 @@
 'use client';
 
-import { goToStep } from '@/shared/state/slices/postSlice';
+import { CreationStep, goToStep } from '@/shared/state/slices/postSlice';
 import { useAppDispatch } from '@/shared/state/store';
 import { Button, IconSprite } from '@/shared/ui';
 import React from 'react';
 
 export function CroppingModalHeader({
-  handleNext,
+  stepToGo,
+  stepToBack,
+  onNext,
 }: {
-  handleNext: () => void;
+  stepToGo: CreationStep;
+  stepToBack: CreationStep;
+  onNext?: () => void;
 }): React.ReactElement {
   const dispatch = useAppDispatch();
+  const handleNext = (): void => {
+    if (onNext) {
+      onNext();
+    } else {
+      dispatch(goToStep(stepToGo));
+    }
+  };
   return (
     <div className="flex w-full items-center justify-between">
       <Button
         variant="text"
         className="w-0 cursor-pointer"
-        onClick={() => dispatch(goToStep('upload'))}
+        onClick={() => dispatch(goToStep(stepToBack))}
       >
         <IconSprite iconName={'arrow-ios-back'} width={24} height={24} />
       </Button>

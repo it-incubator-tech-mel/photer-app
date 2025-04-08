@@ -8,6 +8,9 @@ import { Button, IconSprite } from '@/shared/ui';
 import { type RootState, useAppDispatch } from '@/shared/state/store';
 import { useSelector } from 'react-redux';
 import { goToStep, setPhotoSettings } from '@/shared/state/slices/postSlice';
+import { usePhotoNavigation } from '../../hooks/usePhotoNavigation';
+import { useFilterSave } from '../../hooks/useFilterSave';
+import { PhotoNavigation } from '../../ui/PhotoNavigation';
 
 type Filter = {
   name: string;
@@ -34,6 +37,8 @@ export function FiltersModal(): React.ReactElement {
   const [selectedFilter, setSelectedFilter] = useState(
     currentPhoto.filter || 'Оригинал'
   );
+  const { hasNext, hasPrev, goNext, goPrev } = usePhotoNavigation();
+  const { handleSaveWithFilter } = useFilterSave(currentPhoto);
 
   const handleFilterChange = (filterName: string): void => {
     setSelectedFilter(filterName);
@@ -44,8 +49,10 @@ export function FiltersModal(): React.ReactElement {
     );
   };
 
-  const handleNext = (): void => {
-    dispatch(goToStep('description'));
+  const handleNext = async (): Promise<void> => {
+    // Сначала применяем фильтр и ждем завершения
+    await handleSaveWithFilter(selectedFilter);
+    console.log(photos);
   };
 
   const handleBack = (): void => {
@@ -63,13 +70,15 @@ export function FiltersModal(): React.ReactElement {
           >
             <IconSprite iconName={'arrow-ios-back'} width={24} height={24} />
           </Button>
-          <h2 className="text-xl font-semibold">Фильтры</h2>
+          <h2 className="text-xl font-semibold">Filters</h2>
           <Button
             variant="text"
             className="text-accent-500"
-            onClick={handleNext}
+            onClick={async () => {
+              handleNext();
+            }}
           >
-            Далее
+            Next
           </Button>
         </div>
       }
@@ -89,6 +98,12 @@ export function FiltersModal(): React.ReactElement {
               transform: `rotate(${currentPhoto.rotation}deg)`,
             }}
           />
+          <PhotoNavigation
+            hasPrev={hasPrev}
+            hasNext={hasNext}
+            onPrev={goPrev}
+            onNext={goNext}
+          />
         </div>
 
         <div className="mt-4 w-full">
@@ -97,7 +112,9 @@ export function FiltersModal(): React.ReactElement {
               <div
                 key={filter.name}
                 className="flex cursor-pointer flex-col items-center"
-                onClick={() => handleFilterChange(filter.name)}
+                onClick={() => {
+                  handleFilterChange(filter.name);
+                }}
               >
                 <div
                   className={`h-20 w-20 overflow-hidden rounded-lg border-2 ${

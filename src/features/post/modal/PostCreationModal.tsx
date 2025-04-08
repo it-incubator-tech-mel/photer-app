@@ -5,7 +5,8 @@ import { Modal } from '@/widgets/modal/Modal';
 import { useSelector } from 'react-redux';
 import { addPhotos } from '@/shared/state/slices/postSlice';
 import { CroppingModal } from './CroppingModal/CroppingModal';
-import { FiltersModal } from './filters-modal';
+import { FiltersModal } from './FiltersModal/FiltersModal';
+import { DescriptionModal } from './DescriptionModal/DescriptionModalю';
 
 export function PostCreationModal(): React.ReactElement {
   const dispatch = useAppDispatch();
@@ -97,6 +98,9 @@ export function PostCreationModal(): React.ReactElement {
 
       {currentStep === 'crop' && photos.length > 0 && <CroppingModal />}
       {currentStep === 'filters' && photos.length > 0 && <FiltersModal />}
+      {currentStep === 'description' && photos.length > 0 && (
+        <DescriptionModal />
+      )}
     </>
   );
 }

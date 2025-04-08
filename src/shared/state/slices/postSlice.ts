@@ -1,9 +1,9 @@
-import { PixelCrop } from '@/features/post/modal/CroppingModal/CroppingModal';
+import { PixelCrop } from '@/shared/config/aspectRatios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type CreationStep = 'upload' | 'crop' | 'filters' | 'description';
+export type CreationStep = 'upload' | 'crop' | 'filters' | 'description';
 
-type PhotoSettings = {
+export type PhotoSettings = {
   url: string;
   crop: { x: number; y: number };
   zoom: number;

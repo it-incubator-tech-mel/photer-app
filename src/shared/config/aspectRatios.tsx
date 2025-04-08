@@ -1,3 +1,10 @@
+export type PixelCrop = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
 export const aspectRatios = [
   {
     label: 'Original',

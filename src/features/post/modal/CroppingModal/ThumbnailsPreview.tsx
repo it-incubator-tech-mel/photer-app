@@ -20,7 +20,6 @@ export function ThumbnailsPreview({
   const dispatch = useAppDispatch();
   // Определяем видимые фотографии на основе currentIndex
   const visiblePhotos = [];
-  console.log(photos);
 
   if (currentIndex === 0) {
     // Если первая фотография, показываем ее и следующую
