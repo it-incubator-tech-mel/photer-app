@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { addPhotos } from '@/shared/state/slices/postSlice';
 import { CroppingModal } from './CroppingModal/CroppingModal';
 import { FiltersModal } from './FiltersModal/FiltersModal';
-import { DescriptionModal } from './DescriptionModal/DescriptionModalю';
+import { DescriptionModal } from './DescriptionModal/DescriptionModal';
 
 export function PostCreationModal(): React.ReactElement {
   const dispatch = useAppDispatch();

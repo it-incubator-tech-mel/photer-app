@@ -52,7 +52,6 @@ export function FiltersModal(): React.ReactElement {
   const handleNext = async (): Promise<void> => {
     // Сначала применяем фильтр и ждем завершения
     await handleSaveWithFilter(selectedFilter);
-    console.log(photos);
   };
 
   const handleBack = (): void => {

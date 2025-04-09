@@ -1,4 +1,3 @@
-// hooks/useImageAspect.ts
 import { useCallback, useEffect } from 'react';
 import { useAppDispatch } from '@/shared/state/store';
 import {

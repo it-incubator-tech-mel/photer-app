@@ -1,4 +1,3 @@
-// hooks/useImageSave.ts
 import { useCallback } from 'react';
 import { useAppDispatch } from '@/shared/state/store';
 

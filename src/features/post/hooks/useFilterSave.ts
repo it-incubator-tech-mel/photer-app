@@ -250,7 +250,6 @@ export const useFilterSave = (
 
         // Применяем фильтр к изображению
         const filteredImageUrl = await applyFilterToImage(filterName);
-        console.log('Before:', photos);
         // Обновляем URL изображения в состоянии
         dispatch(
           setPhotoSettings({
