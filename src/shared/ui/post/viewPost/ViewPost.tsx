@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { EllipsisMenu } from '../ellipsisMenu/EllipsisMenu';
 import { Nicname } from '../nicname/Nicname';
+import { Comment } from '../comment/Comment';
 
 type Props = { setIsEdit: (value: boolean) => void };
 
@@ -15,7 +16,7 @@ export default function ViewPost({ setIsEdit }: Props) {
         height={500}
       />
       <div className="flex w-100 flex-col">
-        <div className="border-dark-100 flex justify-between border-b-[1px] py-[18px]">
+        <div className="border-dark-100 flex justify-between border-b-[1px]">
           <Nicname />
           <EllipsisMenu
             menuItems={[
@@ -35,6 +36,11 @@ export default function ViewPost({ setIsEdit }: Props) {
               },
             ]}
           />
+        </div>
+        <div className="bg-dark-300 border-dark-100 flex flex-col gap-[15px] pt-[19px]">
+          <Comment />
+          <Comment />
+          <Comment />
         </div>
       </div>
     </div>

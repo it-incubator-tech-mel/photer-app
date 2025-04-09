@@ -15,19 +15,27 @@ export const EditPost = ({ onClose }: Props) => {
   const [description, setDescription] = useState(initialDescription);
   const editPostRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef(description); // Реф для актуального значения
-  const [isPostChanged, setIsPostChanged] = useState(false);
+  const [openConfirmClose, setOpenConfirmClose] = useState(false);
 
   const handleChange = (text: string): void => {
     if (text.length <= MAX_SYMBOL_COUNT) {
       setDescription(text);
     }
   };
+  const handleAccept = () => {
+    setOpenConfirmClose(false);
+    onClose();
+  };
+  const handleDecline = () => {
+    setOpenConfirmClose(false);
+    onClose();
+  };
 
   const confirmChange = (): void => {
     if (initialDescription === descriptionRef.current) {
       onClose();
     } else {
-      setIsPostChanged(true);
+      setOpenConfirmClose(true);
     }
   };
 
@@ -56,7 +64,12 @@ export const EditPost = ({ onClose }: Props) => {
       ref={editPostRef}
       className="bg-dark-300 border-dark-100 flex w-full flex-col rounded-[2px] border-[1px]"
     >
-      <ConfirmClose open={isPostChanged} />
+      <ConfirmClose
+        open={openConfirmClose}
+        onAccept={handleAccept}
+        onDecline={handleDecline}
+        close={() => setOpenConfirmClose(false)}
+      />
       <div className="border-dark-100 flex justify-between border-b-[1px] px-[24px] py-[12px]">
         <h1 className="text-[20px] font-bold">Edit Post</h1>
         <button onClick={confirmChange} className="outline-none">

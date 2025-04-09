@@ -7,11 +7,11 @@ type MenuItem = { title: string; iconName: SpriteName; callback: () => void };
 type Props = { menuItems: MenuItem[] };
 
 export const EllipsisMenu = ({ menuItems }: Props) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="relative flex items-center">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(true)}
         className="cursor-pointer pr-[24px] outline-none"
       >
         <IconSprite iconName="more-horizontal" />
