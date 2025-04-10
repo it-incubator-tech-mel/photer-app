@@ -1,5 +1,6 @@
 'use client';
-
+const MAX_FILE_SIZE_MB = 20;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 import {
   addPhotos,
   deletePhoto,
@@ -7,6 +8,7 @@ import {
 } from '@/shared/state/slices/postSlice';
 import { useAppDispatch } from '@/shared/state/store';
 import { Button, IconSprite } from '@/shared/ui';
+import { toast } from 'react-toastify';
 
 type ThumbnailsPreviewProps = {
   photos: string[];
@@ -41,6 +43,21 @@ export function ThumbnailsPreview({
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const files = event.target.files;
+    const input = event.currentTarget;
+    if (!files || files.length === 0) {
+      return;
+    }
+
+    const oversizedFiles = Array.from(files).filter(
+      (file) => file.size > MAX_FILE_SIZE_BYTES
+    );
+    if (oversizedFiles.length > 0) {
+      toast.error(`The photo must be less than ${MAX_FILE_SIZE_MB}
+    Mb and have JPEG or PNG
+    format`);
+      input.value = '';
+      return;
+    }
     if (files) {
       const newPhotosPromises = Array.from(files).map((file) => {
         return new Promise<{

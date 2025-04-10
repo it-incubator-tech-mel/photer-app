@@ -23,6 +23,7 @@ export function DescriptionModal(): React.ReactElement {
   const currentIndex = useSelector(
     (state: RootState) => state.post.currentPhotoIndex
   );
+
   const { hasNext, hasPrev, goNext, goPrev } = usePhotoNavigation();
   const currentPhoto = photos[currentIndex];
 
