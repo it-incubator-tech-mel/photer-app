@@ -3,8 +3,8 @@ import { Textarea } from '../../textarea/Textarea';
 import { Button } from '../../button/Button';
 import Image from 'next/image';
 import { IconSprite } from '../../icon/IconSprite';
-import { Nicname } from '../nicname/Nicname';
-import { ConfirmClose } from '../confirmClose/ConfirmClose';
+import { ConfirmClose } from './ConfirmClose';
+import { Nicname } from '../Nicname';
 
 const MAX_SYMBOL_COUNT = 500;
 
@@ -64,14 +64,8 @@ export const EditPost = ({ onClose }: Props) => {
       ref={editPostRef}
       className="bg-dark-300 border-dark-100 flex w-full flex-col rounded-[2px] border-[1px]"
     >
-      <ConfirmClose
-        open={openConfirmClose}
-        onAccept={handleAccept}
-        onDecline={handleDecline}
-        close={() => setOpenConfirmClose(false)}
-      />
       <div className="border-dark-100 flex justify-between border-b-[1px] px-[24px] py-[12px]">
-        <h1 className="text-[20px] font-bold">Edit Post</h1>
+        <h2 className="text-light-100 text-[20px] font-bold">Edit Post</h2>
         <button onClick={confirmChange} className="outline-none">
           <IconSprite iconName="close" />
         </button>
@@ -82,26 +76,30 @@ export const EditPost = ({ onClose }: Props) => {
           alt={'icon'}
           width={500}
           height={500}
+          className="flex-1 object-cover"
         />
-        <div className="flex flex-col items-end justify-between px-[24px] pb-[24px]">
-          <div className="flex-col">
-            <Nicname />
-            <div className="flex flex-col items-end justify-between pb-[32px]">
-              <div className="flex flex-col items-end">
-                <Textarea
-                  label="Add publication descriptions"
-                  value={description}
-                  onValueChange={handleChange}
-                />
-                <span className="text-light-900">
-                  {description.length}/{MAX_SYMBOL_COUNT}
-                </span>
-              </div>
-            </div>
+        <div className="flex flex-1 flex-col justify-between px-[24px] pb-[24px]">
+          <Nicname />
+          <div className="flex flex-col items-end justify-between pb-[32px]">
+            <Textarea
+              label="Add publication descriptions"
+              value={description}
+              onValueChange={handleChange}
+              className="w-full"
+            />
+            <span className="text-light-900">
+              {description.length}/{MAX_SYMBOL_COUNT}
+            </span>
           </div>
-          <Button>Save Change</Button>
+          <Button className="ml-auto">Save Change</Button>
         </div>
       </div>
+      <ConfirmClose
+        open={openConfirmClose}
+        onAccept={handleAccept}
+        onDecline={handleDecline}
+        close={() => setOpenConfirmClose(false)}
+      />
     </div>
   );
 };

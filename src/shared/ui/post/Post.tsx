@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { EditPost } from './editPost/EditPost';
 import ViewPost from './viewPost/ViewPost';
 
-export const Post = (props: {}) => {
+export const Post = () => {
   const [isEdit, setIsEdit] = useState(false);
+
   return (
-    <div className="max-w-[1280px]">
+    <div className="mx-auto flex w-full max-w-[972px]">
       {isEdit ? (
         <EditPost onClose={() => setIsEdit(false)} />
       ) : (

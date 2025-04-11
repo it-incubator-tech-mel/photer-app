@@ -1,10 +1,9 @@
-'use client';
+import { IconSprite } from '@/shared/ui/icon/IconSprite';
 import Image from 'next/image';
-import { IconSprite } from '../../icon/IconSprite';
 
-export const Comment = (props: {}) => {
+export const ViewComment = () => {
   return (
-    <div className="flex gap-[12px] pr-[24px]">
+    <div className="flex gap-[12px]">
       <div className="flex h-[36px] min-w-[36px] items-center justify-center overflow-hidden rounded-full object-cover">
         <Image
           src={'/images/expired.png'}
@@ -15,8 +14,8 @@ export const Comment = (props: {}) => {
         />
       </div>
       <div className="flex flex-col">
-        <p className="">
-          <span className="text-accent-100 mr-1">Nicname</span>
+        <p className="text-light-100">
+          <span className="mr-1 font-bold">Nicname</span>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>

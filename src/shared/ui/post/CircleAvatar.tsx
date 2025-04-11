@@ -1,6 +1,11 @@
 import { cn } from '@/shared/lib/cn';
 import Image from 'next/image';
-type Props = { src: string; className?: string };
+
+type Props = {
+  src: string;
+  className?: string;
+};
+
 export const CircleAvatar = ({ src, className }: Props) => {
   return (
     <div
