@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { PhotoNavigation } from '../../ui/PhotoNavigation';
 import { usePhotoNavigation } from '../../hooks/usePhotoNavigation';
 import { useCreatePostMutation } from '../../api/postsApi';
+import { closeModal } from '@/shared/state/slices/modalSlice';
 
 const MAX_DESCRIPTION_LENGTH = 500;
 
@@ -17,7 +18,7 @@ type FormData = {
   description: string;
 };
 
-export function DescriptionModal(): React.ReactElement {
+export function DescriptionStep(): React.ReactElement {
   const [createPost] = useCreatePostMutation();
   const dispatch = useAppDispatch();
   const description = useSelector((state: RootState) => state.post.description);
@@ -76,7 +77,6 @@ export function DescriptionModal(): React.ReactElement {
           });
 
           formData.append('photo', file);
-          console.log(file);
         } catch (error) {
           console.error(`Error fetching photo ${i}:`, error);
         }
@@ -97,12 +97,8 @@ export function DescriptionModal(): React.ReactElement {
         }
       }
 
-      const response = await createPost(formData).unwrap();
-      console.log('Успешно!', response);
-
-      // После успешной публикации можно перенаправить пользователя
-      // Например, на главную страницу или страницу профиля
-      // dispatch(goToStep('success')); // Если у вас есть такой шаг
+      await createPost(formData).unwrap();
+      dispatch(closeModal());
     } catch (error) {
       console.error('Ошибка:', error);
     }

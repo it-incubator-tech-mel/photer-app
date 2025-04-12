@@ -26,7 +26,7 @@ const filters: Filter[] = [
   { name: 'Насыщенность', className: 'saturate-150' },
 ];
 
-export function FiltersModal(): React.ReactElement {
+export function FiltersStep(): React.ReactElement {
   const dispatch = useAppDispatch();
   const photos = useSelector((state: RootState) => state.post.photos);
   const currentIndex = useSelector(

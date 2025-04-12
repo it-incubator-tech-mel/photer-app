@@ -1,4 +1,3 @@
-// components/CroppingModalSettings.tsx
 'use client';
 
 import { Slider } from '@/shared/ui';

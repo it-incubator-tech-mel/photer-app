@@ -19,18 +19,14 @@ export type PhotoSettings = {
 };
 
 type PostCreationState = {
-  isModalOpen: boolean;
   currentStep: CreationStep;
-  maxPhotos: number;
   photos: PhotoSettings[];
   currentPhotoIndex: number;
   description: string;
   error?: string;
 };
 const initialState: PostCreationState = {
-  isModalOpen: false,
   currentStep: 'upload',
-  maxPhotos: 10,
   photos: [],
   currentPhotoIndex: 0,
   description: '',
@@ -39,12 +35,6 @@ const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    openPostModal: (state) => {
-      state.isModalOpen = true;
-      state.currentStep = 'upload';
-      state.photos = [];
-    },
-    closePostModal: () => initialState,
     goToStep: (state, action: PayloadAction<CreationStep>) => {
       state.currentStep = action.payload;
     },
@@ -82,8 +72,6 @@ const postSlice = createSlice({
 });
 
 export const {
-  openPostModal,
-  closePostModal,
   goToStep,
   setCurrentPhotoIndex,
   setPhotoSettings,
