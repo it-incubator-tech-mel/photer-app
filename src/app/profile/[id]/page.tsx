@@ -27,6 +27,7 @@ export default function Page(): ReactElement {
       />
       <div>
         <button
+          type="button"
           onClick={() => {
             dispatch(openModalAction({ type: 'post-create' }));
             dispatch(openPostModal());

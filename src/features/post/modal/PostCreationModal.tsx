@@ -1,29 +1,16 @@
-import { RootState, useAppDispatch } from '@/shared/state/store';
+import { RootState } from '@/shared/state/store';
 import { useSelector } from 'react-redux';
-import { addPhotos } from '@/shared/state/slices/postSlice';
 import { CroppingModal } from './CroppingModal/CroppingModal';
 import { FiltersModal } from './FiltersModal/FiltersModal';
 import { DescriptionModal } from './DescriptionModal/DescriptionModal';
-import { PhotoData, PostUploadModal } from './UploadModal/PostUploadModal';
+import { PostUploadModal } from './UploadModal/PostUploadModal';
 
 export function PostCreationModal(): React.ReactElement {
-  const dispatch = useAppDispatch();
-  const { isModalOpen, currentStep, photos } = useSelector(
-    (state: RootState) => state.post
-  );
-
-  const handlePhotosAdded = (newPhotos: PhotoData[]): void => {
-    dispatch(addPhotos(newPhotos));
-  };
+  const { currentStep, photos } = useSelector((state: RootState) => state.post);
 
   return (
     <>
-      {currentStep === 'upload' && (
-        <PostUploadModal
-          onPhotosAdded={handlePhotosAdded}
-          isOpen={isModalOpen}
-        />
-      )}
+      {currentStep === 'upload' && <PostUploadModal />}
 
       {currentStep === 'crop' && photos.length > 0 && <CroppingModal />}
       {currentStep === 'filters' && photos.length > 0 && <FiltersModal />}

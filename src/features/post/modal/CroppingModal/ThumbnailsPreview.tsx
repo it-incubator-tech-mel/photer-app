@@ -120,6 +120,7 @@ export function ThumbnailsPreview({
     );
   };
   const onDeletePhoto = (index: number): void => {
+    URL.revokeObjectURL(photos[index]);
     dispatch(deletePhoto(index));
     if (index === currentIndex) {
       dispatch(setCurrentPhotoIndex(Math.max(0, currentIndex - 1)));

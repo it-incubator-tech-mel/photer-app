@@ -9,6 +9,7 @@ import { goToStep } from '@/shared/state/slices/postSlice';
 import { useForm } from 'react-hook-form';
 import { PhotoNavigation } from '../../ui/PhotoNavigation';
 import { usePhotoNavigation } from '../../hooks/usePhotoNavigation';
+import { useCreatePostMutation } from '../../api/postsApi';
 
 const MAX_DESCRIPTION_LENGTH = 500;
 
@@ -17,6 +18,7 @@ type FormData = {
 };
 
 export function DescriptionModal(): React.ReactElement {
+  const [createPost] = useCreatePostMutation();
   const dispatch = useAppDispatch();
   const description = useSelector((state: RootState) => state.post.description);
   const photos = useSelector((state: RootState) => state.post.photos);
@@ -36,7 +38,7 @@ export function DescriptionModal(): React.ReactElement {
     defaultValues: {
       description: description || '',
     },
-    mode: 'onChange', // Валидация при изменении
+    mode: 'onChange',
   });
 
   const descriptionValue = watch('description');
@@ -47,9 +49,62 @@ export function DescriptionModal(): React.ReactElement {
     dispatch(goToStep('filters'));
   };
 
-  const onSubmit = (): void => {
-    if (isDescriptionValid) {
-      dispatch(goToStep('crop'));
+  const onSubmit = async (data: FormData): Promise<void> => {
+    try {
+      const formData = new FormData();
+
+      // Проверяем, есть ли фотографии для загрузки
+      if (photos.length === 0) {
+        console.error('No photos to upload');
+        return;
+      }
+
+      // Добавляем каждую фотографию как отдельное поле 'photo'
+      for (let i = 0; i < photos.length; i++) {
+        const photo = photos[i];
+        try {
+          const response = await fetch(photo.url);
+          const blob = await response.blob();
+
+          // Создаем уникальное имя файла с использованием временной метки
+          const timestamp = new Date().getTime();
+          const filename = `photo_${timestamp}_${i}.jpg`;
+
+          // Создаем File объект с уникальным именем
+          const file = new File([blob], filename, {
+            type: blob.type || 'image/jpeg',
+          });
+
+          formData.append('photo', file);
+          console.log(file);
+        } catch (error) {
+          console.error(`Error fetching photo ${i}:`, error);
+        }
+      }
+
+      // Добавляем описание
+      formData.append('description', data.description);
+
+      // Отладка - выводим содержимое FormData
+      console.log('FormData содержит:');
+      for (const pair of formData.entries()) {
+        console.log(pair[0], ':', pair[1]);
+
+        // Если это файл, выводим дополнительную информацию
+        if (pair[1] instanceof Blob) {
+          console.log('Тип файла:', pair[1].type);
+          console.log('Размер файла:', pair[1].size, 'байт');
+        }
+      }
+
+      const response = await createPost(formData).unwrap();
+      console.log('Успешно!', response);
+
+      // После успешной публикации можно перенаправить пользователя
+      // Например, на главную страницу или страницу профиля
+      // dispatch(goToStep('success')); // Если у вас есть такой шаг
+    } catch (error) {
+      console.error('Ошибка:', error);
     }
   };
 

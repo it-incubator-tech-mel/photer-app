@@ -1,3 +1,5 @@
+import { addPhotos } from '@/shared/state/slices/postSlice';
+import { useAppDispatch } from '@/shared/state/store';
 import { Button, IconSprite } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
 import { Modal } from '@/widgets/modal/Modal';
@@ -15,16 +17,10 @@ export type PhotoData = {
   originalHeight: number;
 };
 
-type UploadFormProps = {
-  onPhotosAdded: (photos: PhotoData[]) => void;
-  isOpen: boolean;
-};
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-export function PostUploadModal({
-  onPhotosAdded,
-  isOpen,
-}: UploadFormProps): React.ReactElement {
+export function PostUploadModal(): React.ReactElement {
+  const dispatch = useAppDispatch();
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const input = event.currentTarget;
     const files = event.target.files;
@@ -79,11 +75,13 @@ format`);
       });
     });
 
-    Promise.all(newPhotosPromises).then(onPhotosAdded);
+    Promise.all(newPhotosPromises).then((newPhotos) => {
+      dispatch(addPhotos(newPhotos));
+    });
   };
 
   return (
-    <Modal title="Add Photo" size="sm" open={isOpen}>
+    <Modal title="Add Photo" size="sm" open={true}>
       <div className="flex flex-col items-center gap-4">
         <Card className="flex min-h-[220px] min-w-[220px] items-center justify-center">
           <IconSprite iconName={'image-outline'} width={48} height={48} />

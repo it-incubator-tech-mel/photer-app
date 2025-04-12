@@ -2,7 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { useDispatch } from 'react-redux';
 
-import { authApi } from '@/features/auth/api/authApi';
 import { baseApi } from '../lib/baseApi';
 import { modalReducer } from './slices/modalSlice';
 import { postReducer } from './slices/postSlice';
@@ -11,8 +10,6 @@ export const store = configureStore({
   reducer: {
     modal: modalReducer,
     post: postReducer,
-    authReducer: authApi.reducer,
-    ['authApi']: authApi.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

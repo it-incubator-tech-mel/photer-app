@@ -1,4 +1,3 @@
-import { authApi } from '@/features/auth/api/authApi';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type {
   BaseQueryFn,
@@ -50,7 +49,10 @@ export const baseQueryWithReauth: BaseQueryFn<
           result = await baseQuery(args, api, extraOptions);
         } else {
           localStorage.removeItem('accessToken');
-          api.dispatch(authApi.util.resetApiState());
+          // api.dispatch(authApi.util.resetApiState());
+          if (typeof window !== 'undefined') {
+            window.location.href = '/sign-in';
+          }
         }
       } finally {
         release();
