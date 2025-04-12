@@ -26,7 +26,11 @@ const filters: Filter[] = [
   { name: 'Насыщенность', className: 'saturate-150' },
 ];
 
-export function FiltersStep(): React.ReactElement {
+export function FiltersStep({
+  onClose,
+}: {
+  onClose: () => void;
+}): React.ReactElement {
   const dispatch = useAppDispatch();
   const photos = useSelector((state: RootState) => state.post.photos);
   const currentIndex = useSelector(
@@ -60,6 +64,7 @@ export function FiltersStep(): React.ReactElement {
 
   return (
     <Modal
+      onClose={onClose}
       headerContent={
         <div className="flex w-full items-center justify-between">
           <Button

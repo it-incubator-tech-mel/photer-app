@@ -68,6 +68,7 @@ const postSlice = createSlice({
     setCroppedImage: (state, action: PayloadAction<string>) => {
       state.photos[state.currentPhotoIndex].url = action.payload;
     },
+    resetState: () => initialState,
   },
 });
 
@@ -78,5 +79,6 @@ export const {
   addPhotos,
   setCroppedImage,
   deletePhoto,
+  resetState,
 } = postSlice.actions;
 export const postReducer = postSlice.reducer;

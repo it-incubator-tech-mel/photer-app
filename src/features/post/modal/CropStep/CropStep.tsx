@@ -18,7 +18,11 @@ import { useImageAspect } from '../../hooks/useImageAspect';
 import { useImageCropping } from '../../hooks/useImageCropping';
 import { useImageSave } from '../../hooks/useImageSave';
 
-export function CropStep(): React.ReactElement {
+export function CropStep({
+  onClose,
+}: {
+  onClose: () => void;
+}): React.ReactElement {
   const photos = useSelector((state: RootState) => state.post.photos);
   const currentIndex = useSelector(
     (state: RootState) => state.post.currentPhotoIndex
@@ -40,6 +44,7 @@ export function CropStep(): React.ReactElement {
 
   return (
     <Modal
+      onClose={onClose}
       headerContent={
         <CroppingModalHeader
           stepToGo="filters"

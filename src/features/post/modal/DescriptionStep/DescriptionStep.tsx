@@ -5,7 +5,7 @@ import { Modal } from '@/widgets/modal/Modal';
 import { Button, IconSprite, Textarea } from '@/shared/ui';
 import { type RootState, useAppDispatch } from '@/shared/state/store';
 import { useSelector } from 'react-redux';
-import { goToStep } from '@/shared/state/slices/postSlice';
+import { goToStep, resetState } from '@/shared/state/slices/postSlice';
 import { useForm } from 'react-hook-form';
 import { PhotoNavigation } from '../../ui/PhotoNavigation';
 import { usePhotoNavigation } from '../../hooks/usePhotoNavigation';
@@ -18,7 +18,11 @@ type FormData = {
   description: string;
 };
 
-export function DescriptionStep(): React.ReactElement {
+export function DescriptionStep({
+  onClose,
+}: {
+  onClose: () => void;
+}): React.ReactElement {
   const [createPost] = useCreatePostMutation();
   const dispatch = useAppDispatch();
   const description = useSelector((state: RootState) => state.post.description);
@@ -98,6 +102,7 @@ export function DescriptionStep(): React.ReactElement {
       }
 
       await createPost(formData).unwrap();
+      dispatch(resetState());
       dispatch(closeModal());
     } catch (error) {
       console.error('Ошибка:', error);
@@ -106,6 +111,7 @@ export function DescriptionStep(): React.ReactElement {
 
   return (
     <Modal
+      onClose={onClose}
       headerContent={
         <div className="flex w-full items-center justify-between">
           <Button

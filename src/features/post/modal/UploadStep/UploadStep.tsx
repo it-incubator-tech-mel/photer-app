@@ -2,6 +2,7 @@ import { addPhotos } from '@/shared/state/slices/postSlice';
 import { useAppDispatch } from '@/shared/state/store';
 import { Button, IconSprite } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
+import { Modal } from '@/widgets/modal/Modal';
 
 import { ChangeEvent } from 'react';
 
@@ -20,7 +21,11 @@ export type PhotoData = {
 
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-export function UploadStep(): React.ReactElement {
+export function UploadStep({
+  onClose,
+}: {
+  onClose: () => void;
+}): React.ReactElement {
   const dispatch = useAppDispatch();
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const input = event.currentTarget;
@@ -82,25 +87,27 @@ format`);
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <Card className="flex min-h-[220px] min-w-[220px] items-center justify-center">
-        <IconSprite iconName={'image-outline'} width={48} height={48} />
-      </Card>
-      <Button asChild className="w-[220px]">
-        <label>
-          Select from computer
-          <input
-            type="file"
-            multiple
-            accept="image/png, image/jpeg"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-        </label>
-      </Button>
-      <Button className="w-[220px]" variant="outlined">
-        Open Draft
-      </Button>
-    </div>
+    <Modal open onClose={onClose}>
+      <div className="flex flex-col items-center gap-4">
+        <Card className="flex min-h-[220px] min-w-[220px] items-center justify-center">
+          <IconSprite iconName={'image-outline'} width={48} height={48} />
+        </Card>
+        <Button asChild className="w-[220px]">
+          <label>
+            Select from computer
+            <input
+              type="file"
+              multiple
+              accept="image/png, image/jpeg"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </label>
+        </Button>
+        <Button className="w-[220px]" variant="outlined">
+          Open Draft
+        </Button>
+      </div>
+    </Modal>
   );
 }
