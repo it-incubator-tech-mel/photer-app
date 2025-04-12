@@ -17,7 +17,7 @@ export const postApi = baseApi.injectEndpoints({
           : [{ type: 'post', id: 'LIST' }],
     }),
 
-    // DELETE /posts/:id
+    // DELETE /posts/delete/:id
     deletePost: builder.mutation<void, number>({
       query: (postId) => ({
         url: `/posts/delete/${postId}`,
