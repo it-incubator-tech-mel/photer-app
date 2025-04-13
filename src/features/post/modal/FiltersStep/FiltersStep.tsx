@@ -54,11 +54,15 @@ export function FiltersStep({
   };
 
   const handleNext = async (): Promise<void> => {
-    // Сначала применяем фильтр и ждем завершения
     await handleSaveWithFilter(selectedFilter);
   };
 
   const handleBack = (): void => {
+    dispatch(
+      setPhotoSettings({
+        filter: 'Оригинал',
+      })
+    );
     dispatch(goToStep('crop'));
   };
 

@@ -25,7 +25,7 @@ export function PostCreationWizard(): React.ReactElement | null {
     setShowExitConfirm(false);
   };
 
-  const handleCancelExit = () => {
+  const handleCancelExit = (): void => {
     setShowExitConfirm(false);
   };
 
