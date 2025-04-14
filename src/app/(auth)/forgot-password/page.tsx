@@ -4,8 +4,8 @@ import { SubmitHandler } from 'react-hook-form';
 import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi';
 import { ForgotPasswordForm } from '@/features/auth/forgot-password/ui/ForgotPasswordForm';
 import { FormSchemaType } from '@/features/auth/forgot-password/types/forgotPasswordFormSchema';
-import { openModal } from '@/shared/state/slices/modalSlice';
-import { useAppDispatch } from '@/shared/state/store';
+// import { openModal } from '@/shared/state/slices/modalSlice';
+// import { useAppDispatch } from '@/shared/state/store';
 
 export type ErrorMessage = {
   field: string;
@@ -22,7 +22,7 @@ export default function ForgotPasswordPage(): ReactElement {
   const [recoveryPassword, { isLoading }] = usePasswordRecoveryMutation();
   const [isFormSend, setIsFormSend] = useState(false);
   const [errorMessage, setErrorMessage] = useState({} as ErrorMessage);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<FormSchemaType> = async ({
     email,
@@ -31,14 +31,14 @@ export default function ForgotPasswordPage(): ReactElement {
     try {
       await recoveryPassword({ email, recaptchaValue }).unwrap();
       setIsFormSend(true);
-      dispatch(
-        openModal({
-          type: 'auth',
-          props: {
-            email: email,
-          },
-        })
-      );
+      // dispatch(
+      //   openModal({
+      //     type: 'auth',
+      //     props: {
+      //       email: email,
+      //     },
+      //   })
+      // );
     } catch (e) {
       const er = e as { data: Error404Type };
       if (er.data.statusCode === 404) {
