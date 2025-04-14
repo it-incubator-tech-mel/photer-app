@@ -5,8 +5,27 @@ import Image from 'next/image';
 import { IconSprite } from '../../icon/IconSprite';
 import { ConfirmClose } from './ConfirmClose';
 import { Nicname } from '../Nicname';
+import { Carousel } from '../../carousel/Carousel';
 
 const MAX_SYMBOL_COUNT = 500;
+
+const slides = [
+  <Image src={'/images/confirmed.png'} alt={'icon'} width={500} height={500} />,
+  <Image
+    src={'/images/confirmed.png'}
+    alt={'icon'}
+    width={500}
+    height={500}
+    className="flex-1 object-cover"
+  />,
+  <Image
+    src={'/images/confirmed.png'}
+    alt={'icon'}
+    width={500}
+    height={500}
+    className="flex-1 object-cover"
+  />,
+];
 
 type Props = { onClose: () => void };
 
@@ -71,13 +90,7 @@ export const EditPost = ({ onClose }: Props) => {
         </button>
       </div>
       <div className="flex h-full">
-        <Image
-          src={'/images/confirmed.png'}
-          alt={'icon'}
-          width={500}
-          height={500}
-          className="flex-1 object-cover"
-        />
+        <Carousel slides={slides} className="flex-1" />
         <div className="flex flex-1 flex-col justify-between px-[24px] pb-[24px]">
           <Nicname />
           <div className="flex flex-col items-end justify-between pb-[32px]">

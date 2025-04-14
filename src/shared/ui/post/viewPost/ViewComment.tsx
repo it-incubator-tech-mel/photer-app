@@ -14,7 +14,7 @@ export const ViewComment = () => {
         />
       </div>
       <div className="flex flex-col">
-        <p className="text-light-100">
+        <p className="text-light-100 text-[14px]">
           <span className="mr-1 font-bold">Nicname</span>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
