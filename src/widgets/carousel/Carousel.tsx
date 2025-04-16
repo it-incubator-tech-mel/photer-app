@@ -1,9 +1,9 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { ReactNode, useId } from 'react';
-import { IconSprite } from '../icon/IconSprite';
 import 'swiper/css';
 import { cn } from '@/shared/lib/cn';
+import { IconSprite } from '@/shared/ui';
 
 type Props = {
   className?: string;

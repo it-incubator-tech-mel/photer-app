@@ -1,27 +1,21 @@
+import { Bookmark } from '@/shared/ui/bookmark/Bookmark';
+import { CircleAvatar } from '@/shared/ui/circleAvatar/CircleAvatar';
 import { IconSprite } from '@/shared/ui/icon/IconSprite';
-import { CircleAvatar } from '../CircleAvatar';
+import { Like } from '@/shared/ui/like/Like';
 
 export const PostInfo = () => {
   return (
     <div className="border-dark-100 flex flex-col border-t-[1px] border-b-[1px] px-[24px] py-[12px]">
       <div className="flex justify-between">
         <div className="flex gap-[26px]">
-          <IconSprite
-            iconName="heart-outline"
-            fill="white"
-            className="cursor-pointer"
-          />
+          <Like />
           <IconSprite
             iconName="paper-plane"
             fill="white"
             className="cursor-pointer"
           />
         </div>
-        <IconSprite
-          iconName="bookmark-outline"
-          fill="white"
-          className="cursor-pointer"
-        />
+        <Bookmark />
       </div>
       <div className="mt-[19px] flex items-center gap-[12px]">
         <div className="flex">

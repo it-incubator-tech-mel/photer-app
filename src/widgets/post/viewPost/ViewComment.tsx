@@ -1,4 +1,4 @@
-import { IconSprite } from '@/shared/ui/icon/IconSprite';
+import { Like } from '@/shared/ui/like/Like';
 import Image from 'next/image';
 
 export const ViewComment = () => {
@@ -26,11 +26,7 @@ export const ViewComment = () => {
         </div>
       </div>
       <div className="flex h-full max-h-[44px] items-end">
-        <IconSprite
-          iconName="heart"
-          className="cursor-pointer"
-          fill="#CC1439"
-        />
+        <Like />
       </div>
     </div>
   );

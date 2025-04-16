@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import { Textarea } from '../../textarea/Textarea';
-import { Button } from '../../button/Button';
 import Image from 'next/image';
-import { IconSprite } from '../../icon/IconSprite';
 import { ConfirmClose } from './ConfirmClose';
 import { Nicname } from '../Nicname';
-import { Carousel } from '../../carousel/Carousel';
+import { useEditPost } from './useEditPost';
+import { Carousel } from '@/widgets/carousel/Carousel';
+import { Button, IconSprite, Textarea } from '@/shared/ui';
 
 const MAX_SYMBOL_COUNT = 500;
 
@@ -30,53 +28,16 @@ const slides = [
 type Props = { onClose: () => void };
 
 export const EditPost = ({ onClose }: Props) => {
-  const initialDescription = 'Test description'; // Начальное значение
-  const [description, setDescription] = useState(initialDescription);
-  const editPostRef = useRef<HTMLDivElement>(null);
-  const descriptionRef = useRef(description); // Реф для актуального значения
-  const [openConfirmClose, setOpenConfirmClose] = useState(false);
-
-  const handleChange = (text: string): void => {
-    if (text.length <= MAX_SYMBOL_COUNT) {
-      setDescription(text);
-    }
-  };
-  const handleAccept = () => {
-    setOpenConfirmClose(false);
-    onClose();
-  };
-  const handleDecline = () => {
-    setOpenConfirmClose(false);
-    onClose();
-  };
-
-  const confirmChange = (): void => {
-    if (initialDescription === descriptionRef.current) {
-      onClose();
-    } else {
-      setOpenConfirmClose(true);
-    }
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      editPostRef.current &&
-      !editPostRef.current.contains(event.target as Node)
-    ) {
-      confirmChange();
-    }
-  };
-
-  useEffect(() => {
-    descriptionRef.current = description;
-  }, [description]);
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  const {
+    editPostRef,
+    description,
+    openConfirmClose,
+    setOpenConfirmClose,
+    handleChange,
+    confirmChange,
+    handleAccept,
+    handleDecline,
+  } = useEditPost({ onClose, MAX_SYMBOL_COUNT });
 
   return (
     <div

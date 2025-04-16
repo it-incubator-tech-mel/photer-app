@@ -1,4 +1,4 @@
-import { CircleAvatar } from './CircleAvatar';
+import { CircleAvatar } from '@/shared/ui/circleAvatar/CircleAvatar';
 
 export const Nicname = () => {
   return (

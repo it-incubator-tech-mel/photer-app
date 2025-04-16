@@ -3,7 +3,7 @@ import { Carousel } from './Carousel';
 import Image from 'next/image';
 
 export default {
-  title: 'Components/Carousel',
+  title: 'Widgets/Carousel',
   component: Carousel,
   parameters: {
     layout: 'centered',

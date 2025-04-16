@@ -5,13 +5,11 @@ import { AddComment } from './AddComment';
 import { EllipsisMenu } from './EllipsisMenu';
 import { ViewComment } from './ViewComment';
 import { PostInfo } from './PostInfo';
-import { Carousel } from '../../carousel/Carousel';
+import { Carousel } from '@/widgets/carousel/Carousel';
 
 type Props = {
   setIsEdit: (value: boolean) => void;
 };
-
-// const slides = ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4', 'Slide 5'];
 
 const slides = [
   <Image src={'/images/confirmed.png'} alt={'icon'} width={500} height={500} />,
@@ -34,7 +32,7 @@ export default function ViewPost({ setIsEdit }: Props) {
   return (
     <div className="bg-dark-300 border-dark-100 flex w-full max-w-[1280px] rounded-[2px] border-[1px]">
       <Carousel slides={slides} className="flex-1" />
-      <div className="flex w-full max-w-[480px] flex-col">
+      <div className="flex flex-1 flex-col">
         <div className="border-dark-100 flex justify-between border-b-[1px] px-[24px]">
           <Nicname />
           <EllipsisMenu
@@ -67,10 +65,3 @@ export default function ViewPost({ setIsEdit }: Props) {
     </div>
   );
 }
-// <Image
-//   src={'/images/confirmed.png'}
-//   alt={'icon'}
-//   width={500}
-//   height={500}
-//   className="flex-1 object-cover"
-// />;
