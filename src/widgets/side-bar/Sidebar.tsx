@@ -5,16 +5,11 @@ import React from 'react';
 import HoverDiv from './HoverDiv';
 import { useState } from 'react';
 import { IoIosMenu } from 'react-icons/io';
-// import { usePathname } from 'next/navigation';
 
 import { ytSidebarDataset } from './sidebarData';
-// import Link from 'next/link';
 import { cn } from './utils/cn';
 import SidebarItem from './SidebarItem';
 
-// type Props = {};
-
-// export default function Sidebar({}: Props) {
 export default function Sidebar(): React.JSX.Element {
   const [isSidebarOpen, setSidebar] = useState(false);
 
@@ -25,7 +20,11 @@ export default function Sidebar(): React.JSX.Element {
   return (
     <div
       className={cn(
-        'flex h-full flex-col border-r border-zinc-700 bg-black text-slate-50'
+        'flex h-full flex-col border-r-2 border-zinc-700 bg-black text-slate-50 transition-all duration-300',
+        {
+          'w-60': isSidebarOpen,
+          'w-25': !isSidebarOpen,
+        }
       )}
     >
       <section className="flex items-center gap-4 px-5 py-4">
@@ -40,10 +39,7 @@ export default function Sidebar(): React.JSX.Element {
       </section>
       <main
         className={cn(
-          'flex h-full w-[240px] flex-col items-start overflow-y-auto',
-          {
-            'w-[100px]': !isSidebarOpen,
-          }
+          'flex h-full w-full flex-col items-start overflow-y-auto transition-all duration-300'
         )}
       >
         {ytSidebarDataset.map((d, i: number) => (
