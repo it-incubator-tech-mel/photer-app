@@ -6,21 +6,27 @@ import { Button } from '@/shared/ui';
 import { useRecoveryPasswordResendingMutation } from '@/features/auth/api/authApi';
 import { ErrorMessage } from '@/app/(auth)/forgot-password/page';
 import { toast } from 'react-toastify';
-import { useModal } from '@/shared/hooks/useModal';
+// import { useAppDispatch } from '@/shared/state/store';
+// import { openModal } from '@/shared/state/slices/modalSlice';
 
 export default function ResendLink(): ReactElement {
   const [resendLink, { isLoading }] = useRecoveryPasswordResendingMutation();
-  const { showModal } = useModal();
+  // const dispatch = useAppDispatch();
 
   const handleResendLink = async (): Promise<void> => {
     try {
       await resendLink({
         email: localStorage.getItem('email') as string,
       }).unwrap();
-      showModal(
-        'Email sent',
-        `We have sent a link to confirm your email to ${localStorage.getItem('email')}`
-      );
+      // dispatch(
+      //   openModal({
+      //     type: 'auth',
+      //     props: {
+      //       email: localStorage.getItem('email'),
+      //     },
+      //   })
+      // );
+
       localStorage.removeItem('email');
     } catch (e) {
       const error = e as { data: { errorsMessages: ErrorMessage[] } };

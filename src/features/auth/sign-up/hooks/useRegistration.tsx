@@ -30,9 +30,9 @@ export function useRegistration(): UseRegistrationReturn {
       await registerUser(payload).unwrap();
       dispatch(
         openModal({
-          modalProps: {
-            title: 'Email sent',
-            description: `We have sent a link to confirm your email to ${data.email}`,
+          type: 'auth',
+          props: {
+            email: data.email,
           },
         })
       );
