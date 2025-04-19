@@ -1,3 +1,5 @@
+// app/layout.tsx
+
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -20,11 +22,15 @@ export default function RootLayout({
   children: ReactNode;
 }>): ReactElement {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full overflow-hidden">
       <body
-        className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100`}
+        className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-full`}
       >
-        <StoreWrapper>{children}</StoreWrapper>
+        <StoreWrapper>
+          <div className="flex h-screen flex-col">
+            <main>{children}</main>
+          </div>
+        </StoreWrapper>
       </body>
     </html>
   );

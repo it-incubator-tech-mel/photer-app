@@ -8,7 +8,7 @@ export default function Home(): ReactElement {
   return (
     <div>
       <main>
-        Вы не вошли в систему или ваша сессия истекла, авторизуйтесь пожалуйста{' '}
+        Вы не вошли в систему или ваша сессия истекла, авторизуйтесь пожалуйста
         <Button asChild variant={'text'}>
           <Link href="/sign-in">Войти</Link>
         </Button>
