@@ -18,7 +18,7 @@ export default function StoreWrapper({
     <Provider store={store}>
       <div className="flex h-screen w-full flex-col overflow-auto">
         <div className="shrink-0">
-          <Header withLoginBtn={true} />
+          <Header />
         </div>
 
         <div className="flex w-full grow">
