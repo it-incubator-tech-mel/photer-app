@@ -1,28 +1,35 @@
 'use client';
 
-import { ReactElement } from 'react';
+import { Post } from '@/entities/post/model/types';
+import React from 'react';
 
-// Тип для поста (можно вынести в shared/types)
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  author: {
-    id: string;
-    name: string;
-  };
-}
-
-interface PostModalProps {
+type Props = {
   post: Post;
-}
+};
 
-export const PostModal = ({ post }: PostModalProps): ReactElement => {
+export const PostModal: React.FC<Props> = ({ post }) => {
   return (
-    <div className="rounded bg-white p-4 shadow">
-      <h2 className="text-xl font-bold">{post.title}</h2>
-      <p className="mb-2 text-gray-700">{post.content}</p>
-      <div className="text-sm text-gray-500">Автор: {post.author.name}</div>
+    <div className="bg-opacity-70 fixed inset-0 z-50 flex items-center justify-center bg-black p-4">
+      <div className="bg-dark-800 w-full max-w-3xl rounded-lg p-6 shadow-lg">
+        <h2 className="text-light-100 mb-4 text-2xl font-bold">
+          Post #{post.id}
+        </h2>
+        <p className="text-light-200 mb-4">
+          {post.description || 'No description'}
+        </p>
+
+        <div className="flex flex-wrap gap-4">
+          {post.photo.map((photo) => (
+            <img
+              key={photo.id}
+              src={photo.photoUrl}
+              alt={`Photo ${photo.id}`}
+              className="h-48 rounded object-cover"
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
+///////////////////////////////////////////

@@ -1,8 +1,8 @@
 // app/post/[postId]/page.tsx
 
 import { getPostById } from '@/shared/api/post';
-import { notFound } from 'next/navigation';
 import { PostModal } from '@/widgets/post/PostModal';
+import { notFound } from 'next/navigation';
 
 export default async function PostPage({
   params,
@@ -15,3 +15,4 @@ export default async function PostPage({
 
   return <PostModal post={post} />;
 }
+///////////////////////////////////////////

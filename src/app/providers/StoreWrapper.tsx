@@ -1,12 +1,13 @@
+// src/app/StoreWrapper.tsx
 'use client';
 
 import { ReactElement, ReactNode } from 'react';
 import { Provider } from 'react-redux';
+import { usePathname } from 'next/navigation';
 
+import { store } from '@/shared/state/store';
 import { Alert } from '@/shared/ui/alert/Alert';
 import { Header } from '@/widgets/header/Header';
-import { store } from '@/shared/state/store';
-// import { ModalProvider } from './ModalProviders';
 import Sidebar from '@/widgets/side-bar/Sidebar';
 
 export default function StoreWrapper({
@@ -14,6 +15,13 @@ export default function StoreWrapper({
 }: {
   children: ReactNode;
 }): ReactElement {
+  const pathname = usePathname();
+  // если на гл.странице нужен Sidebar
+  // const showSidebar = ['/', '/profile', '/settings'].some((path) =>
+  const showSidebar = ['/profile', '/settings'].some((path) =>
+    pathname.startsWith(path)
+  );
+
   return (
     <Provider store={store}>
       <div className="flex h-screen w-full flex-col overflow-auto">
@@ -22,20 +30,20 @@ export default function StoreWrapper({
         </div>
 
         <div className="flex w-full grow">
-          {/* Sidebar теперь слева */}
-          <div className="w-64 flex-shrink-0">
-            <Sidebar />
-          </div>
+          {showSidebar && (
+            <div className="w-64 flex-shrink-0">
+              <Sidebar />
+            </div>
+          )}
 
-          {/* Основной контент, который не двигается */}
           <div className="flex-grow p-4">
             <div className="w-full">{children}</div>
           </div>
         </div>
 
-        {/* <ModalProvider /> */}
         <Alert />
       </div>
     </Provider>
   );
 }
+// ///////////////////////////////////////////
