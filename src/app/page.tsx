@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/shared/ui';
-import { Post } from '@/widgets/post/Post';
+import { Posts } from '@/widgets/posts/Posts';
 import Link from 'next/link';
 import { ReactElement } from 'react';
 
@@ -13,8 +13,8 @@ export default function Home(): ReactElement {
         <Button asChild variant={'text'}>
           <Link href="/sign-in">Войти</Link>
         </Button>
+        <Posts />
       </main>
-      <Post />
     </div>
   );
 }

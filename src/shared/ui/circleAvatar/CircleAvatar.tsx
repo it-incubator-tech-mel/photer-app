@@ -1,12 +1,13 @@
 import { cn } from '@/shared/lib/cn';
 import Image from 'next/image';
+import { ReactNode } from 'react';
 
 type Props = {
   src: string;
   className?: string;
 };
 
-export const CircleAvatar = ({ src, className }: Props) => {
+export const CircleAvatar = ({ src, className }: Props): ReactNode => {
   return (
     <div
       className={cn(

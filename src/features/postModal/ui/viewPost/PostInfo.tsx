@@ -2,8 +2,9 @@ import { Bookmark } from '@/shared/ui/bookmark/Bookmark';
 import { CircleAvatar } from '@/shared/ui/circleAvatar/CircleAvatar';
 import { IconSprite } from '@/shared/ui/icon/IconSprite';
 import { Like } from '@/shared/ui/like/Like';
+import { ReactNode } from 'react';
 
-export const PostInfo = () => {
+export const PostInfo = (): ReactNode => {
   return (
     <div className="border-dark-100 flex flex-col border-t-[1px] border-b-[1px] px-[24px] py-[12px]">
       <div className="flex justify-between">
@@ -29,7 +30,7 @@ export const PostInfo = () => {
             className="z-0 ml-[-12px]"
           />
         </div>
-        <span className="text-light-100">2 243 "Like"</span>
+        <span className="text-light-100">2 243 &quot;Like&quot;</span>
       </div>
       <span className="text-light-900 mt-[5px]">July 3, 2021</span>
     </div>

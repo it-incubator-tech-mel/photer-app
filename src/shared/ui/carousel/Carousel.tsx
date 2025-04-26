@@ -7,14 +7,14 @@ import { IconSprite } from '@/shared/ui';
 
 type Props = {
   className?: string;
-  slides: ReactNode[] | ReactNode;
+  children: ReactNode | ReactNode[];
 };
 
-export const Carousel = ({ className, slides }: Props) => {
+export const Carousel = ({ children, className }: Props): ReactNode => {
   const Id = useId().replaceAll(':', '_');
 
-  if (!Array.isArray(slides) || slides.length <= 1) {
-    return <div className={cn('w-full', className)}>{slides}</div>;
+  if (!Array.isArray(children) || children.length <= 1) {
+    return <div className={cn('w-full', className)}>{children}</div>;
   }
 
   return (
@@ -37,8 +37,8 @@ export const Carousel = ({ className, slides }: Props) => {
           },
         }}
       >
-        {slides.map((slide) => (
-          <SwiperSlide>{slide}</SwiperSlide>
+        {children.map((child, index) => (
+          <SwiperSlide key={index}>{child}</SwiperSlide>
         ))}
         <div className="absolute top-1/2 z-10 flex w-full translate-y-[-50%] justify-between px-[12px]">
           <button

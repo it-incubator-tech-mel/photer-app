@@ -1,6 +1,7 @@
 import { CircleAvatar } from '@/shared/ui/circleAvatar/CircleAvatar';
+import { ReactNode } from 'react';
 
-export const Nicname = () => {
+export const AvatarWithName = (): ReactNode => {
   return (
     <div className="flex items-center gap-[12px] py-[12px]">
       <CircleAvatar src={'/images/expired.png'} />

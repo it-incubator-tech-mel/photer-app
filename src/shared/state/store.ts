@@ -5,12 +5,14 @@ import { useDispatch } from 'react-redux';
 import { authApi } from '@/features/auth/api/authApi';
 import { baseApi } from '../lib/baseApi';
 import { modalReducer } from './slices/modalSlice';
+import { postsApi } from '@/features/postModal/api/postsApi';
 
 export const store = configureStore({
   reducer: {
     modal: modalReducer,
     authReducer: authApi.reducer,
     ['authApi']: authApi.reducer,
+    ['postsApi']: postsApi.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { IconSprite } from '../icon/IconSprite';
 
-export const Bookmark = () => {
+export const Bookmark = (): ReactNode => {
   const [isAdded, setIsAdded] = React.useState(false);
   return (
     <button className="outline-none" onClick={() => setIsAdded(!isAdded)}>

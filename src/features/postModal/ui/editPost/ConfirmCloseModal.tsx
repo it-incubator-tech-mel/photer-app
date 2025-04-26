@@ -1,5 +1,6 @@
 import { Button } from '@/shared/ui/button/Button';
 import { Modal } from '@/widgets/modal/Modal';
+import { ReactNode } from 'react';
 
 type Props = {
   open: boolean;
@@ -7,7 +8,12 @@ type Props = {
   onAccept: () => void;
   onDecline: () => void;
 };
-export const ConfirmClose = ({ open, close, onAccept, onDecline }: Props) => {
+export const ConfirmCloseModal = ({
+  open,
+  close,
+  onAccept,
+  onDecline,
+}: Props): ReactNode => {
   return (
     <Modal open={open} onClose={close} title="Close Post">
       <p className="mt-[7px] mb-[30px]">

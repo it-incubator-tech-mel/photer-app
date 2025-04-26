@@ -6,4 +6,15 @@ const nextConfig: NextConfig = {
   },
 };
 
+module.exports = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.yandexcloud.net',
+      },
+    ],
+  },
+};
+
 export default nextConfig;
