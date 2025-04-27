@@ -1,4 +1,3 @@
-/** @format */
 'use client';
 
 import React from 'react';
@@ -7,8 +6,8 @@ import { useState } from 'react';
 import { IoIosMenu } from 'react-icons/io';
 
 import { ytSidebarDataset } from './sidebarData';
-import { cn } from './utils/cn';
 import SidebarItem from './SidebarItem';
+import { cn } from '@/shared/lib/cn';
 
 export default function Sidebar(): React.JSX.Element {
   const [isSidebarOpen, setSidebar] = useState(false);

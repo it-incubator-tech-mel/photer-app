@@ -4,7 +4,7 @@ import { cn } from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button/Button';
 import { Input } from '@/shared/ui/input/Input';
 import { OAuthLinks } from '@/shared/ui/oauth/OAuthLinks';
-import { Card } from '@/widgets/card/card';
+import { Card } from '@/widgets/card/Card';
 import Link from 'next/link';
 import { ReactElement } from 'react';
 

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ReactElement, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@/app/(auth)/forgot-password/page';
-import { Card } from '@/widgets/card/card';
+import { Card } from '@/widgets/card/Card';
 import { Button, Input } from '@/shared/ui';
 import { toast } from 'react-toastify';
 import { zodResolver } from '@hookform/resolvers/zod';

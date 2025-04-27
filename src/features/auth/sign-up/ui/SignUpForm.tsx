@@ -2,7 +2,7 @@
 
 import { FormFields } from './FormFields';
 import { SubmitButton } from './SubmitButton';
-import { Card } from '@/widgets/card/card';
+import { Card } from '@/widgets/card/Card';
 import { useSignUpForm } from '../hooks/useSignUpForm';
 import { SignUpPrompt } from './SignUpPrompt';
 import { OAuthLinks } from '@/shared/ui/oauth/OAuthLinks';

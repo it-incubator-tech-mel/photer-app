@@ -1,5 +1,3 @@
-/** @format */
-
 type SidebarItem = {
   title?: string;
   path?: string;

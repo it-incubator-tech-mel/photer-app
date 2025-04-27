@@ -1,11 +1,12 @@
 // src/app/page.tsx
 
-import { MainFeed } from '@/widgets/MainFeed/ui/MainFeed';
-import { getPosts } from '@/shared/api/getPosts';
-import { Post } from '@/entities/post/model/types';
+import { MainSection } from '@/widgets/MainSection/ui/MainSection';
 
-export default async function HomePage() {
-  const posts: Post[] = await getPosts(); // SSR
-  return <MainFeed initialPosts={posts} />;
+export default function HomePage() {
+  return (
+    <>
+      <MainSection />
+    </>
+  );
 }
-// ///////////////////////////////////////////
+////////////////////

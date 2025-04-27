@@ -1,4 +1,5 @@
-// src/widgets/MainFeed/ui/MainFeed.tsx
+// src/widgets/MainSection/MainFeed/ui/MainFeed.tsx
+
 'use client';
 
 import { postsApi, useGetPostsQuery } from '@/shared/api/postsApi';
@@ -22,7 +23,7 @@ export const MainFeed = ({ initialPosts }: Props) => {
   }, [dispatch, initialPosts]);
 
   const { data: posts = [], isLoading } = useGetPostsQuery(undefined, {
-    pollingInterval: 60_000,
+    pollingInterval: 60000,
     refetchOnMountOrArgChange: false,
     refetchOnFocus: false,
     refetchOnReconnect: false,
@@ -33,11 +34,18 @@ export const MainFeed = ({ initialPosts }: Props) => {
   if (isLoading && posts.length === 0) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+      style={{ width: '972px', margin: '0 auto' }} // равные отступы слева и справа с автоцентрированием
+    >
       {lastPosts.map((post) => (
-        <div key={post.id}>
-          <p>Post #{post.id}</p>
-          <div style={{ display: 'flex', gap: 8 }}>
+        <div
+          key={post.id}
+          className="flex flex-col rounded-lg border border-gray-300"
+          style={{ width: '234px', height: '391px' }} // фиксированная ширина и высота для каждого поста
+        >
+          <p className="bold-text-16">Post #{post.id}</p>
+          <div className="flex gap-8">
             {post.photo.slice(0, 1).map((photo) => (
               <img
                 key={photo.id}
@@ -46,7 +54,8 @@ export const MainFeed = ({ initialPosts }: Props) => {
                   'https://'
                 )}
                 alt={`Photo ${photo.id}`}
-                width={150}
+                width={234} // ширина изображения
+                height={391} // высота изображения
               />
             ))}
           </div>

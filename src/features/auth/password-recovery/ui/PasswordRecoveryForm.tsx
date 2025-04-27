@@ -9,7 +9,7 @@ import {
   RecoveryPasswordFormSchemaType,
 } from '@/features/auth/password-recovery/types/recoveryPasswordForm/recoveryPasswordFormShcema';
 import { useNewPasswordMutation } from '@/features/auth/api/authApi';
-import { Card } from '@/widgets/card/card';
+import { Card } from '@/widgets/card/Card';
 import { Button, Input } from '@/shared/ui';
 import { toast } from 'react-toastify';
 

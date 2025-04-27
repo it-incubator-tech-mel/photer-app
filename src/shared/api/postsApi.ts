@@ -1,3 +1,4 @@
+// shared/api/postsApi.ts
 import { baseApi } from '@/shared/lib/baseApi';
 import { Post } from '@/entities/post/model/types';
 

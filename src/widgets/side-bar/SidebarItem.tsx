@@ -1,11 +1,10 @@
-/** @format */
 'use client';
 
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import HoverDiv from './HoverDiv';
-import { cn } from './utils/cn';
+import { cn } from '@/shared/lib/cn';
 
 type SidebarItemProps = {
   title: string | undefined;

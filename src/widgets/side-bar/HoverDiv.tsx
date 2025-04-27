@@ -1,6 +1,4 @@
-/** @format */
-
-import { cn } from './utils/cn';
+import { cn } from '@/shared/lib/cn';
 
 export default function HoverDiv({
   isActive,
