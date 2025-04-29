@@ -1,3 +1,5 @@
+/* app/global.css */
+
 @import 'tailwindcss';
 
 @theme {
@@ -183,4 +185,84 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   transition: all 5000s ease-in-out 0s;
+}
+
+/* Global styles for RegisteredUsers component */
+
+/* Контейнер для зарегистрированных пользователей */
+.registered-users-container {
+  background-color: var(--color-dark-500);
+  color: var(--color-light-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 2px;
+  border: 1px solid var(--color-dark-300);
+  padding: 12px 24px;
+  height: 72px;
+  margin: 0 auto;
+  width: 972px;
+}
+
+/* Текст "Registered users:" */
+.registered-users-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 133%;
+  color: var(--color-light-100);
+  margin-top: 2px;
+}
+
+/* Контейнер для отображения цифр */
+.registered-users-counter {
+  height: 48px;
+  width: 203px;
+  border-radius: 2px;
+  background-color: var(--color-dark-700);
+  border: 1px solid var(--color-dark-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 600;
+  position: relative;
+}
+
+/* Стили для цифр */
+.registered-users-digit {
+  height: 24px;
+  width: 24px;
+  background-color: var(--color-light-100);
+  color: var(--color-dark-500);
+  text-align: center;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  position: absolute;
+  top: 12px;
+}
+
+/* Мобильные стили */
+@media (max-width: 768px) {
+  .registered-users-container {
+    width: auto;
+    padding: 8px;
+  }
+
+  .registered-users-text {
+    font-size: 14px;
+  }
+
+  .registered-users-counter {
+    width: 160px;
+    font-size: 1.5rem;
+  }
+
+  .registered-users-digit {
+    font-size: 16px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
 }
