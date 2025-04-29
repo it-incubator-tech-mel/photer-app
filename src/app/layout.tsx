@@ -24,7 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full overflow-hidden">
       <body
-        className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-full`}
+        className={`${inter.variable} bg-dark-700 regular-text-16 text-light-100 h-full`}
+        // className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-full`}
       >
         <StoreWrapper>
           <div className="flex h-screen flex-col">

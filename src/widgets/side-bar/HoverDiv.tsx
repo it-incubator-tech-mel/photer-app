@@ -1,3 +1,5 @@
+// widgets/side-bar/HoverDiv.tsx
+
 import { cn } from '@/shared/lib/cn';
 
 export default function HoverDiv({
@@ -18,3 +20,4 @@ export default function HoverDiv({
     />
   );
 }
+// /////////////

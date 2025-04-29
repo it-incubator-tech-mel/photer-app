@@ -1,3 +1,4 @@
+// widgets/side-bar/Sidebar.tsx
 'use client';
 
 import React from 'react';
@@ -5,7 +6,7 @@ import HoverDiv from './HoverDiv';
 import { useState } from 'react';
 import { IoIosMenu } from 'react-icons/io';
 
-import { ytSidebarDataset } from './sidebarData';
+import { ytSidebarDataset } from './SidebarData';
 import SidebarItem from './SidebarItem';
 import { cn } from '@/shared/lib/cn';
 
@@ -54,6 +55,17 @@ export default function Sidebar(): React.JSX.Element {
                 />
               </section>
             )}
+
+            {/* После Search вставляем двойной отступ */}
+            {d.title === 'Search' && (
+              <div className="h-6" /> // 24px (двойной отступ)
+            )}
+
+            {/* После Favorites вставляем тройной отступ */}
+            {d.title === 'Favorites' && (
+              <div className="h-10" /> // 40px (тройной отступ)
+            )}
+
             {/* nested section */}
             {d.nestedItems && isSidebarOpen && d.nestedItems?.length > 0 && (
               <section className="mt-4 w-full border-t border-zinc-600 px-4 pt-4">
@@ -76,3 +88,4 @@ export default function Sidebar(): React.JSX.Element {
     </div>
   );
 }
+// /////////////

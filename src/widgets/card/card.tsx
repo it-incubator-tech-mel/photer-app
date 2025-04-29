@@ -1,3 +1,5 @@
+// widgets/card/Card.tsx
+
 import { cn } from '@/shared/lib/cn';
 import React, { ComponentPropsWithoutRef, ReactElement } from 'react';
 
@@ -19,3 +21,4 @@ export function Card({ children, className, ...rest }: Props): ReactElement {
     </div>
   );
 }
+////////////////////

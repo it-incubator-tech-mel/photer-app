@@ -1,3 +1,5 @@
+// widgets/side-bar/SidebarData.tsx;
+
 type SidebarItem = {
   title?: string;
   path?: string;
@@ -24,7 +26,7 @@ import { FiLogOut } from 'react-icons/fi';
 
 export const ytSidebarDataset: SidebarItem[] = [
   {
-    title: 'Home',
+    title: 'Feed',
     path: '/',
     defaultIcon: <GoHome />,
     activeIcon: <GoHomeFill />,
@@ -72,3 +74,4 @@ export const ytSidebarDataset: SidebarItem[] = [
     activeIcon: <FiLogOut />,
   },
 ];
+// /////////////

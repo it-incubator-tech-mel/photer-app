@@ -1,3 +1,4 @@
+// widgets/header/Header.tsx
 'use client';
 
 import { ReactElement, useState } from 'react';
@@ -13,8 +14,8 @@ export const Header = (): ReactElement => {
   const [language, setLanguage] = useState<string>('en');
 
   return (
-    <header className="text-light-100 border-dark-300 h-[60px] w-full border-b-1 px-15 py-3 max-md:px-[15px]">
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between">
+    <header className="text-light-100 border-dark-300 h-[60px] w-full max-w-[1280px] border-b-1 px-15 py-3 max-md:px-[15px]">
+      <div className="mx-auto flex items-center justify-between">
         <Link href={'/'} className="large-text">
           Inctagram
         </Link>
@@ -43,5 +44,4 @@ export const Header = (): ReactElement => {
     </header>
   );
 };
-
-////////////////////////////////
+////////////////

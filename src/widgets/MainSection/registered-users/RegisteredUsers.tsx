@@ -1,4 +1,4 @@
-// /widgets/MainSection/registered-users/RegisteredUsers.tsx
+// widgets/MainSection/registered-users/RegisteredUsers.tsx
 
 'use client';
 
@@ -13,15 +13,69 @@ export const RegisteredUsers = ({
 }: RegisteredUsersProps): ReactElement => {
   return (
     <div
-      className="bg-dark-700 text-light-100 flex flex-col items-center justify-center rounded-2xl border border-gray-300 px-6 py-8 max-md:px-4 max-md:py-6"
-      style={{ width: '972px', margin: '0 auto' }} // равные отступы слева и справа с автоцентрированием
+      className="border-dark-300 bg-dark-700 flex h-[72px] w-[972px] items-center justify-between rounded-[2px] border px-6 py-3"
+      style={{ margin: '0 auto' }}
     >
-      <span className="text-[28px] leading-none font-bold tracking-tight max-md:text-[22px]">
-        {count.toLocaleString('en-US')}
-      </span>
-      <span className="text-md text-light-900 mt-2 max-md:text-sm">
+      {/* Текст "Registered users:" */}
+      <h2 className="text-light-100 text-[18px] leading-6 font-bold">
         Registered users:
-      </span>
+      </h2>
+
+      {/* Блок с количеством */}
+      <div className="border-dark-300 bg-dark-700 flex h-[48px] w-[203px] items-center justify-center gap-1 rounded-[2px] border">
+        {count
+          .toString()
+          .padStart(5, '0') // чтобы всегда было ровно 5 цифр
+          .split('')
+          .map((digit, index) => (
+            <button
+              key={index}
+              className="text-light-100 flex h-[24px] w-[24px] items-center justify-center rounded-[2px] text-[18px] leading-6 font-bold"
+            >
+              {digit}
+            </button>
+          ))}
+      </div>
     </div>
   );
 };
+/////////
+// widgets/MainSection/registered-users/RegisteredUsers.tsx
+
+// 'use client';
+
+// import { ReactElement } from 'react';
+// import { useGetTotalUsersCountQuery } from '@/shared/api/usersApi';
+
+// export const RegisteredUsers = (): ReactElement => {
+//   const { data, isLoading } = useGetTotalUsersCountQuery();
+
+//   const count = data?.totalCount ?? 0; // если ещё грузится — показываем 0
+
+//   return (
+//     <div
+//       className="border-dark-300 bg-dark-700 flex h-[72px] w-[972px] items-center justify-between rounded-[2px] border px-6 py-3"
+//       style={{ margin: '0 auto' }}
+//     >
+//       <h2 className="text-light-100 text-[18px] leading-6 font-bold">
+//         Registered users:
+//       </h2>
+
+//       <div className="border-dark-300 bg-dark-700 flex h-[48px] w-[203px] items-center justify-center gap-1 rounded-[2px] border">
+//         {count
+//           .toString()
+//           .padStart(5, '0')
+//           .split('')
+//           .map((digit, index) => (
+//             <button
+//               key={index}
+//               className="text-light-100 flex h-[24px] w-[24px] items-center justify-center rounded-[2px] text-[18px] leading-6 font-bold"
+//             >
+//               {digit}
+//             </button>
+//           ))}
+//       </div>
+//     </div>
+//   );
+// };
+/////////////

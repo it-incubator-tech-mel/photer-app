@@ -1,3 +1,4 @@
+// widgets/side-bar/SidebarItem.tsx
 'use client';
 
 import React from 'react';
@@ -41,3 +42,4 @@ export default function SidebarItem(
     </Link>
   );
 }
+// /////////////
