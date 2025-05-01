@@ -1,7 +1,14 @@
+export type Posts = {
+  items: PostType[];
+  page: number;
+  pageSize: number;
+  pagesCount: number;
+  totalCount: number;
+};
 export type PostType = {
   id: number;
   description: string;
-  photo: Photo[];
+  photos: Photo[];
   createdAt: string;
   updatedAt: string;
 };

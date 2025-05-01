@@ -15,12 +15,13 @@ type Props = {
 };
 
 export default function ViewPost({ post, children }: Props): ReactNode {
+  console.log('viewPost', post);
   return (
     <div className="bg-dark-300 border-dark-100 flex w-full max-w-[1280px] rounded-[2px] border-[1px]">
       <Carousel className="flex-1">
-        {post.photo.map((item: Photo, index) => (
+        {post.photos.map((photo: Photo, index) => (
           <Image
-            src={item.photoUrl}
+            src={photo.photoUrl}
             alt={'Post image'}
             key={index}
             width={500}

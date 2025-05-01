@@ -1,10 +1,10 @@
 import { baseApi } from '@/shared/lib/baseApi';
 import { errorHandler } from '../lib/errorHandler';
-import { PostType } from '../lib/post.types';
+import { Posts, PostType } from '../lib/post.types';
 
 export const postsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getPosts: builder.query<PostType[], void>({
+    getPosts: builder.query<Posts, void>({
       query: () => ({
         url: '/posts',
       }),
@@ -40,7 +40,7 @@ export const postsApi = baseApi.injectEndpoints({
       async onQueryStarted(post, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
-            const postToUpdate = draft.find((p) => p.id === post.id);
+            const postToUpdate = draft.items.find((p) => p.id === post.id);
             if (postToUpdate) {
               Object.assign(postToUpdate, post);
             }

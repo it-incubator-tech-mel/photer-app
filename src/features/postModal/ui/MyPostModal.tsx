@@ -12,6 +12,7 @@ type Props = {
 };
 export const MyPostModal = ({ onCloseAction, post }: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
+  console.log('MyPostModal', post);
 
   return (
     <div className="fixed top-1/2 left-1/2 mx-auto flex w-full max-w-[972px] -translate-x-1/2 -translate-y-1/2">

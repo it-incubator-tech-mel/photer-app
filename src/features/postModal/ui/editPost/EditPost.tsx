@@ -45,7 +45,7 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
       </div>
       <div className="flex h-full">
         <Carousel className="flex-1">
-          {post.photo.map((item: Photo, index: number) => (
+          {post.photos.map((item: Photo, index: number) => (
             <Image
               src={item.photoUrl}
               alt={'Post image'}

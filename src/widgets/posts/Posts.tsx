@@ -11,6 +11,7 @@ export const Posts = (): ReactNode => {
   if (isLoading) {
     return <Spinner />;
   }
+  console.log('posts', posts);
   return (
     <div>
       <p className="my-[20px]">
@@ -19,7 +20,7 @@ export const Posts = (): ReactNode => {
       </p>
       <div className="flex flex-col items-center justify-center gap-[20px]">
         {posts &&
-          posts.map((post, index) => (
+          posts.items.map((post, index) => (
             <Button
               key={post.id}
               className="max-w-[200px]"
@@ -32,7 +33,7 @@ export const Posts = (): ReactNode => {
       {openPost !== null && posts && (
         <MyPostModal
           onCloseAction={() => setOpenPost(null)}
-          post={posts[openPost]}
+          post={posts.items[openPost]}
         />
       )}
     </div>
