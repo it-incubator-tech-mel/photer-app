@@ -3,8 +3,13 @@ import { CircleAvatar } from '@/shared/ui/circleAvatar/CircleAvatar';
 import { IconSprite } from '@/shared/ui/icon/IconSprite';
 import { Like } from '@/shared/ui/like/Like';
 import { ReactNode } from 'react';
+import { useCreateTime } from '../../lib/useTimePost';
 
-export const PostInfo = (): ReactNode => {
+type Props = { createdDate: string };
+
+export const PostInfo = ({ createdDate }: Props): ReactNode => {
+  const date = useCreateTime(createdDate);
+
   return (
     <div className="border-dark-100 flex flex-col border-t-[1px] border-b-[1px] px-[24px] py-[12px]">
       <div className="flex justify-between">
@@ -32,7 +37,7 @@ export const PostInfo = (): ReactNode => {
         </div>
         <span className="text-light-100">2 243 &quot;Like&quot;</span>
       </div>
-      <span className="text-light-900 mt-[5px]">July 3, 2021</span>
+      <span className="text-light-900 mt-[5px]">{date}</span>
     </div>
   );
 };

@@ -1,11 +1,14 @@
 import Image from 'next/image';
 import { ReactNode } from 'react';
+import { useTimeAgo } from '../../lib/useTimePost';
 
 type Props = {
   comment: string;
+  dateTime: string;
 };
 
-export const PostDescription = ({ comment }: Props): ReactNode => {
+export const PostDescription = ({ comment, dateTime }: Props): ReactNode => {
+  const timeAgo = useTimeAgo(dateTime);
   return (
     <div className="relative flex gap-[12px]">
       <div className="flex h-[36px] min-w-[36px] items-center justify-center overflow-hidden rounded-full object-cover">
@@ -24,7 +27,7 @@ export const PostDescription = ({ comment }: Props): ReactNode => {
         </p>
         <div className="flex justify-between">
           <div className="text-light-900 flex gap-[12px]">
-            <span>2 Hours ago</span>
+            <span>{timeAgo}</span>
           </div>
         </div>
       </div>

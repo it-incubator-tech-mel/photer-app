@@ -37,13 +37,16 @@ export default function ViewPost({ post, children }: Props): ReactNode {
             {children}
           </div>
           <div className="border-dark-100 flex flex-col gap-[15px] px-[24px] pt-[19px] pb-[8px]">
-            <PostDescription comment={post.description} />
+            <PostDescription
+              comment={post.description}
+              dateTime={post.updatedAt}
+            />
             <ViewComment />
             <ViewComment />
           </div>
         </div>
         <div>
-          <PostInfo />
+          <PostInfo createdDate={post.createdAt} />
           <AddComment />
         </div>
       </div>
