@@ -30,18 +30,22 @@ export default function ViewPost({ post, children }: Props): ReactNode {
           );
         })}
       </Carousel>
-      <div className="flex flex-1 flex-col">
-        <div className="border-dark-100 flex justify-between border-b-[1px] px-[24px]">
-          <AvatarWithName />
-          {children}
+      <div className="flex flex-1 flex-col justify-between">
+        <div>
+          <div className="border-dark-100 flex justify-between border-b-[1px] px-[24px]">
+            <AvatarWithName />
+            {children}
+          </div>
+          <div className="border-dark-100 flex flex-col gap-[15px] px-[24px] pt-[19px] pb-[8px]">
+            <PostDescription comment={post.description} />
+            <ViewComment />
+            <ViewComment />
+          </div>
         </div>
-        <div className="border-dark-100 flex flex-col gap-[15px] px-[24px] pt-[19px] pb-[8px]">
-          <PostDescription comment={post.description} />
-          <ViewComment />
-          <ViewComment />
+        <div>
+          <PostInfo />
+          <AddComment />
         </div>
-        <PostInfo />
-        <AddComment />
       </div>
     </div>
   );
