@@ -5,6 +5,7 @@ import { EditPost } from './editPost/EditPost';
 import ViewPost from './viewPost/ViewPost';
 import { EllipsisMenu } from './viewPost/EllipsisMenu';
 import { PostType } from '../lib/post.types';
+import { useGetMeQuery } from '@/features/auth/api/authApi';
 
 type Props = {
   post: PostType;
@@ -12,7 +13,7 @@ type Props = {
 };
 export const MyPostModal = ({ onCloseAction, post }: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
-  console.log('MyPostModal', post);
+  const { data: user } = useGetMeQuery();
 
   return (
     <div className="fixed top-1/2 left-1/2 mx-auto flex w-full max-w-[972px] -translate-x-1/2 -translate-y-1/2">

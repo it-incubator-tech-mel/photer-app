@@ -30,30 +30,35 @@ export const postsApi = baseApi.injectEndpoints({
       },
     }),
 
-    updatePost: builder.mutation<void, PostType>({
-      query: (post) => ({
-        url: `/posts/${post.id}`,
-        method: 'PUT',
-        body: post,
-      }),
-      // Optimistic update
-      async onQueryStarted(post, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
-            const postToUpdate = draft.items.find((p) => p.id === post.id);
-            if (postToUpdate) {
-              Object.assign(postToUpdate, post);
-            }
-          })
-        );
-        try {
-          await queryFulfilled;
-        } catch (e) {
-          patchResult.undo();
-          errorHandler(e);
-        }
-      },
-    }),
+    updatePost: builder.mutation<void, { postId: number; description: string }>(
+      {
+        query: ({ postId, description }) => ({
+          url: `/posts/${postId}`,
+          method: 'PATCH',
+          body: { description },
+        }),
+        // Optimistic update
+        async onQueryStarted(
+          { postId, description },
+          { dispatch, queryFulfilled }
+        ) {
+          const patchResult = dispatch(
+            postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
+              const postToUpdate = draft.items.find((p) => p.id === postId);
+              if (postToUpdate) {
+                postToUpdate.description = description;
+              }
+            })
+          );
+          try {
+            await queryFulfilled;
+          } catch (e) {
+            patchResult.undo();
+            errorHandler(e);
+          }
+        },
+      }
+    ),
   }),
 });
 

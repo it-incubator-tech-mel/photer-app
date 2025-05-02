@@ -5,7 +5,7 @@ import { ConfirmCloseModal } from './ConfirmCloseModal';
 import { ReactNode } from 'react';
 import { useEditPost } from '../../lib/useEditPost';
 import { AvatarWithName } from '../viewPost/AvatarWithName';
-import { Photo, PostType } from '../../lib/post.types';
+import { PostType } from '../../lib/post.types';
 import { Carousel } from '@/shared/ui/carousel/Carousel';
 
 const MAX_SYMBOL_COUNT = 500;
@@ -45,9 +45,9 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
       </div>
       <div className="flex h-full">
         <Carousel className="flex-1">
-          {post.photos.map((item: Photo, index: number) => (
+          {post.photos.map((photo, index: number) => (
             <Image
-              src={item.photoUrl}
+              src={photo}
               alt={'Post image'}
               key={index}
               width={500}

@@ -8,25 +8,18 @@ export type Posts = {
 export type PostType = {
   id: number;
   description: string;
-  photos: Photo[];
+  photos: string[];
   createdAt: string;
   updatedAt: string;
 };
 
-export type Photo = {
-  createdAt: string;
-  id: number;
-  photoUrl: string;
-};
 export type ErrorResponse = {
-  error: ErrorIncorrectValue | ErrorServerError | ErrorNotFound;
-};
-
-type ErrorServerError = {
-  status: 500;
-  data: {
-    message: string;
-  };
+  error:
+    | ErrorIncorrectValue
+    | ErrorServerError
+    | ErrorNotFound
+    | ErrorNotOwner
+    | ErrorUnauthorized;
 };
 
 type ErrorIncorrectValue = {
@@ -39,6 +32,21 @@ type ErrorIncorrectValue = {
   ];
 };
 
+type ErrorUnauthorized = {
+  status: 401;
+};
+
+type ErrorNotOwner = {
+  status: 403;
+};
+
 type ErrorNotFound = {
   status: 404;
+};
+
+type ErrorServerError = {
+  status: 500;
+  data: {
+    message: string;
+  };
 };

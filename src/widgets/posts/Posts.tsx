@@ -11,7 +11,7 @@ export const Posts = (): ReactNode => {
   if (isLoading) {
     return <Spinner />;
   }
-  console.log('posts', posts);
+
   return (
     <div>
       <p className="my-[20px]">

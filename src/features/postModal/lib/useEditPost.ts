@@ -59,8 +59,8 @@ export function useEditPost({
   };
 
   const handleUpdatePost = (): void => {
-    const updatedPost = { ...post, description };
-    updatePost(updatedPost);
+    updatePost({ postId: post.id, description });
+    onCloseAction();
   };
 
   const handleClickOutside = useCallback(
