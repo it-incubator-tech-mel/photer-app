@@ -80,7 +80,7 @@ export function DescriptionStep({
             type: blob.type || 'image/jpeg',
           });
 
-          formData.append('photo', file);
+          formData.append('photos', file);
         } catch (error) {
           console.error(`Error fetching photo ${i}:`, error);
         }
