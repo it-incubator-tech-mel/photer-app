@@ -32,7 +32,6 @@ export const postsApi = baseApi.injectEndpoints({
           .find((row) => row.startsWith('accessToken='));
         const token = cookie?.split('=')[1];
 
-        console.log('aloalo', body);
         return {
           url: '/posts',
           method: 'POST',

@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { useAppDispatch } from '@/shared/state/store';
-
 import { aspectRatios } from '@/shared/config/aspectRatios';
 import { PhotoSettings, setPhotoSettings } from '../model/postSlice';
 

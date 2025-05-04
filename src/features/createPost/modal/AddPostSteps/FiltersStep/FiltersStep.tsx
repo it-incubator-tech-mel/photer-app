@@ -1,9 +1,10 @@
 'use client';
 
+import type React from 'react';
 import { Modal } from '@/widgets/modal/Modal';
-import { useFiltersStep } from '../../hooks/useFiltersStep';
 import { Button, IconSprite } from '@/shared/ui';
-import { PhotoNavigation } from '../../ui/PhotoNavigation';
+import { useFiltersStep } from '@/features/createPost/hooks/useFiltersStep';
+import { PhotoNavigation } from '@/features/createPost/ui/PhotoNavigation';
 
 type Filter = {
   name: string;

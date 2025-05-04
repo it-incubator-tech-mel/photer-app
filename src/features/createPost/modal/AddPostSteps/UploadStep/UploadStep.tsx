@@ -1,16 +1,15 @@
-'use client';
-
+import { useUploadPhotos } from '@/features/createPost/hooks/useUploadPhotos';
 import { Button, IconSprite } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
 import { Modal } from '@/widgets/modal/Modal';
-import { useUploadPhotos } from '../../hooks/useUploadPhotos';
 
-type UploadStepProps = {
+export function UploadStep({
+  onClose,
+}: {
   onClose: () => void;
-};
-
-export function UploadStep({ onClose }: UploadStepProps): React.ReactElement {
+}): React.ReactElement {
   const { handleFileChange } = useUploadPhotos();
+
   return (
     <Modal open onClose={onClose}>
       <div className="flex flex-col items-center gap-4">

@@ -1,21 +1,21 @@
 'use client';
 
+import Cropper from 'react-easy-crop';
+import { Modal } from '@/widgets/modal/Modal';
+import { Button, IconSprite } from '@/shared/ui';
 import { RootState } from '@/shared/state/store';
 import { useSelector } from 'react-redux';
-import { usePhotoNavigation } from '../../hooks/usePhotoNavigation';
-import { useImageEditor } from '../../hooks/useImageEditor';
-import { useImageCropping } from '../../hooks/useImageCropping';
-import { useImageSave } from '../../hooks/useImageSave';
-import { useImageAspect } from '../../hooks/useImageAspect';
-import { Modal } from '@/widgets/modal/Modal';
 import { CroppingModalHeader } from './CroppingModalHeader';
-import Cropper from 'react-easy-crop';
-import { PhotoNavigation } from '../../ui/PhotoNavigation';
-import { aspectRatios } from '@/shared/config/aspectRatios';
 import { CroppingModalSettings } from './CroppingModalSettings';
-import { Button, IconSprite } from '@/shared/ui';
 import { cn } from '@/shared/lib/cn';
+import { aspectRatios } from '@/shared/config/aspectRatios';
 import { ThumbnailsPreview } from './ThumbnailsPreview';
+import { usePhotoNavigation } from '@/features/createPost/hooks/usePhotoNavigation';
+import { useImageCropping } from '@/features/createPost/hooks/useImageCropping';
+import { useImageEditor } from '@/features/createPost/hooks/useImageEditor';
+import { useImageSave } from '@/features/createPost/hooks/useImageSave';
+import { useImageAspect } from '@/features/createPost/hooks/useImageAspect';
+import { PhotoNavigation } from '@/features/createPost/ui/PhotoNavigation';
 
 type CropStep = { onClose: () => void };
 
