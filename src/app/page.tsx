@@ -1,6 +1,6 @@
 'use client';
 
-import { PostCreationWizard } from '@/features/createPost';
+import { PostCreationWizard } from '@/features/postCreate';
 import { Button } from '@/shared/ui';
 import Link from 'next/link';
 import { useState } from 'react';
