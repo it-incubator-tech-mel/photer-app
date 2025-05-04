@@ -16,6 +16,7 @@ export type PhotoSettings = {
   originalHeight?: number;
   croppedWidth?: number;
   croppedHeight?: number;
+  originalUrl?: string;
 };
 
 type PostCreationState = {

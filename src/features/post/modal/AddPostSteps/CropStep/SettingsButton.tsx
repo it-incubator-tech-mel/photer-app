@@ -1,6 +1,6 @@
 import { Button, IconSprite } from '@/shared/ui';
 import { cn } from '@/shared/lib/cn';
-import { SpriteName } from 'public/icons/spriteNames';
+import { SpriteName } from '../../../../../../public/icons/spriteNames';
 
 type SettingsButtonProps = {
   iconName: string;

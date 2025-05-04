@@ -11,12 +11,12 @@ import { CroppingModalSettings } from './CroppingModalSettings';
 import { cn } from '@/shared/lib/cn';
 import { aspectRatios } from '@/shared/config/aspectRatios';
 import { ThumbnailsPreview } from './ThumbnailsPreview';
-import { usePhotoNavigation } from '../../hooks/usePhotoNavigation';
-import { PhotoNavigation } from '../../ui/PhotoNavigation';
-import { useImageEditor } from '../../hooks/useImageEditor';
-import { useImageAspect } from '../../hooks/useImageAspect';
-import { useImageCropping } from '../../hooks/useImageCropping';
-import { useImageSave } from '../../hooks/useImageSave';
+import { usePhotoNavigation } from '../../../hooks/usePhotoNavigation';
+import { PhotoNavigation } from '../../../ui/PhotoNavigation';
+import { useImageEditor } from '../../../hooks/useImageEditor';
+import { useImageAspect } from '../../../hooks/useImageAspect';
+import { useImageCropping } from '../../../hooks/useImageCropping';
+import { useImageSave } from '../../../hooks/useImageSave';
 
 export function CropStep({
   onClose,

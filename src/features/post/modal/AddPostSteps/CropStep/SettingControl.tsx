@@ -3,7 +3,7 @@
 import { cn } from '@/shared/lib/cn';
 import { Button, IconSprite } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
-import { SpriteName } from 'public/icons/spriteNames';
+import { SpriteName } from '../../../../../../public/icons/spriteNames';
 
 type SettingControlProps = {
   iconName: string;

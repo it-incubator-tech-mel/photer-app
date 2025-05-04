@@ -1,16 +1,10 @@
 'use client';
 
 import type React from 'react';
-
-import { useState } from 'react';
 import { Modal } from '@/widgets/modal/Modal';
 import { Button, IconSprite } from '@/shared/ui';
-import { type RootState, useAppDispatch } from '@/shared/state/store';
-import { useSelector } from 'react-redux';
-import { goToStep, setPhotoSettings } from '@/shared/state/slices/postSlice';
-import { usePhotoNavigation } from '../../hooks/usePhotoNavigation';
-import { useFilterSave } from '../../hooks/useFilterSave';
-import { PhotoNavigation } from '../../ui/PhotoNavigation';
+import { PhotoNavigation } from '../../../ui/PhotoNavigation';
+import { useFiltersStep } from '@/features/post/hooks/useFiltersStep';
 
 type Filter = {
   name: string;
@@ -31,40 +25,16 @@ export function FiltersStep({
 }: {
   onClose: () => void;
 }): React.ReactElement {
-  const dispatch = useAppDispatch();
-  const photos = useSelector((state: RootState) => state.post.photos);
-  const currentIndex = useSelector(
-    (state: RootState) => state.post.currentPhotoIndex
-  );
-  const currentPhoto = photos[currentIndex];
-
-  const [selectedFilter, setSelectedFilter] = useState(
-    currentPhoto.filter || 'Оригинал'
-  );
-  const { hasNext, hasPrev, goNext, goPrev } = usePhotoNavigation();
-  const { handleSaveWithFilter } = useFilterSave(currentPhoto);
-
-  const handleFilterChange = (filterName: string): void => {
-    setSelectedFilter(filterName);
-    dispatch(
-      setPhotoSettings({
-        filter: filterName,
-      })
-    );
-  };
-
-  const handleNext = async (): Promise<void> => {
-    await handleSaveWithFilter(selectedFilter);
-  };
-
-  const handleBack = (): void => {
-    dispatch(
-      setPhotoSettings({
-        filter: 'Оригинал',
-      })
-    );
-    dispatch(goToStep('crop'));
-  };
+  const {
+    currentPhoto,
+    handleFilterChange,
+    handleNext,
+    handleBack,
+    goNext,
+    goPrev,
+    hasNext,
+    hasPrev,
+  } = useFiltersStep(onClose);
 
   return (
     <Modal
@@ -100,7 +70,8 @@ export function FiltersStep({
             src={currentPhoto.url || '/placeholder.svg'}
             alt="Preview"
             className={`max-h-full max-w-full object-contain ${
-              filters.find((f) => f.name === selectedFilter)?.className || ''
+              filters.find((f) => f.name === currentPhoto.filter)?.className ||
+              ''
             }`}
             style={{
               transform: `rotate(${currentPhoto.rotation}deg)`,
@@ -126,7 +97,7 @@ export function FiltersStep({
               >
                 <div
                   className={`h-20 w-20 overflow-hidden rounded-lg border-2 ${
-                    selectedFilter === filter.name
+                    currentPhoto.filter === filter.name
                       ? 'border-accent-500'
                       : 'border-transparent'
                   }`}
