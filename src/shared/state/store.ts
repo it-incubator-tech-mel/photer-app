@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { baseApi } from '../lib/baseApi';
 import { modalReducer } from './slices/modalSlice';
-import { postReducer } from './slices/postSlice';
+import { postReducer } from '@/features/createPost/model/postSlice';
 
 export const store = configureStore({
   reducer: {

@@ -1,11 +1,11 @@
 'use client';
 
-import { PostCreationWizard } from '@/features/post/modal/PostCreationWizard';
+import { PostCreationWizard } from '@/features/createPost';
 import { Button } from '@/shared/ui';
 import Link from 'next/link';
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 
-export default function Home(): ReactElement {
+export default function Home(): React.ReactElement {
   const [addPost, setAddPost] = useState(false);
   return (
     <div>

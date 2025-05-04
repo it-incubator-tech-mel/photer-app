@@ -5,7 +5,7 @@ import { AuthModal } from '@/features/auth/modal/AuthModal';
 
 import { closeModal } from '@/shared/state/slices/modalSlice';
 import { Modal } from '@/widgets/modal/Modal';
-import { PostCreationWizard } from '@/features/post/modal/PostCreationWizard';
+import { PostCreationWizard } from '@/features/createPost';
 
 export function ModalProvider(): React.ReactElement | null {
   const { isOpen, type, props } = useSelector(
