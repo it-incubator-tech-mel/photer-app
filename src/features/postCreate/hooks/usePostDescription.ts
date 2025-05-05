@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '@/shared/state/store';
 import { useCreatePostMutation } from '../api/postsApi';
 import { closeModal } from '@/shared/state/slices/modalSlice';
-import { goToStep, resetState } from '../model/postSlice';
+import { goToStep, resetPhotoFilter, resetState } from '../model/postSlice';
 
 const MAX_DESCRIPTION_LENGTH = 500;
 
@@ -48,6 +48,7 @@ export function usePostDescription(onClose: () => void): {
   const isDescriptionValid = characterCount <= MAX_DESCRIPTION_LENGTH;
 
   const handleBack = (): void => {
+    dispatch(resetPhotoFilter());
     dispatch(goToStep('filters'));
   };
 

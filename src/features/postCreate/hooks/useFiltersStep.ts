@@ -1,7 +1,12 @@
 import { RootState, useAppDispatch } from '@/shared/state/store';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { goToStep, PhotoSettings, setPhotoSettings } from '../model/postSlice';
+import {
+  goToStep,
+  PhotoSettings,
+  resetPhotoFilter,
+  setPhotoSettings,
+} from '../model/postSlice';
 import { usePhotoNavigation } from './usePhotoNavigation';
 import { useFilterSave } from './useFilterSave';
 
@@ -40,18 +45,15 @@ export const useFiltersStep = (onClose: () => void): UseFiltersStepResult => {
   };
 
   const handleBack = (): void => {
-    console.log('Returning to crop step...');
-    console.log('Original URL:', currentPhoto.originalUrl);
-    console.log('Current URL:', currentPhoto.url);
-
-    dispatch(
-      setPhotoSettings({
-        filter: 'Оригинал',
-        url: currentPhoto.originalUrl ?? currentPhoto.url,
-      })
-    );
     dispatch(goToStep('crop'));
   };
+
+  // надо так же для сброса обрезки
+
+  // const handleBack = (): void => {
+  //   dispatch(resetPhotoFilter());
+  //   dispatch(goToStep('filters'));
+  // };
 
   return {
     currentPhoto,

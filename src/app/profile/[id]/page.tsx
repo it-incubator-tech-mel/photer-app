@@ -8,7 +8,7 @@ import { useAppDispatch } from '@/shared/state/store';
 import { Button } from '@/shared/ui';
 import { LogoutButton } from '@/widgets/logout-button/LogoutButton';
 import { ReactElement } from 'react';
-import { useGetPostsQuery } from '@/features/post/api/postsApi';
+import { useGetPostsQuery } from '@/features/postCreate/api/postsApi';
 
 export default function Page(): ReactElement {
   const {

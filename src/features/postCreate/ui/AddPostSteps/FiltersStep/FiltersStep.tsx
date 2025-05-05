@@ -90,6 +90,7 @@ export function FiltersStep({
         <div className="mt-4 w-full">
           <div className="grid grid-cols-3 gap-4">
             {filters.map((filter) => (
+              //  filtered images
               <div
                 key={filter.name}
                 className="flex cursor-pointer flex-col items-center"
