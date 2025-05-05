@@ -22,7 +22,7 @@ type UseFiltersStepResult = {
   hasPrev: boolean;
 };
 
-export const useFiltersStep = (onClose: () => void): UseFiltersStepResult => {
+export const useFiltersStep = (): UseFiltersStepResult => {
   const dispatch = useAppDispatch();
   const photos = useSelector((state: RootState) => state.post.photos);
   const currentIndex = useSelector(
@@ -41,7 +41,7 @@ export const useFiltersStep = (onClose: () => void): UseFiltersStepResult => {
   };
 
   const handleNext = async (): Promise<void> => {
-    await handleSaveWithFilter(selectedFilter);
+    handleSaveWithFilter(selectedFilter);
   };
 
   const handleBack = (): void => {

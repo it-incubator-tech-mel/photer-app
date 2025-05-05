@@ -8,11 +8,13 @@ import { usePostDescription } from '../../../hooks/usePostDescription';
 
 const MAX_DESCRIPTION_LENGTH = 500;
 
+type DescriptionStepProps = {
+  onCloseAction: () => void;
+};
+
 export function DescriptionStep({
   onCloseAction,
-}: {
-  onCloseAction: () => void;
-}): React.ReactElement {
+}: DescriptionStepProps): React.ReactElement {
   const {
     register,
     handleSubmit,

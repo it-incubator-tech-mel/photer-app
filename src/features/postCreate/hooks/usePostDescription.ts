@@ -85,6 +85,7 @@ export function usePostDescription(onClose: () => void): {
       onClose();
     } catch (error) {
       console.error('Ошибка:', error);
+      // TODO: добавить обработку ошибок (есть реализация в ветке SCRUM-17)
     }
   };
 

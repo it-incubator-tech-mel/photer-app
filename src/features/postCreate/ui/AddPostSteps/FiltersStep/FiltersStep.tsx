@@ -36,7 +36,7 @@ export function FiltersStep({
     goPrev,
     hasNext,
     hasPrev,
-  } = useFiltersStep(onCloseAction);
+  } = useFiltersStep();
 
   return (
     <Modal
