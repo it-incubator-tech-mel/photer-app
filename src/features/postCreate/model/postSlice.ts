@@ -100,23 +100,22 @@ const postSlice = createSlice({
       state.photos[idx] = {
         ...state.photos[idx],
         url: action.payload,
-        // originalUrl: action.payload, // обновляем здесь тоже
       };
     },
-    // resetPhotoCrop: (state) => {
-    //   const idx = state.currentPhotoIndex;
-    //   const photo = state.photos[idx];
-    //   if (photo) {
-    //     state.photos[idx] = {
-    //       ...photo,
-    //       url: photo.uploadUrl, // возвращаем исходное
-    //       croppedAreaPixels: null, // сбрасываем данные обрезки
-    //       zoom: 1,
-    //       rotation: 0,
-    //       originalUrl: photo.uploadUrl, // и для фильтров тоже возвращаем
-    //     };
-    //   }
-    // },
+
+    // новый для сброса обрезки
+    resetPhotoCrop: (state) => {
+      const currentPhoto = state.photos[state.currentPhotoIndex];
+      if (currentPhoto) {
+        state.photos[state.currentPhotoIndex] = {
+          ...currentPhoto,
+          url: currentPhoto.originalUrl, // возвращаем исходный URL
+          croppedAreaPixels: null, // сбрасываем данные обрезки
+          zoom: 1,
+          rotation: 0,
+        };
+      }
+    },
     resetState: () => initialState,
   },
 });
@@ -130,6 +129,7 @@ export const {
   deletePhoto,
   resetState,
   resetPhotoFilter,
+  resetPhotoCrop,
 } = postSlice.actions;
 
 export const postReducer = postSlice.reducer;

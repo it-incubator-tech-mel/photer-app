@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
   goToStep,
   PhotoSettings,
-  resetPhotoFilter,
+  resetPhotoCrop,
   setPhotoSettings,
 } from '../model/postSlice';
 import { usePhotoNavigation } from './usePhotoNavigation';
@@ -45,15 +45,9 @@ export const useFiltersStep = (onClose: () => void): UseFiltersStepResult => {
   };
 
   const handleBack = (): void => {
+    dispatch(resetPhotoCrop());
     dispatch(goToStep('crop'));
   };
-
-  // надо так же для сброса обрезки
-
-  // const handleBack = (): void => {
-  //   dispatch(resetPhotoFilter());
-  //   dispatch(goToStep('filters'));
-  // };
 
   return {
     currentPhoto,
