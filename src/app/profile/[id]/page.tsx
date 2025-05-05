@@ -1,45 +1,30 @@
 'use client';
 
-import { ReactElement, useEffect, useMemo, useState } from 'react';
-import { ProfileInfo } from '@/features/profile/ui/ProfileInfo';
-import { PostsList } from '@/features/posts/ui/PostsList';
-import { useParams, useRouter } from 'next/navigation';
-import { useLazyGetProfilePostsQuery } from '@/features/posts/api/postsApi';
-import { isError404 } from '@/shared/types/commonTypes';
-import { decodeJwt } from '@/shared/lib/decodeJwt';
+import { ReactElement, useMemo } from 'react';
+import { PostsList } from '@/widgets/posts-list/ui/PostsList';
+import { useParams } from 'next/navigation';
+import { useGetMeQuery } from '@/features/auth/api/authApi';
+import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { Spinner } from '@/shared/ui';
 
-export default function Page(): ReactElement {
-  const [accessToken, setAccessToken] = useState(null as string | null);
-  const { id: profileId } = useParams<{ id: string }>();
-  const [getPostsByProfileId, { data: posts, error, isLoading }] =
-    useLazyGetProfilePostsQuery();
+export default function ProfilePage(): ReactElement {
+  const params = useParams();
+  const { data: userData, isLoading } = useGetMeQuery();
 
-  const router = useRouter();
+  const { id: profileId } = params as { id: string };
+  const isProfileOwner = useMemo(
+    () => userData?.userId.toString() === profileId,
+    [userData, profileId]
+  );
 
-  if (isError404(error)) {
-    router.push('/not-found');
+  if (isLoading) {
+    return <Spinner fullScreen />;
   }
-
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('accessToken'));
-  }, []);
-
-  const isProfileOwner = useMemo(() => {
-    const userId = decodeJwt(accessToken as string).userId;
-    return userId == profileId;
-  }, [profileId, accessToken]);
-
-  useEffect(() => {
-    if (profileId) {
-      getPostsByProfileId({ userId: profileId });
-    }
-  }, [profileId, getPostsByProfileId]);
 
   return (
     <div className={'pl pr- h-full max-w-7xl pt-9 pr-16 pl-[226px]'}>
-      <ProfileInfo isOwner={isProfileOwner} isAuthorized={!!accessToken} />
-      {isLoading ? <Spinner /> : <PostsList posts={posts} />}
+      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userData} />
+      <PostsList profileId={profileId} />
     </div>
   );
 }

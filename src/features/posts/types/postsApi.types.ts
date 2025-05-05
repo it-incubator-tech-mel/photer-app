@@ -1,28 +1,16 @@
-// export type RootDataItem = {
-//   id: number;
-//   description: string;
-//   photo: string[];
-//   userId: number;
-//   createdAt: string;
-//   updatedAt: string;
-//   status: string;
-//   isDeleted: boolean;
-// };
-// export type ProfilePostsResponseTypes = RootDataItem[];
-
-export type Photo = {
-  id: number;
-  photoUrl: string;
-  createdAt: string;
-};
-
-export type PostItem = {
-  id: number;
+export type Items = {
+  id: string;
   description: string;
-  userId: number;
-  photo: Photo[];
+  photos: string[];
+  status: boolean;
   createdAt: string;
   updatedAt: string;
-  status: string;
-  isDeleted: boolean;
+};
+
+export type PostsResponse = {
+  totalCount: number;
+  pagesCount: number;
+  page: number;
+  pageSize: number;
+  items: Items[];
 };

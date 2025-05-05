@@ -5,7 +5,7 @@ export type Error404Type = {
   timestamp: string;
 };
 
-export const isError404 = (error: any): error is Error404Type => {
+export const isError404 = (error: unknown): error is Error404Type => {
   const typedError = error as { data: Error404Type };
   return typedError?.data.statusCode === 404;
 };
