@@ -2,8 +2,8 @@
 
 import { ReactElement, useState } from 'react';
 
-import ruFlag from 'public/icons/ru-flag.png';
-import ukFlag from 'public/icons/uk-flag.png';
+// import ruFlag from 'public/icons/ru-flag.png';
+// import ukFlag from 'public/icons/uk-flag.png';
 import Link from 'next/link';
 
 import { SelectItem } from '../SelectBox/SelectItem';
@@ -29,10 +29,11 @@ export const Header = ({ withLoginBtn = false }: Props): ReactElement => {
             onValueChange={setLanguage}
             className="bg-dark-900 border-dark-100 w-[163px] max-md:w-[70px] max-md:border-hidden"
           >
-            <SelectItem value="en" icon={ukFlag}>
+            <SelectItem value="en" icon="/icons/uk-flag.png">
               <span className="max-md:hidden">English</span>
             </SelectItem>
-            <SelectItem value="ru" icon={ruFlag}>
+
+            <SelectItem value="ru" icon="/icons/ru-flag.png">
               <span className="max-md:hidden">Русский</span>
             </SelectItem>
           </SelectBox>
