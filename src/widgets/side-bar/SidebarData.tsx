@@ -1,62 +1,77 @@
-import { IconSprite } from '@/shared/ui';
-import { SpriteName } from 'public/icons/spriteNames';
+// src/widgets/side-bar/SidebarData.tsx;
 
 type SidebarItem = {
   title?: string;
   path?: string;
-  defaultIconName: SpriteName;
-  activeIconName: SpriteName;
+  defaultIcon?: React.ReactNode;
+  activeIcon?: React.ReactNode;
   nestedItems?: SidebarItem[];
-  nestedTitle?: string;
+  sectionTitle?: string;
 };
+
+import { GoHome, GoHomeFill } from 'react-icons/go';
+import { FaPlus } from 'react-icons/fa';
+import { FaPlusCircle } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
+import { FaEnvelope } from 'react-icons/fa';
+import { FaEnvelopeOpen } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
+import { FaSearchDollar } from 'react-icons/fa';
+import { FaChartBar } from 'react-icons/fa';
+import { FaChartLine } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
+import { FaRegStar } from 'react-icons/fa';
+import { FiLogOut } from 'react-icons/fi';
 
 export const ytSidebarDataset: SidebarItem[] = [
   {
     title: 'Feed',
     path: '/',
-    defaultIconName: 'home-outline',
-    activeIconName: 'home',
+    defaultIcon: <GoHome />,
+    activeIcon: <GoHomeFill />,
   },
   {
     title: 'Create',
     path: '/create',
-    defaultIconName: 'plus-square-outline',
-    activeIconName: 'plus-square',
+    defaultIcon: <FaPlus />,
+    activeIcon: <FaPlusCircle />,
   },
   {
+    // title: 'My Profile',
     title: 'Profile',
     path: '/profile',
-    defaultIconName: 'person-outline',
-    activeIconName: 'person',
+    defaultIcon: <FaUser />,
+    activeIcon: <FaUserCircle />,
   },
   {
     title: 'Messenger',
     path: '/messenger',
-    defaultIconName: 'message-circle-outline',
-    activeIconName: 'message-circle',
+    defaultIcon: <FaEnvelope />,
+    activeIcon: <FaEnvelopeOpen />,
   },
   {
     title: 'Search',
     path: '/search',
-    defaultIconName: 'search-outline',
-    activeIconName: 'search',
+    defaultIcon: <FaSearch />,
+    activeIcon: <FaSearchDollar />,
   },
   {
     title: 'Statistics',
     path: '/statistics',
-    defaultIconName: 'trending-up-outline',
-    activeIconName: 'trending-up',
+    defaultIcon: <FaChartBar />,
+    activeIcon: <FaChartLine />,
   },
   {
     title: 'Favorites',
     path: '/favorites',
-    defaultIconName: 'bookmark-outline',
-    activeIconName: 'bookmark',
+    defaultIcon: <FaRegStar />,
+    activeIcon: <FaStar />,
   },
   {
     title: 'Log Out',
     path: '/logout',
-    defaultIconName: 'home-outline',
-    activeIconName: 'home-outline',
+    defaultIcon: <FiLogOut />,
+    activeIcon: <FiLogOut />,
   },
 ];

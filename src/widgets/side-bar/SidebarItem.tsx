@@ -6,49 +6,37 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import HoverDiv from './HoverDiv';
 import { cn } from '@/shared/lib/cn';
-import { IconSprite } from '@/shared/ui';
-import { SpriteName } from 'public/icons/spriteNames';
 
 type SidebarItemProps = {
   title: string | undefined;
-  defaultIconName: SpriteName;
-  activeIconName: SpriteName;
+  defaultIcon: React.ReactNode;
+  activeIcon: React.ReactNode;
   path?: string;
   isSidebarOpen: boolean;
 };
 
-export default function SidebarItem({
-  title,
-  defaultIconName,
-  activeIconName,
-  path,
-  isSidebarOpen,
-}: SidebarItemProps): React.JSX.Element {
+export default function SidebarItem(
+  props: SidebarItemProps
+): React.JSX.Element {
   const pathname = usePathname();
 
   return (
-    <Link href={path ?? '#'}>
+    <Link href={props.path ?? '#'}>
       <HoverDiv
-        isActive={pathname === path}
-        className={cn(
-          'text-2xlitems-center flex w-full items-center gap-5 px-[20px]',
-          {
-            'min-w-[40px] flex-col gap-1 rounded-full': !isSidebarOpen,
-          }
-        )}
+        isActive={pathname === props.path}
+        className={cn('flex w-full items-center gap-5', {
+          'flex-col gap-2': !props.isSidebarOpen,
+        })}
       >
-        <IconSprite
-          iconName={isSidebarOpen ? defaultIconName : activeIconName}
-          className="mt-[4px] fill-white"
-          width="24"
-          height="24"
-        />
+        <section className="flex h-7 w-7 items-center text-2xl">
+          {props.isSidebarOpen ? props.defaultIcon : props.activeIcon}
+        </section>
         <p
           className={cn('text-sm font-semibold', {
-            'text-[10px]': !isSidebarOpen,
+            'text-[10px]': !props.isSidebarOpen,
           })}
         >
-          {isSidebarOpen && title}
+          {props.title}
         </p>
       </HoverDiv>
     </Link>
