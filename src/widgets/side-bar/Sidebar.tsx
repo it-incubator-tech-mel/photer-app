@@ -1,101 +1,106 @@
 // src/widgets/side-bar/Sidebar.tsx
 'use client';
 
-import React from 'react';
-import { IoIosMenu } from 'react-icons/io';
-import { FiLogOut } from 'react-icons/fi';
-
+import React, { useState } from 'react';
 import HoverDiv from './HoverDiv';
 import { ytSidebarDataset } from './SidebarData';
 import SidebarItem from './SidebarItem';
 import { cn } from '@/shared/lib/cn';
+import { IconSprite } from '@/shared/ui';
+import { useGetMeQuery } from '@/features/auth/api/authApi';
+import { LogoutButton } from '../logout-button/LogoutButton';
+import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
+import { useLogout } from '@/features/auth/hooks/useLogout';
 
-type SidebarProps = {
-  isSidebarOpen: boolean;
-  toggleSidebar: () => void;
-};
+export const Sidebar = (): React.JSX.Element | null => {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const { data } = useGetMeQuery();
+  const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
 
-export default function Sidebar({
-  isSidebarOpen,
-  toggleSidebar,
-}: SidebarProps): React.JSX.Element {
+  if (!data) return null;
+
   return (
-    <div
+    <aside
       className={cn(
-        'min-h-scree flex flex-col justify-between border-r-2 border-zinc-700 bg-black text-slate-50 transition-all duration-300',
-        // 'min-h-screen border-r-2 bg-black transition-all duration-300',
+        'flex h-[calc(100vh-60px)] w-60 flex-col justify-between border-r-2 border-zinc-700 bg-black text-slate-50 transition-all duration-300',
         {
-          'w-60': isSidebarOpen,
           'w-[64px]': !isSidebarOpen,
         }
       )}
     >
       {/* Верхняя панель: бургер + стрелка */}
       <section
-        className={cn('flex items-center gap-4 py-4', {
-          'justify-center': !isSidebarOpen,
-          'px-5': isSidebarOpen, // отступы только если открыт
-        })}
+        className={cn(
+          'between flex w-full items-center justify-center gap-4 py-4',
+          {
+            'justify-end px-5': isSidebarOpen, // отступы только если открыт
+          }
+        )}
       >
         <HoverDiv
           className="flex items-center gap-2 rounded-full p-2"
-          onClick={toggleSidebar}
+          onClick={() => setSidebarOpen((prev) => !prev)}
         >
-          <IoIosMenu className="text-3xl" />
-          {isSidebarOpen && <FiLogOut className="rotate-180 text-xl" />}
+          {isSidebarOpen ? (
+            <IconSprite iconName="arrow-back-outline" />
+          ) : (
+            <IconSprite iconName="menu-outline" />
+          )}
         </HoverDiv>
       </section>
 
       {/* Центральная часть: пункты меню */}
       {/* <main className="flex-1 overflow-hidden"> */}
-      <main className="flex-1">
+      <ul className="flex flex-1 flex-col gap-1">
         {ytSidebarDataset
-          .filter((d) => d.title !== 'Log Out')
-          .map((d, i) => (
-            <React.Fragment key={i}>
-              {d.title && (
-                <section className="w-full px-4">
+          .filter((dataset) => dataset.title !== 'Log Out')
+          .map((dataset, index) => (
+            <React.Fragment key={index}>
+              {dataset.title && (
+                <li className="w-full px-2">
                   <SidebarItem
-                    path={d.path}
-                    activeIcon={d.activeIcon}
-                    defaultIcon={d.defaultIcon}
-                    title={d.title}
+                    path={dataset.path}
+                    activeIconName={dataset.activeIconName}
+                    defaultIconName={dataset.defaultIconName}
+                    title={dataset.title}
                     isSidebarOpen={isSidebarOpen}
                   />
-                </section>
+                </li>
               )}
-              {d.title === 'Search' && <div className="h-6" />}
-              {d.title === 'Favorites' && <div className="h-10" />}
+              {dataset.title === 'Search' && <div className="h-6" />}
+              {dataset.title === 'Favorites' && <div className="h-10" />}
 
-              {d.nestedItems && isSidebarOpen && d.nestedItems.length > 0 && (
-                <section className="mt-4 w-full border-t border-zinc-600 px-4 pt-4">
-                  <p className="mb-2 px-3">{d.sectionTitle}</p>
-                  {d.nestedItems.map((n, ni) => (
-                    <SidebarItem
-                      key={ni}
-                      path={n.path}
-                      activeIcon={n.activeIcon}
-                      defaultIcon={n.defaultIcon}
-                      title={n.title}
-                      isSidebarOpen={isSidebarOpen}
-                    />
-                  ))}
-                </section>
-              )}
+              {dataset.nestedItems &&
+                isSidebarOpen &&
+                dataset.nestedItems.length > 0 && (
+                  <ul className="mt-4 w-full border-t border-zinc-600 px-4 pt-4">
+                    <p className="mb-2 px-3">{dataset.nestedTitle}</p>
+                    {dataset.nestedItems.map((item, index) => (
+                      <SidebarItem
+                        key={index}
+                        path={item.path}
+                        activeIconName={item.activeIconName}
+                        defaultIconName={item.defaultIconName}
+                        title={item.title}
+                        isSidebarOpen={isSidebarOpen}
+                      />
+                    ))}
+                  </ul>
+                )}
             </React.Fragment>
           ))}
-      </main>
+      </ul>
 
       {/* Нижняя часть: Log Out */}
-      <div className="px-4 pb-6">
-        <SidebarItem
-          title="Log Out"
-          path="/logout"
-          defaultIcon={<FiLogOut />}
-          activeIcon={<FiLogOut />}
-          isSidebarOpen={isSidebarOpen}
+      <div className="px-2 pb-6">
+        <LogoutButton openModal={openModal} />
+        <LogoutModal
+          open={isOpen}
+          userEmail={''}
+          onConfirmed={confirmLogout}
+          onCanceled={closeModal}
         />
       </div>
-    </div>
+    </aside>
   );
-}
+};
