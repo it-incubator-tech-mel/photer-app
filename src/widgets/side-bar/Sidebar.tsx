@@ -22,19 +22,20 @@ export default function Sidebar({
   return (
     <div
       className={cn(
-        'min-h-scree flex flex-col justify-between border-r-2 border-zinc-700 bg-black text-slate-50 transition-all duration-300',
-        // 'min-h-screen border-r-2 bg-black transition-all duration-300',
+        'sticky top-[60px] z-10 flex flex-col ' +
+          'h-[calc(100vh-60px)] border-r-2 border-zinc-700' +
+          'bg-black text-slate-50 transition-all duration-300',
         {
-          'w-60': isSidebarOpen,
-          'w-[64px]': !isSidebarOpen,
+          'w-[219px]': isSidebarOpen,
+          'w-[74px]': !isSidebarOpen,
         }
       )}
     >
-      {/* Верхняя панель: бургер + стрелка */}
+      {/* Верхняя панель: бургер-меню */}
       <section
         className={cn('flex items-center gap-4 py-4', {
           'justify-center': !isSidebarOpen,
-          'px-5': isSidebarOpen, // отступы только если открыт
+          'px-5': isSidebarOpen,
         })}
       >
         <HoverDiv
@@ -46,13 +47,14 @@ export default function Sidebar({
         </HoverDiv>
       </section>
 
-      {/* Центральная часть: пункты меню */}
-      {/* <main className="flex-1 overflow-hidden"> */}
-      <main className="flex-1">
+      {/* Пункты меню + Log Out */}
+      {/* <div className="flex-1 overflow-y-auto"> */}
+      <div className="flex-1">
         {ytSidebarDataset
-          .filter((d) => d.title !== 'Log Out')
+          // показываем все пункты, включая «Log Out»
           .map((d, i) => (
             <React.Fragment key={i}>
+              {/* секция с заголовком пункта, если он есть */}
               {d.title && (
                 <section className="w-full px-4">
                   <SidebarItem
@@ -64,9 +66,11 @@ export default function Sidebar({
                   />
                 </section>
               )}
-              {d.title === 'Search' && <div className="h-6" />}
-              {d.title === 'Favorites' && <div className="h-10" />}
+              {/* отступы под специфичные пункты */}
+              {/* {d.title === 'Search' && <div className="h-6" />} */}
+              {/* {d.title === 'Favorites' && <div className="h-10" />} */}
 
+              {/* вложенные пункты */}
               {d.nestedItems && isSidebarOpen && d.nestedItems.length > 0 && (
                 <section className="mt-4 w-full border-t border-zinc-600 px-4 pt-4">
                   <p className="mb-2 px-3">{d.sectionTitle}</p>
@@ -84,17 +88,6 @@ export default function Sidebar({
               )}
             </React.Fragment>
           ))}
-      </main>
-
-      {/* Нижняя часть: Log Out */}
-      <div className="px-4 pb-6">
-        <SidebarItem
-          title="Log Out"
-          path="/logout"
-          defaultIcon={<FiLogOut />}
-          activeIcon={<FiLogOut />}
-          isSidebarOpen={isSidebarOpen}
-        />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 // src/app/layout.tsx
+
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -17,13 +18,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: ReactNode;
-}>): ReactElement {
+}): ReactElement {
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-screen`}
+        className={` ${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-screen`}
       >
         <StoreWrapper>{children}</StoreWrapper>
       </body>

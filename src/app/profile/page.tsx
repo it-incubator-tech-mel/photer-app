@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 
 export default function MyProfileRedirectPage() {
   const isAuthorized = true; // ❗Заглушка — считаем, что пользователь авторизован
-  const userId = '123'; // ❗Заглушка — потом заменишь на реальный ID из куки/стора
+  const userId = '123'; // ❗Заглушка — потом заменим на реальный ID из куки/стора
 
   if (!isAuthorized) {
     redirect('/');

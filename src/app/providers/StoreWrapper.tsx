@@ -20,8 +20,7 @@ export default function StoreWrapper({
   const pathname = usePathname();
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
-  // Список маршрутов, где нужно показывать Sidebar
-  const sidebarRoutes = ['/', '/profile', '/search'];
+  const sidebarRoutes = ['/', '/profile', '/create', '/messenger', '/search'];
   const showSidebar = sidebarRoutes.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`)
   );
@@ -31,7 +30,7 @@ export default function StoreWrapper({
       <div className="flex min-h-screen w-full flex-col">
         <Header withLoginBtn={true} />
 
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1">
           {showSidebar && (
             <Sidebar
               isSidebarOpen={isSidebarOpen}
@@ -41,8 +40,15 @@ export default function StoreWrapper({
 
           <main
             className={cn(
-              'flex-1 transition-all duration-300',
-              showSidebar && (isSidebarOpen ? 'ml-60' : 'ml-[64px]')
+              'flex-1 overflow-auto transition-all duration-300',
+              showSidebar
+                ? isSidebarOpen
+                  ? // при ОТКРЫТОМ сайдбаре — справа 24px, слева 4px
+                    'pr-6 pl-1'
+                  : // при ЗАКРЫТОМ — справа 8px, слева 12px
+                    'pr-2 pl-3'
+                : // если сайдбар не отображается — стандартные 24px по бокам
+                  'px-6'
             )}
           >
             {children}

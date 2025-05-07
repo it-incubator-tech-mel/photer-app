@@ -1,19 +1,37 @@
 // src/app/page.tsx
-'use client';
 
-import { Button } from '@/shared/ui';
-import Link from 'next/link';
+import { MainFeed } from '@/widgets/main-feed/MainFeed';
+import { Post } from '@/entities/post/model/types';
 import { ReactElement } from 'react';
 
-export default function Home(): ReactElement {
+export default async function HomePage(): Promise<ReactElement> {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  if (!baseUrl) {
+    console.error('NEXT_PUBLIC_BASE_URL is not defined!');
+    return (
+      <p className="text-light-900 p-6">
+        Конфигурация окружения некорректна — не задан NEXT_PUBLIC_BASE_URL.
+      </p>
+    );
+  }
+
+  const res = await fetch(`${baseUrl}/posts?pageSize=8`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    return <p className="text-light-900 p-6">Ошибка загрузки постов</p>;
+  }
+
+  const data = await res.json();
+  const posts: Post[] = data.items;
+
   return (
-    <div>
-      <main>
-        Вы не вошли в систему или ваша сессия истекла, авторизуйтесь пожалуйста{' '}
-        <Button asChild variant={'text'}>
-          <Link href="/sign-in">Войти</Link>
-        </Button>
-      </main>
-    </div>
+    <main className="flex-1">
+      <h1 className="text-light-100 mb-4 px-6 text-2xl font-bold">
+        Лента постов
+      </h1>
+      <MainFeed posts={posts} />
+    </main>
   );
 }

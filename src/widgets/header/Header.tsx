@@ -2,11 +2,7 @@
 'use client';
 
 import { ReactElement, useState } from 'react';
-
-// import ruFlag from 'public/icons/ru-flag.png';
-// import ukFlag from 'public/icons/uk-flag.png';
 import Link from 'next/link';
-
 import { SelectItem } from '../SelectBox/SelectItem';
 import { Button } from '@/shared/ui/button/Button';
 import { SelectBox } from '../SelectBox/SelectBox';
@@ -19,7 +15,7 @@ export const Header = ({ withLoginBtn = false }: Props): ReactElement => {
   const [language, setLanguage] = useState<string>('en');
 
   return (
-    <header className="text-light-100 border-dark-300 h-[60px] w-full border-b-1 px-15 py-3 max-md:px-[15px]">
+    <header className="text-light-100 border-dark-300 bg-dark-900 sticky top-0 z-20 h-[60px] w-full border-b px-15 py-3 max-md:px-[15px]">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between">
         <Link href={'/'} className="large-text">
           Inctagram
@@ -33,7 +29,6 @@ export const Header = ({ withLoginBtn = false }: Props): ReactElement => {
             <SelectItem value="en" icon="/icons/uk-flag.png">
               <span className="max-md:hidden">English</span>
             </SelectItem>
-
             <SelectItem value="ru" icon="/icons/ru-flag.png">
               <span className="max-md:hidden">Русский</span>
             </SelectItem>
