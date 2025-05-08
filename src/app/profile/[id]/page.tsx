@@ -243,22 +243,6 @@ export default async function ProfilePage() {
 
   return (
     <div className="text-light-100 p-6">
-      {/* 🔘 Кнопки Log In / Sign Up */}
-      <div className="mb-4 flex justify-end gap-4">
-        <a
-          href="/sign-in"
-          className="bg-accent-500 hover:bg-accent-700 rounded px-4 py-2 text-sm font-medium text-white"
-        >
-          Log In
-        </a>
-        <a
-          href="/sign-up"
-          className="border-light-100 hover:bg-light-100 hover:text-dark-900 rounded border px-4 py-2 text-sm font-medium"
-        >
-          Sign Up
-        </a>
-      </div>
-
       {/* 👤 Информация о профиле */}
       <h1 className="text-2xl font-bold">Профиль: {user.username}</h1>
       <p className="text-light-900 mt-1">Email: {user.email}</p>

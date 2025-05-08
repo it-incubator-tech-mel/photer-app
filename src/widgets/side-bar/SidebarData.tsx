@@ -1,10 +1,10 @@
 // src/widgets/side-bar/SidebarData.tsx;
 
 type SidebarItem = {
-  title?: string;
-  path?: string;
-  defaultIcon?: React.ReactNode;
-  activeIcon?: React.ReactNode;
+  title: string;
+  path: string;
+  defaultIcon: React.ReactNode;
+  activeIcon: React.ReactNode;
   nestedItems?: SidebarItem[];
   sectionTitle?: string;
 };

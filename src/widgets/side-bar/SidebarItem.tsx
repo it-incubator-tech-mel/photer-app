@@ -1,44 +1,53 @@
-// srcwidgets/side-bar/SidebarItem.tsx
+// // 1 ВАРИАНТ
+// // src/widgets/side-bar/SidebarItem.tsx
+
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import HoverDiv from './HoverDiv';
 import { cn } from '@/shared/lib/cn';
 
 type SidebarItemProps = {
-  title: string | undefined;
-  defaultIcon: React.ReactNode;
-  activeIcon: React.ReactNode;
-  path?: string;
+  path: string;
+  title: string;
   isSidebarOpen: boolean;
+  activeIcon: React.ReactNode;
+  defaultIcon: React.ReactNode;
 };
 
-export default function SidebarItem(
-  props: SidebarItemProps
-): React.JSX.Element {
+export default function SidebarItem({
+  path,
+  title,
+  isSidebarOpen,
+  activeIcon,
+  defaultIcon,
+}: SidebarItemProps) {
   const pathname = usePathname();
+  const isActive = pathname === path;
 
   return (
-    <Link href={props.path ?? '#'}>
-      <HoverDiv
-        isActive={pathname === props.path}
-        className={cn('flex w-full items-center gap-5', {
-          'flex-col gap-2': !props.isSidebarOpen,
-        })}
-      >
-        <section className="flex h-7 w-7 items-center text-2xl">
-          {props.isSidebarOpen ? props.defaultIcon : props.activeIcon}
-        </section>
-        <p
-          className={cn('text-sm font-semibold', {
-            'text-[10px]': !props.isSidebarOpen,
-          })}
-        >
-          {props.title}
-        </p>
-      </HoverDiv>
+    <Link
+      href={path}
+      className={cn(
+        'hover:bg-dark-500 flex items-center overflow-hidden rounded-lg px-3 py-2 text-sm transition-all',
+        {
+          'bg-dark-700 text-white': isActive,
+          'justify-center': !isSidebarOpen,
+          'gap-4': isSidebarOpen,
+        }
+      )}
+    >
+      {/* Иконка */}
+      <span className="shrink-0 text-xl">
+        {isActive ? activeIcon : defaultIcon}
+      </span>
+
+      {/* Название — только если сайдбар открыт */}
+      {isSidebarOpen && (
+        <span className="truncate overflow-hidden text-ellipsis whitespace-nowrap">
+          {title}
+        </span>
+      )}
     </Link>
   );
 }
