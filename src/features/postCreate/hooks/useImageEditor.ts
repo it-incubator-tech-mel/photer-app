@@ -36,6 +36,7 @@ export const useImageEditor = (
     [dispatch, currentPhoto]
   );
 
+  // Поворот сохраняется странно
   const setRotation = useCallback(
     (rotation: number) => {
       dispatch(setPhotoSettings({ ...currentPhoto, rotation }));

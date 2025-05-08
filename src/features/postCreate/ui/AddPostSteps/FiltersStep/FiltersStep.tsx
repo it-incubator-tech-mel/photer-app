@@ -67,7 +67,7 @@ export function FiltersStep({
       showCloseButton={false}
     >
       <div className="flex flex-col items-center">
-        <div className="relative flex h-[400px] w-full items-center justify-center rounded-lg bg-black">
+        <div className="relative flex h-[400px] w-full items-center justify-center overflow-hidden rounded-lg bg-black">
           <img
             src={currentPhoto.url || '/placeholder.svg'}
             alt="Preview"

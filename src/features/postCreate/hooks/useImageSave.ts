@@ -8,6 +8,19 @@ type useImageSaveReturn = {
   handleNext: (croppedAreaPixels: PixelCrop | null) => Promise<void>;
 };
 
+// считает размер bounding-box для прямоугольника width×height после вращения
+function getRotatedSize(
+  width: number,
+  height: number,
+  rotation: number
+): { width: number; height: number } {
+  const rad = (rotation * Math.PI) / 180;
+  return {
+    width: Math.abs(width * Math.cos(rad)) + Math.abs(height * Math.sin(rad)),
+    height: Math.abs(width * Math.sin(rad)) + Math.abs(height * Math.cos(rad)),
+  };
+}
+
 export const useImageSave = (
   currentPhoto: PhotoSettings
 ): useImageSaveReturn => {
@@ -20,30 +33,34 @@ export const useImageSave = (
       }
 
       try {
-        const croppedImage = await getCroppedImg(
+        const finalUrl = await getCroppedImg(
           currentPhoto.url,
           croppedAreaPixels,
           currentPhoto.rotation
         );
+
+        // Сбрасываем поворот — картинка уже «запечена»
+        dispatch(setPhotoSettings({ rotation: 0 }));
+
+        // Сохраняем новый URL и параметры обрезки
         dispatch(
           setPhotoSettings({
-            url: croppedImage,
+            url: finalUrl,
             croppedAreaPixels,
             croppedWidth: croppedAreaPixels.width,
             croppedHeight: croppedAreaPixels.height,
           })
         );
+
         dispatch(goToStep('filters'));
-      } catch (error) {
-        console.error('Error cropping image:', error);
+      } catch (e) {
+        console.error('Error in getCroppedImg:', e);
       }
     },
-    [currentPhoto.rotation, currentPhoto.url, dispatch]
+    [currentPhoto.url, currentPhoto.rotation, dispatch]
   );
 
-  return {
-    handleNext,
-  };
+  return { handleNext };
 };
 
 const getCroppedImg = async (
@@ -51,40 +68,60 @@ const getCroppedImg = async (
   pixelCrop: PixelCrop,
   rotation = 0
 ): Promise<string> => {
-  const image = new Image();
-  image.src = imageSrc;
-  await new Promise((resolve) => (image.onload = resolve));
+  // 1. Загружаем исходное изображение
+  const img = new Image();
+  img.src = imageSrc;
+  await new Promise<void>((resolve, reject) => {
+    img.onload = (): void => resolve();
+    img.onerror = (): void => reject(new Error('Image load error'));
+  });
+  // 2. Сначала создаём canvas, на котором рисуем полное повернутое изображение
+  const fullW = img.width;
+  const fullH = img.height;
+  const { width: rotW, height: rotH } = getRotatedSize(fullW, fullH, rotation);
 
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-
-  if (!ctx) {
+  const canvasRot = document.createElement('canvas');
+  canvasRot.width = rotW;
+  canvasRot.height = rotH;
+  const ctxRot = canvasRot.getContext('2d');
+  if (!ctxRot) {
     throw new Error('Canvas context not available');
   }
 
-  canvas.width = pixelCrop.width;
-  canvas.height = pixelCrop.height;
+  // Центрируем и поворачиваем
+  ctxRot.translate(rotW / 2, rotH / 2);
+  ctxRot.rotate((rotation * Math.PI) / 180);
+  ctxRot.translate(-fullW / 2, -fullH / 2);
+  // Рисуем всё изображение
+  ctxRot.drawImage(img, 0, 0);
 
-  ctx.translate(pixelCrop.width / 2, pixelCrop.height / 2);
-  ctx.rotate((rotation * Math.PI) / 180);
-  ctx.translate(-pixelCrop.width / 2, -pixelCrop.height / 2);
+  // 3. Теперь обрезаем нужную область из canvasRot
+  const { x, y, width: cropW, height: cropH } = pixelCrop;
+  const canvasCrop = document.createElement('canvas');
+  canvasCrop.width = cropW;
+  canvasCrop.height = cropH;
+  const ctxCrop = canvasCrop.getContext('2d');
+  if (!ctxCrop) {
+    throw new Error('Canvas context not available');
+  }
 
-  ctx.drawImage(
-    image,
-    pixelCrop.x,
-    pixelCrop.y,
-    pixelCrop.width,
-    pixelCrop.height,
+  ctxCrop.drawImage(
+    canvasRot,
+    x, // начало в повернутом канвасе
+    y,
+    cropW,
+    cropH,
     0,
     0,
-    pixelCrop.width,
-    pixelCrop.height
+    cropW,
+    cropH
   );
 
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
+  // 4. Экспортируем в blob и возвращаем URL
+  return new Promise<string>((resolve, reject) => {
+    canvasCrop.toBlob((blob) => {
       if (!blob) {
-        throw new Error('Canvas is empty');
+        return reject(new Error('Canvas is empty'));
       }
       resolve(URL.createObjectURL(blob));
     }, 'image/jpeg');

@@ -117,7 +117,7 @@ export function CropStep({ onCloseAction }: CropStep): React.ReactElement {
                   )}
                 />
               </Button>
-
+              {/*кнопики вращения и тд*/}
               {croppedViewSettings.thumbnails && (
                 <ThumbnailsPreview
                   photos={photos.map((photo) => photo.url)}
