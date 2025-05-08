@@ -86,7 +86,9 @@ export function CropStep({ onCloseAction }: CropStep): React.ReactElement {
           </div>
         </div>
 
+        {/*Кнопки под фото*/}
         <div className="mt-4 flex w-full max-w-md justify-between">
+          {/*Кнопки редактирования изображения*/}
           <CroppingModalSettings
             zoom={currentPhoto.zoom}
             rotation={currentPhoto.rotation}
@@ -103,6 +105,7 @@ export function CropStep({ onCloseAction }: CropStep): React.ReactElement {
             currentCropRatio={currentPhoto.cropRatio}
           />
 
+          {/*кнопка переключения выбранного изображения*/}
           <div>
             <div className="relative">
               <Button
@@ -122,7 +125,7 @@ export function CropStep({ onCloseAction }: CropStep): React.ReactElement {
                   )}
                 />
               </Button>
-              {/*кнопики вращения и тд*/}
+
               {croppedViewSettings.thumbnails && (
                 <ThumbnailsPreview
                   photos={photos.map((photo) => photo.url)}

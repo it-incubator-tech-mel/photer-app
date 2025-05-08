@@ -6,7 +6,7 @@ type PhotoPreviewWithNavProps = {
   hasNext: boolean;
   onPrev: () => void;
   onNext: () => void;
-  filterClass: string;
+  filterClass?: string;
 };
 
 export function PhotoPreviewWithNav({
