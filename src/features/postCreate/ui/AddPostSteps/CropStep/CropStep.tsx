@@ -25,9 +25,12 @@ export function CropStep({ onCloseAction }: CropStep): React.ReactElement {
     (state: RootState) => state.post.currentPhotoIndex
   );
   const currentPhoto = photos[currentIndex];
+
   const { hasNext, hasPrev, goNext, goPrev } = usePhotoNavigation();
+
   const { onCropComplete, handleCropChange, croppedAreaPixels } =
     useImageCropping(currentPhoto);
+
   const {
     croppedViewSettings,
     setZoom,
@@ -35,7 +38,9 @@ export function CropStep({ onCloseAction }: CropStep): React.ReactElement {
     handleToggleSetting,
     handleCropRatioChange,
   } = useImageEditor(currentPhoto);
-  const { handleNext } = useImageSave(currentPhoto);
+
+  const { confirmCropping } = useImageSave(currentPhoto);
+
   const { getCropperAspect } = useImageAspect(currentPhoto);
 
   return (
@@ -45,7 +50,7 @@ export function CropStep({ onCloseAction }: CropStep): React.ReactElement {
         <CroppingModalHeader
           stepToGo="filters"
           stepToBack="upload"
-          onNext={() => handleNext(croppedAreaPixels)}
+          onNext={() => confirmCropping(croppedAreaPixels)}
         />
       }
       size="md"

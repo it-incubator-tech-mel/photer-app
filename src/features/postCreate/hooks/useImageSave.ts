@@ -5,7 +5,7 @@ import { PixelCrop } from '@/shared/config/aspectRatios';
 import { goToStep, PhotoSettings, setPhotoSettings } from '../model/postSlice';
 
 type useImageSaveReturn = {
-  handleNext: (croppedAreaPixels: PixelCrop | null) => Promise<void>;
+  confirmCropping: (croppedAreaPixels: PixelCrop | null) => Promise<void>;
 };
 
 // считает размер bounding-box для прямоугольника width×height после вращения
@@ -26,7 +26,7 @@ export const useImageSave = (
 ): useImageSaveReturn => {
   const dispatch = useAppDispatch();
 
-  const handleNext = useCallback(
+  const confirmCropping = useCallback(
     async (croppedAreaPixels: PixelCrop | null) => {
       if (!croppedAreaPixels) {
         return;
@@ -60,7 +60,7 @@ export const useImageSave = (
     [currentPhoto.url, currentPhoto.rotation, dispatch]
   );
 
-  return { handleNext };
+  return { confirmCropping };
 };
 
 const getCroppedImg = async (
