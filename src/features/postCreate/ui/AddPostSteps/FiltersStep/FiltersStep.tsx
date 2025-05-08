@@ -5,29 +5,14 @@ import { Modal } from '@/widgets/modal/Modal';
 import { AddPostModalHeader } from '@/features/postCreate/ui/AddPostModalHeader';
 import { useFiltersStep } from '@/features/postCreate/hooks/useFiltersStep';
 import { FiltersGrid } from './FiltersGrid';
+import { filters } from './filters';
 import { PhotoPreviewWithNav } from '@/features/postCreate/ui/PhotoPreviewWithNav';
-
-type Filter = {
-  name: string;
-  className: string;
-};
-
-const filters: Filter[] = [
-  { name: 'Оригинал', className: '' },
-  { name: 'Монохром', className: 'grayscale' },
-  { name: 'Сепия', className: 'sepia' },
-  { name: 'Контраст', className: 'contrast-125' },
-  { name: 'Яркость', className: 'brightness-125' },
-  { name: 'Насыщенность', className: 'saturate-150' },
-];
-
-type FiltersStepProps = {
-  onCloseAction: () => void;
-};
 
 export function FiltersStep({
   onCloseAction,
-}: FiltersStepProps): React.ReactElement {
+}: {
+  onCloseAction: () => void;
+}): React.ReactElement {
   const {
     currentPhoto,
     handleFilterChange,

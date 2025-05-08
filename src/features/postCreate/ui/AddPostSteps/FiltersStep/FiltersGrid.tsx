@@ -1,9 +1,5 @@
 import React from 'react';
-
-export type Filter = {
-  name: string;
-  className: string;
-};
+import { Filter } from './filters';
 
 export type FilterGridProps = {
   filters: Filter[];
