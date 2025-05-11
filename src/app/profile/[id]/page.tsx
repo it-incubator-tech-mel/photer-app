@@ -1,25 +1,29 @@
 'use client';
 
+import { ReactElement, useMemo } from 'react';
+import { PostsList } from '@/widgets/posts-list/ui/PostsList';
 import { useGetMeQuery } from '@/features/auth/api/authApi';
-import { useLogout } from '@/features/auth/hooks/useLogout';
-import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
-import { LogoutButton } from '@/widgets/logout-button/LogoutButton';
-import { ReactElement } from 'react';
+import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
+import { Spinner } from '@/shared/ui';
+import { useParams } from 'next/navigation';
 
-export default function Page(): ReactElement {
-  const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
-  const { data } = useGetMeQuery();
+export default function ProfilePage(): ReactElement {
+  const params = useParams();
+  const { data: userData, isLoading } = useGetMeQuery();
 
+  const { id: profileId } = params as { id: string };
+  const isProfileOwner = useMemo(
+    () => userData?.userId.toString() === profileId,
+    [userData, profileId]
+  );
+
+  if (isLoading) {
+    return <Spinner fullScreen />;
+  }
   return (
-    <div>
-      <h1>Profile {data?.email}</h1>
-      <LogoutButton openModal={openModal} />
-      <LogoutModal
-        open={isOpen}
-        userEmail={''}
-        onConfirmed={confirmLogout}
-        onCanceled={closeModal}
-      />
+    <div className={'pl pr- h-full max-w-7xl pt-9 pr-16 pl-[226px]'}>
+      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userData} />
+      <PostsList profileId={profileId} />
     </div>
   );
 }
