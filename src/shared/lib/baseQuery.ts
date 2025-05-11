@@ -68,186 +68,9 @@
 
 // ////////////////////////////////////
 // src/shared/lib/baseQuery.ts - упрощённая версия, без авторизации
-
-// import { fetchBaseQuery } from '@reduxjs/toolkit/query';
-// import type {
-//   BaseQueryFn,
-//   FetchArgs,
-//   FetchBaseQueryError,
-// } from '@reduxjs/toolkit/query';
-
-// export const baseQueryWithReauth: BaseQueryFn<
-//   string | FetchArgs,
-//   unknown,
-//   FetchBaseQueryError
-// > = fetchBaseQuery({
-//   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
-//   credentials: 'include',
-// });
-
-// ////////////////////////////////////
-// src/shared/lib/baseQuery.ts - упрощённая версия, без авторизации
-
-// import { authApi } from '@/features/auth/api/authApi';
-// import { fetchBaseQuery } from '@reduxjs/toolkit/query';
-// import type {
-//   BaseQueryFn,
-//   FetchArgs,
-//   FetchBaseQueryError,
-// } from '@reduxjs/toolkit/query';
-// import { Mutex } from 'async-mutex';
-
-// const ENABLE_AUTH = false; // ⬅ Включай true/false по необходимости
-
-// // mutex нужен только при авторизации
-// const mutex = new Mutex();
-
-// const baseQuery = fetchBaseQuery({
-//   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
-//   credentials: 'include',
-//   prepareHeaders: (headers) => {
-//     if (ENABLE_AUTH) {
-//       const token = localStorage.getItem('accessToken');
-//       if (token) {
-//         headers.set('Authorization', `Bearer ${token}`);
-//       }
-//     }
-//     return headers;
-//   },
-// });
-
-// export const baseQueryWithReauth: BaseQueryFn<
-//   string | FetchArgs,
-//   unknown,
-//   FetchBaseQueryError
-// > = async (args, api, extraOptions) => {
-//   if (!ENABLE_AUTH) {
-//     return baseQuery(args, api, extraOptions); // ⬅ Запросы без авторизации
-//   }
-
-//   await mutex.waitForUnlock();
-//   let result = await baseQuery(args, api, extraOptions);
-
-//   if (result.error && result.error.status === 401) {
-//     if (!mutex.isLocked()) {
-//       const release = await mutex.acquire();
-//       try {
-//         const refreshResult = await baseQuery(
-//           {
-//             url: '/auth/refresh-token',
-//             method: 'POST',
-//           },
-//           api,
-//           extraOptions
-//         );
-
-//         if (refreshResult.data) {
-//           localStorage.setItem(
-//             'accessToken',
-//             (refreshResult.data as { accessToken: string }).accessToken
-//           );
-//           result = await baseQuery(args, api, extraOptions);
-//         } else {
-//           localStorage.removeItem('accessToken');
-//           api.dispatch(authApi.util.resetApiState());
-//         }
-//       } finally {
-//         release();
-//       }
-//     } else {
-//       await mutex.waitForUnlock();
-//       result = await baseQuery(args, api, extraOptions);
-//     }
-//   }
-
-//   return result;
-// };
-
-// ////////////////////////////////////
-// src/shared/lib/baseQuery.ts - упрощённая версия, без авторизации
-// ставишь ENABLE_AUTH = false — и все запросы идут без авторизации
-//ставишь ENABLE_AUTH = true — включается Authorization и refresh-token
-
-// import { authApi } from '@/features/auth/api/authApi';
-// import { fetchBaseQuery } from '@reduxjs/toolkit/query';
-// import type {
-//   BaseQueryFn,
-//   FetchArgs,
-//   FetchBaseQueryError,
-// } from '@reduxjs/toolkit/query';
-// import { Mutex } from 'async-mutex';
-
-// const ENABLE_AUTH = false; // ⬅ Включай true/false по необходимости
-
-// // mutex нужен только при авторизации
-// const mutex = new Mutex();
-
-// const baseQuery = fetchBaseQuery({
-//   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
-//   credentials: 'include',
-//   prepareHeaders: (headers) => {
-//     if (ENABLE_AUTH) {
-//       const token = localStorage.getItem('accessToken');
-//       if (token) {
-//         headers.set('Authorization', `Bearer ${token}`);
-//       }
-//     }
-//     return headers;
-//   },
-// });
-
-// export const baseQueryWithReauth: BaseQueryFn<
-//   string | FetchArgs,
-//   unknown,
-//   FetchBaseQueryError
-// > = async (args, api, extraOptions) => {
-//   if (!ENABLE_AUTH) {
-//     return baseQuery(args, api, extraOptions); // ⬅ Запросы без авторизации
-//   }
-
-//   await mutex.waitForUnlock();
-//   let result = await baseQuery(args, api, extraOptions);
-
-//   if (result.error && result.error.status === 401) {
-//     if (!mutex.isLocked()) {
-//       const release = await mutex.acquire();
-//       try {
-//         const refreshResult = await baseQuery(
-//           {
-//             url: '/auth/refresh-token',
-//             method: 'POST',
-//           },
-//           api,
-//           extraOptions
-//         );
-
-//         if (refreshResult.data) {
-//           localStorage.setItem(
-//             'accessToken',
-//             (refreshResult.data as { accessToken: string }).accessToken
-//           );
-//           result = await baseQuery(args, api, extraOptions);
-//         } else {
-//           localStorage.removeItem('accessToken');
-//           api.dispatch(authApi.util.resetApiState());
-//         }
-//       } finally {
-//         release();
-//       }
-//     } else {
-//       await mutex.waitForUnlock();
-//       result = await baseQuery(args, api, extraOptions);
-//     }
-//   }
-
-//   return result;
-// };
-
-// ////////////////////////////////////
 // Поддержка флага ENABLE_AUTH через .env
 // ставишь ENABLE_AUTH = false — и все запросы идут без авторизации
 //ставишь ENABLE_AUTH = true — включается Authorization и refresh-token
-// src/shared/lib/baseQuery.ts - упрощённая версия, без авторизации
 
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type {
@@ -282,7 +105,7 @@ export const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   if (!ENABLE_AUTH) {
-    localStorage.removeItem('accessToken'); // ✅ очищаем при выключенной авторизации
+    localStorage.removeItem('accessToken'); //  очищаем при выключенной авторизации
     return baseQuery(args, api, extraOptions); // ⬅ Запросы без авторизации
   }
 
@@ -307,11 +130,11 @@ export const baseQueryWithReauth: BaseQueryFn<
             .accessToken;
           localStorage.setItem('accessToken', newAccessToken);
 
-          // 🔁 Повтор оригинального запроса с новым токеном
+          //  Повтор оригинального запроса с новым токеном
           result = await baseQuery(args, api, extraOptions);
         } else {
           localStorage.removeItem('accessToken');
-          api.dispatch(baseApi.util.resetApiState()); // ✅ безопасный сброс store
+          api.dispatch(baseApi.util.resetApiState()); //  безопасный сброс store
         }
       } finally {
         release(); // обязательно освободить mutex

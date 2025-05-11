@@ -1,4 +1,4 @@
-// src/app/not-found.tsx
+// src/app/(main)/not-found.tsx
 'use client';
 
 import Link from 'next/link';

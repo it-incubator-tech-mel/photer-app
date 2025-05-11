@@ -1,4 +1,3 @@
-// // 1 ВАРИАНТ
 // // src/widgets/side-bar/SidebarItem.tsx
 
 'use client';

@@ -18,15 +18,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: ReactNode;
+  modal: ReactNode;
 }): ReactElement {
   return (
     <html lang="en">
       <body
-        className={` ${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-screen`}
+        className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100 min-h-screen`}
       >
-        <StoreWrapper>{children}</StoreWrapper>
+        <StoreWrapper>
+          {children}
+          {modal}
+        </StoreWrapper>
       </body>
     </html>
   );

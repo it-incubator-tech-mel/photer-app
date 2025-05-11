@@ -3,6 +3,7 @@
 
 import { Post } from '@/entities/post/model/types';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ReactElement } from 'react';
 
 type Props = {
@@ -16,14 +17,15 @@ export const MainFeed = ({ posts }: Props): ReactElement => {
 
   return (
     <div className="py-6">
-      {/* Центрируем грид внутри основного контента (отступ слева задаётся в StoreWrapper) */}
-      <div className="flex w-full justify-center">
-        {/* w-fit — ширина ровно под 4×234px карточки + 3×30px gap */}
-        <div className="grid w-fit grid-cols-4 gap-x-[30px] gap-y-6">
+      {/* Центрируем контент и задаём максимальную ширину */}
+      <div className="mx-auto w-full max-w-[1050px] px-4">
+        <div className="grid grid-cols-1 gap-x-[30px] gap-y-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {posts.map((post) => (
-            <div
+            <Link
               key={post.id}
-              className="bg-dark-700 border-dark-300 h-[391px] w-[234px] overflow-hidden rounded-xl border shadow-md transition hover:shadow-lg"
+              href={`/post/${post.id}`} //  глобальный путь
+              scroll={false}
+              className="bg-dark-700 border-dark-300 mx-auto h-[391px] w-[234px] overflow-hidden rounded-xl border shadow-md transition hover:shadow-lg"
             >
               <div className="relative h-[234px] w-full">
                 {post.photos.length > 0 && (
@@ -44,7 +46,7 @@ export const MainFeed = ({ posts }: Props): ReactElement => {
                   {post.description}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

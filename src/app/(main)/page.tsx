@@ -3,13 +3,13 @@ import { MainFeed } from '@/widgets/main-feed/MainFeed';
 import { Post } from '@/entities/post/model/types';
 import { ReactElement } from 'react';
 
-export const revalidate = 60; //  ISR: обновлять раз в 60 сек
+export const revalidate = 60; // ⏱ ISR: обновлять раз в 60 сек
 
 export default async function HomePage(): Promise<ReactElement> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/posts?pageSize=8`,
     {
-      //  включаем ISR для запроса (опционально, можно и без этого)
+      // ⬇️ включаем ISR для запроса (опционально, можно и без этого)
       next: { revalidate: 60 },
     }
   );
