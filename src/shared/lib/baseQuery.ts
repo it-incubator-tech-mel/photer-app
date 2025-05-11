@@ -1,4 +1,3 @@
-import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type {
   BaseQueryFn,
   FetchArgs,
@@ -30,38 +29,38 @@ export const baseQueryWithReauth: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
-    if (!mutex.isLocked()) {
-      const release = await mutex.acquire();
-      try {
-        const refreshResult = await baseQuery(
-          {
-            url: '/auth/refresh-token',
-            method: 'POST',
-          },
-          api,
-          extraOptions
-        );
-
-        if (refreshResult.data) {
-          localStorage.setItem(
-            'accessToken',
-            (refreshResult.data as { accessToken: string }).accessToken
-          );
-          result = await baseQuery(args, api, extraOptions);
-        } else {
-          localStorage.removeItem('accessToken');
-          // api.dispatch(authApi.util.resetApiState());
-          if (typeof window !== 'undefined') {
-            window.location.href = '/sign-in';
-          }
-        }
-      } finally {
-        release();
-      }
-    } else {
-      await mutex.waitForUnlock();
-      result = await baseQuery(args, api, extraOptions);
-    }
+    // if (!mutex.isLocked()) {
+    //   const release = await mutex.acquire();
+    //   try {
+    //     const refreshResult = await baseQuery(
+    //       {
+    //         url: '/auth/refresh-token',
+    //         method: 'POST',
+    //       },
+    //       api,
+    //       extraOptions
+    //     );
+    //
+    //     if (refreshResult.data) {
+    //       localStorage.setItem(
+    //         'accessToken',
+    //         (refreshResult.data as { accessToken: string }).accessToken
+    //       );
+    //       result = await baseQuery(args, api, extraOptions);
+    //     } else {
+    //       localStorage.removeItem('accessToken');
+    //       // api.dispatch(authApi.util.resetApiState());
+    //       if (typeof window !== 'undefined') {
+    //         window.location.href = '/sign-in';
+    //       }
+    //     }
+    //   } finally {
+    //     release();
+    //   }
+    // } else {
+    //   await mutex.waitForUnlock();
+    //   result = await baseQuery(args, api, extraOptions);
+    // }
   }
 
   return result;

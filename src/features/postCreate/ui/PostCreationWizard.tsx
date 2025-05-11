@@ -4,14 +4,20 @@ import { usePostCreationWizard } from '../hooks/usePostCreationWizard';
 import { ExitConfirmation } from './ExitConfirmation';
 import { StepRenderer } from './StepRenderer';
 
-export function PostCreationWizard(): React.ReactElement | null {
+type Props = {
+  exitSubscriberAction: () => void;
+};
+
+export function PostCreationWizard({
+  exitSubscriberAction,
+}: Props): React.ReactElement | null {
   const {
     currentStep,
     showExitConfirm,
     handleCloseModal,
     handleConfirmExit,
     handleCancelExit,
-  } = usePostCreationWizard();
+  } = usePostCreationWizard(exitSubscriberAction);
 
   return (
     <>

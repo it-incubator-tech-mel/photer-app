@@ -10,7 +10,6 @@ export const store = configureStore({
     modal: modalReducer,
     post: postReducer,
     [baseApi.reducerPath]: baseApi.reducer,
-    modal: modalReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

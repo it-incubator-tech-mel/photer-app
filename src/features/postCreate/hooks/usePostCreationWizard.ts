@@ -4,7 +4,7 @@ import { RootState, useAppDispatch } from '@/shared/state/store';
 import { closeModal } from '@/shared/state/slices/modalSlice';
 import { resetState } from '../model/postSlice';
 
-type UsePostCreationWizardResult = {
+type UsePostCreationWizardReturn = {
   currentStep: string;
   showExitConfirm: boolean;
   handleCloseModal: () => void;
@@ -12,7 +12,9 @@ type UsePostCreationWizardResult = {
   handleCancelExit: () => void;
 };
 
-export function usePostCreationWizard(): UsePostCreationWizardResult {
+export function usePostCreationWizard(
+  exitSubscriberAction: () => void
+): UsePostCreationWizardReturn {
   const { currentStep } = useSelector((state: RootState) => state.post);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const dispatch = useAppDispatch();
@@ -25,6 +27,7 @@ export function usePostCreationWizard(): UsePostCreationWizardResult {
     dispatch(resetState());
     dispatch(closeModal());
     setShowExitConfirm(false);
+    exitSubscriberAction();
   };
 
   const handleCancelExit = (): void => {

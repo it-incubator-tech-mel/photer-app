@@ -3,11 +3,11 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactElement, ReactNode } from 'react';
-import StoreWrapper from './providers/StoreWrapper';
 import { Sidebar } from '@/widgets/side-bar';
 import { Header } from '@/widgets/header/Header';
-import { ModalProvider } from './providers/ModalProviders';
 import { Alert } from '@/shared/ui';
+import StoreWrapper from '@/shared/providers/StoreWrapper';
+import { ModalProvider } from '@/shared/providers/ModalProviders';
 
 const inter = Inter({
   variable: '--font-inter',
