@@ -4,6 +4,7 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 import { Mutex } from 'async-mutex';
 

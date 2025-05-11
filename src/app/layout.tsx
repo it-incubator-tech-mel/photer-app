@@ -1,8 +1,13 @@
+// src/app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactElement, ReactNode } from 'react';
-import StoreWrapper from '@/shared/providers/StoreWrapper';
+import StoreWrapper from './providers/StoreWrapper';
+import { Sidebar } from '@/widgets/side-bar';
+import { Header } from '@/widgets/header/Header';
+import { ModalProvider } from './providers/ModalProviders';
+import { Alert } from '@/shared/ui';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -22,9 +27,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100`}
+        className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-screen`}
       >
-        <StoreWrapper>{children}</StoreWrapper>
+        <StoreWrapper>
+          <div className="flex min-h-screen w-full flex-col">
+            <Header withLoginBtn={true} />
+            <div className="flex">
+              <Sidebar />
+              {children}
+            </div>
+          </div>
+          <ModalProvider />
+          <Alert />
+        </StoreWrapper>
       </body>
     </html>
   );

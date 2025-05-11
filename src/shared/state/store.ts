@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { useDispatch } from 'react-redux';
-
 import { baseApi } from '../lib/baseApi';
 import { modalReducer } from './slices/modalSlice';
 import { postReducer } from '@/features/postCreate/model/postSlice';
@@ -11,6 +10,7 @@ export const store = configureStore({
     modal: modalReducer,
     post: postReducer,
     [baseApi.reducerPath]: baseApi.reducer,
+    modal: modalReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),
