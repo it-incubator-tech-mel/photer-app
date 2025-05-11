@@ -8,7 +8,7 @@ import {
   DialogPortal,
   DialogTitle,
 } from '@radix-ui/react-dialog';
-import { ComponentProps, ReactElement } from 'react';
+import { ComponentProps, ReactElement, ReactNode } from 'react';
 import { cn } from '@/shared/lib/cn';
 import { IconSprite } from '@/shared/ui';
 
@@ -20,6 +20,8 @@ export type ModalProps = {
   showCloseButton?: boolean;
   size?: ModalSize;
   title?: string;
+  headerContent?: ReactNode;
+  showHeader?: boolean;
 } & ComponentProps<'div'>;
 
 export const Modal = ({
@@ -30,6 +32,8 @@ export const Modal = ({
   showCloseButton = true,
   size = 'md',
   title,
+  headerContent,
+  showHeader = true,
 }: ModalProps): ReactElement => {
   const handleModalClosed = (): void => {
     onClose?.();
@@ -53,16 +57,27 @@ export const Modal = ({
             )}
             forceMount
           >
-            <header className="border-dark-100 h1-text flex items-center justify-between border-b px-6 py-3">
-              <DialogTitle asChild>
-                <h2>{title}</h2>
-              </DialogTitle>
-              {showCloseButton && (
-                <DialogClose className="hover:bg-dark-100 focus-visible:bg-dark-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 transition-all duration-100 focus-visible:outline-none">
-                  <IconSprite iconName="close" />
-                </DialogClose>
-              )}
-            </header>
+            <DialogTitle className="sr-only">
+              {title || 'Modal dialog'}
+            </DialogTitle>
+            {showHeader && (
+              <header className="border-dark-100 h1-text flex items-center justify-between border-b px-6 py-3">
+                {headerContent ? (
+                  headerContent
+                ) : (
+                  <>
+                    <DialogTitle asChild>
+                      <h2>{title}</h2>
+                    </DialogTitle>
+                    {showCloseButton && (
+                      <DialogClose className="hover:bg-dark-100 focus-visible:bg-dark-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 transition-all duration-100 focus-visible:outline-none">
+                        <IconSprite iconName="close" />
+                      </DialogClose>
+                    )}
+                  </>
+                )}
+              </header>
+            )}
             <div className="regular-text-16 relative px-6 py-[23px] pb-[36px]">
               {children}
             </div>

@@ -1,9 +1,7 @@
 // src/app/page.tsx
 'use client';
 
-import { ReactElement } from 'react';
-
-export default function Home(): ReactElement {
+export default function Home(): React.ReactElement {
   return (
     <div>
       <main>

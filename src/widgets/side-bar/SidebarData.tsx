@@ -19,7 +19,7 @@ export const ytSidebarDataset: SidebarItem[] = [
   },
   {
     title: 'Create',
-    path: '/create',
+    path: '/create-post',
     defaultIconName: 'plus-square-outline',
     activeIconName: 'plus-square',
   },

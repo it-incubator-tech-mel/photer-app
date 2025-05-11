@@ -11,7 +11,7 @@ import {
 import { IconSprite } from '@/shared/ui';
 
 type Props = ComponentProps<'input'> & {
-  type?: 'text' | 'email' | 'password' | 'search';
+  type?: 'text' | 'email' | 'password' | 'search' | 'file';
   label?: string;
   errorMessage?: string;
   className?: string;
