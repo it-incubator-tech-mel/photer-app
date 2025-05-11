@@ -41,7 +41,7 @@ export const useFiltersStep = (onClose: () => void): UseFiltersStepResult => {
   };
 
   const handleNext = async (): Promise<void> => {
-    await handleSaveWithFilter(selectedFilter);
+    handleSaveWithFilter(selectedFilter);
   };
 
   const handleBack = (): void => {

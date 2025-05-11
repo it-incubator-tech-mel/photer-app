@@ -130,6 +130,7 @@ export const useFilterSave = (
     ctx.putImageData(imageData, 0, 0);
   };
 
+
   const applyContrastFilter = (
     ctx: CanvasRenderingContext2D,
     width: number,
@@ -139,22 +140,17 @@ export const useFilterSave = (
     const imageData = ctx.getImageData(0, 0, width, height);
     const data = imageData.data;
 
-    const factor2 = (259 * (factor * 100 + 255)) / (255 * (259 - factor * 100));
+    const scale = factor;
 
     for (let i = 0; i < data.length; i += 4) {
-      data[i] = Math.min(255, Math.max(0, factor2 * (data[i] - 128) + 128));
-      data[i + 1] = Math.min(
-        255,
-        Math.max(0, factor2 * (data[i + 1] - 128) + 128)
-      );
-      data[i + 2] = Math.min(
-        255,
-        Math.max(0, factor2 * (data[i + 2] - 128) + 128)
-      );
+      data[i] = Math.min(255, Math.max(0, ((data[i] - 128) * scale + 128)));
+      data[i + 1] = Math.min(255, Math.max(0, ((data[i + 1] - 128) * scale + 128)));
+      data[i + 2] = Math.min(255, Math.max(0, ((data[i + 2] - 128) * scale + 128)));
     }
 
     ctx.putImageData(imageData, 0, 0);
   };
+
 
   const applyBrightnessFilter = (
     ctx: CanvasRenderingContext2D,
@@ -188,62 +184,18 @@ export const useFilterSave = (
       const g = data[i + 1];
       const b = data[i + 2];
 
-      // Преобразуем RGB в HSL
-      const max = Math.max(r, g, b);
-      const min = Math.min(r, g, b);
-      const l = (max + min) / 2;
+      // Находим среднюю яркость (perceived luminance)
+      const gray = 0.2989 * r + 0.5870 * g + 0.1140 * b;
 
-      if (max !== min) {
-        const d = max - min;
-        const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-        // Увеличиваем насыщенность
-        const newS = Math.min(1, s * factor);
-
-        // Преобразуем обратно в RGB
-        const q = l < 0.5 ? l * (1 + newS) : l + newS - l * newS;
-        const p = 2 * l - q;
-
-        // Функция для преобразования hue в RGB
-        const hueToRgb = (p: number, q: number, t: number): number => {
-          if (t < 0) {
-            t += 1;
-          }
-          if (t > 1) {
-            t -= 1;
-          }
-          if (t < 1 / 6) {
-            return p + (q - p) * 6 * t;
-          }
-          if (t < 1 / 2) {
-            return q;
-          }
-          if (t < 2 / 3) {
-            return p + (q - p) * (2 / 3 - t) * 6;
-          }
-          return p;
-        };
-
-        // Вычисляем hue
-        let h;
-        if (max === r) {
-          h = (g - b) / d + (g < b ? 6 : 0);
-        } else if (max === g) {
-          h = (b - r) / d + 2;
-        } else {
-          h = (r - g) / d + 4;
-        }
-        h /= 6;
-
-        // Преобразуем HSL обратно в RGB
-        data[i] = hueToRgb(p, q, h + 1 / 3) * 255;
-        data[i + 1] = hueToRgb(p, q, h) * 255;
-        data[i + 2] = hueToRgb(p, q, h - 1 / 3) * 255;
-      }
+      // Увеличиваем насыщенность: интерполяция между серым и цветом
+      data[i]     = Math.min(255, gray + (r - gray) * factor);
+      data[i + 1] = Math.min(255, gray + (g - gray) * factor);
+      data[i + 2] = Math.min(255, gray + (b - gray) * factor);
     }
 
     ctx.putImageData(imageData, 0, 0);
   };
+
 
   const handleSaveWithFilter = useCallback(
     async (filterName: string) => {
@@ -256,11 +208,12 @@ export const useFilterSave = (
         dispatch(
           setPhotoSettings({
             url: filteredImageUrl,
-            filter: filterName,
+            // filter: filterName,
           })
         );
         // Переходим к следующему шагу
         dispatch(goToStep('description'));
+
       } catch (error) {
         console.error('Ошибка при сохранении изображения с фильтром:', error);
       }
