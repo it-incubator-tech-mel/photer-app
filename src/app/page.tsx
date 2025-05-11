@@ -1,3 +1,4 @@
+// src/app/page.tsx
 'use client';
 import { useGetMeQuery } from '@/features/auth/api/authApi';
 import { useLogout } from '@/features/auth/hooks/useLogout';

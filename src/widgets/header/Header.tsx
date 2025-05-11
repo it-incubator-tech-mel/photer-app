@@ -1,3 +1,4 @@
+// src/widgets/header/Header.tsx
 'use client';
 
 import { ReactElement, useEffect } from 'react';
