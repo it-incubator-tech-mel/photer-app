@@ -6,16 +6,11 @@ import { ForgotPasswordForm } from '@/features/auth/forgot-password/ui/ForgotPas
 import { FormSchemaType } from '@/features/auth/forgot-password/types/forgotPasswordFormSchema';
 import { openModal } from '@/shared/state/slices/modalSlice';
 import { useAppDispatch } from '@/shared/state/store';
+import { isError404 } from '@/shared/types/commonTypes';
 
 export type ErrorMessage = {
   field: string;
   message: string;
-};
-type Error404Type = {
-  message: string;
-  path: string;
-  statusCode: number;
-  timestamp: string;
 };
 
 export default function ForgotPasswordPage(): ReactElement {
@@ -40,8 +35,7 @@ export default function ForgotPasswordPage(): ReactElement {
         })
       );
     } catch (e) {
-      const er = e as { data: Error404Type };
-      if (er.data.statusCode === 404) {
+      if (isError404(e)) {
         setErrorMessage({
           field: 'email',
           message: "User with this email doesn't exist",

@@ -1,10 +1,9 @@
-import { authApi } from '@/features/auth/api/authApi';
-import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 import { Mutex } from 'async-mutex';
 
@@ -50,7 +49,6 @@ export const baseQueryWithReauth: BaseQueryFn<
           result = await baseQuery(args, api, extraOptions);
         } else {
           localStorage.removeItem('accessToken');
-          api.dispatch(authApi.util.resetApiState());
         }
       } finally {
         release();
