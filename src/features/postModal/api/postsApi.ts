@@ -1,23 +1,10 @@
 import { baseApi } from '@/shared/lib/baseApi';
 import { errorHandler } from '../lib/errorHandler';
-import { Posts, PostType } from '../lib/post.types';
+import { PostType } from '../lib/post.types';
 
 export const postsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getPosts: builder.query<Posts, void>({
-      query: () => ({
-        url: '/posts',
-      }),
-      async onQueryStarted(_, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (e) {
-          errorHandler(e);
-        }
-      },
-    }),
-
-    getPost: builder.query<PostType, string>({
+    getPost: builder.query<PostType, number>({
       query: (id) => ({
         url: `/posts/${id}`,
       }),
@@ -37,17 +24,15 @@ export const postsApi = baseApi.injectEndpoints({
           method: 'PATCH',
           body: { description },
         }),
+        invalidatesTags: ['posts'],
         // Optimistic update
         async onQueryStarted(
           { postId, description },
           { dispatch, queryFulfilled }
         ) {
           const patchResult = dispatch(
-            postsApi.util.updateQueryData('getPosts', undefined, (draft) => {
-              const postToUpdate = draft.items.find((p) => p.id === postId);
-              if (postToUpdate) {
-                postToUpdate.description = description;
-              }
+            postsApi.util.updateQueryData('getPost', postId, (draft) => {
+              draft.description = description;
             })
           );
           try {
@@ -62,5 +47,4 @@ export const postsApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetPostsQuery, useGetPostQuery, useUpdatePostMutation } =
-  postsApi;
+export const { useGetPostQuery, useUpdatePostMutation } = postsApi;

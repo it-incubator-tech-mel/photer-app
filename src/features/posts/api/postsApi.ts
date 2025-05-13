@@ -8,7 +8,7 @@ export const postsApi = baseApi.injectEndpoints({
       { profileId: string; pageNumber: number }
     >({
       query: ({ profileId, pageNumber = 1 }) =>
-        `/posts/Profile/${profileId}?pageNumber=${pageNumber}`,
+        `/posts/users/${profileId}?pageNumber=${pageNumber}`,
       serializeQueryArgs: ({ endpointName }) => endpointName,
       merge: (currentCacheData, responseData) => {
         currentCacheData.items.push(

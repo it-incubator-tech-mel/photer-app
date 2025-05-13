@@ -1,50 +1,56 @@
 'use client';
 import React, { ReactNode, useState } from 'react';
-import { IconSprite } from '@/shared/ui';
+import { Spinner } from '@/shared/ui';
 import { EditPost } from './editPost/EditPost';
 import ViewPost from './viewPost/ViewPost';
 import { EllipsisMenu } from './viewPost/EllipsisMenu';
-import { PostType } from '../lib/post.types';
-import { useGetMeQuery } from '@/features/auth/api/authApi';
+import { useGetPostQuery } from '../api/postsApi';
+import { PostModalWrapper } from './PostWrapper';
 
 type Props = {
-  post: PostType;
+  postId: number;
   onCloseAction: () => void;
 };
-export const MyPostModal = ({ onCloseAction, post }: Props): ReactNode => {
-  const [isEdit, setIsEdit] = useState(false);
-  const { data: user } = useGetMeQuery();
 
-  return (
-    <div className="fixed top-1/2 left-1/2 mx-auto flex w-full max-w-[972px] -translate-x-1/2 -translate-y-1/2">
-      <button
-        onClick={onCloseAction}
-        className="absolute top-[-34px] right-[-38px] cursor-pointer outline-none"
-      >
-        <IconSprite iconName="close" />
-      </button>
-      {isEdit ? (
-        <EditPost post={post} onCloseAction={() => setIsEdit(false)} />
-      ) : (
-        <ViewPost post={post}>
-          <EllipsisMenu
-            menuItems={[
-              {
-                title: 'Edit post',
-                iconName: 'edit-2-outline',
-                callback: (): void => {
-                  setIsEdit(true);
+export const MyPostModal = ({ onCloseAction, postId }: Props): ReactNode => {
+  const [isEdit, setIsEdit] = useState(false);
+  const { data: post, isLoading } = useGetPostQuery(postId);
+
+  if (isLoading)
+    return (
+      <PostModalWrapper onCloseAction={onCloseAction}>
+        <div className="bg-dark-300 min-h-[400px] w-full">
+          <Spinner />
+        </div>
+      </PostModalWrapper>
+    );
+
+  if (post) {
+    return (
+      <PostModalWrapper onCloseAction={onCloseAction}>
+        {!isEdit ? (
+          <ViewPost post={post}>
+            <EllipsisMenu
+              menuItems={[
+                {
+                  title: 'Edit post',
+                  iconName: 'edit-2-outline',
+                  callback: (): void => {
+                    setIsEdit(true);
+                  },
                 },
-              },
-              {
-                title: 'Delete post',
-                iconName: 'trash-outline',
-                callback: (): void => {},
-              },
-            ]}
-          />
-        </ViewPost>
-      )}
-    </div>
-  );
+                {
+                  title: 'Delete post',
+                  iconName: 'trash-outline',
+                  callback: (): void => {},
+                },
+              ]}
+            />
+          </ViewPost>
+        ) : (
+          <EditPost post={post} onCloseAction={() => setIsEdit(false)} />
+        )}
+      </PostModalWrapper>
+    );
+  }
 };

@@ -26,6 +26,7 @@ export default function ViewPost({ post, children }: Props): ReactNode {
               key={index}
               width={500}
               height={500}
+              unoptimized
             />
           );
         })}

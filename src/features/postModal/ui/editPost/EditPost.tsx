@@ -52,6 +52,7 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
               key={index}
               width={500}
               height={500}
+              unoptimized
             />
           ))}
         </Carousel>
