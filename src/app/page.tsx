@@ -3,13 +3,13 @@ import { MainFeed } from '@/widgets/main-feed/MainFeed';
 import { Post } from '@/entities/post/model/types';
 import { ReactElement } from 'react';
 
-export const revalidate = 60; //  ISR: обновлять раз в 60 сек
+export const revalidate = 60; // ISR: обновлять раз в 60 сек
 
 export default async function HomePage(): Promise<ReactElement> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?pageSize=8`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?pageSize=100`, // запрашиваем больше, чтобы точно выбрать 4
     {
-      //  включаем ISR для запроса (опционально, можно и без этого)
+      // включаем ISR для запроса (опционально, можно и без этого)
       next: { revalidate: 60 },
     }
   );
@@ -19,7 +19,10 @@ export default async function HomePage(): Promise<ReactElement> {
   }
 
   const data = await res.json();
-  const posts: Post[] = data.items;
+  const allPosts: Post[] = data.items;
+
+  // ограничиваем только 4 постами (можешь заменить на 8, 6, и т.п.)
+  const posts = allPosts.slice(0, 4);
 
   return (
     <main className="flex-1">

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { ModalClientWrapper } from '@/shared/ui/modal/ModalClientWrapper';
 import { ClientModal } from '@/shared/ui/modal/ClientModal';
 
-export default async function PostModal({
+export default async function GlobalPostModal({
   params,
 }: {
   params: Promise<{ postId: string }>;

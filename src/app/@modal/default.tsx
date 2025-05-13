@@ -1,4 +1,5 @@
-// src/app/profile/[id]/@modal/default.tsx
+// src/app/@modal/default.tsx
+
 export default function ModalFallback() {
-  return null; // если модалка не выбрана — ничего не показываем
+  return null;
 }

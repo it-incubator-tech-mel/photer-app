@@ -38,8 +38,7 @@ export const ytSidebarDataset: SidebarItem[] = [
     activeIcon: <FaPlusCircle />,
   },
   {
-    // title: 'My Profile',
-    title: 'Profile',
+    title: 'My Profile',
     path: '/profile',
     defaultIcon: <FaUser />,
     activeIcon: <FaUserCircle />,

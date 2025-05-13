@@ -105,7 +105,7 @@ export const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   if (!ENABLE_AUTH) {
-    localStorage.removeItem('accessToken'); //  очищаем при выключенной авторизации
+    localStorage.removeItem('accessToken'); // очищаем при выключенной авторизации
     return baseQuery(args, api, extraOptions); // ⬅ Запросы без авторизации
   }
 
@@ -130,11 +130,11 @@ export const baseQueryWithReauth: BaseQueryFn<
             .accessToken;
           localStorage.setItem('accessToken', newAccessToken);
 
-          //  Повтор оригинального запроса с новым токеном
+          // Повтор оригинального запроса с новым токеном
           result = await baseQuery(args, api, extraOptions);
         } else {
           localStorage.removeItem('accessToken');
-          api.dispatch(baseApi.util.resetApiState()); //  безопасный сброс store
+          api.dispatch(baseApi.util.resetApiState()); // ✅ безопасный сброс store
         }
       } finally {
         release(); // обязательно освободить mutex

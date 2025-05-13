@@ -24,7 +24,6 @@
 
 // setupListeners(store.dispatch);
 
-///////////////////////////////////
 // src/shared/state/store.ts
 
 import { configureStore } from '@reduxjs/toolkit';
