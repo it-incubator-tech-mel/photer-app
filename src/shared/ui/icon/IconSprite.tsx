@@ -1,5 +1,7 @@
-import { SpriteName } from 'public/icons/spriteNames';
+import { spriteNames } from 'public/icons/spriteNames';
 import { ComponentPropsWithoutRef, ReactElement } from 'react';
+
+export type SpriteName = (typeof spriteNames)[number];
 
 type Props = {
   iconName: SpriteName;

@@ -1,20 +1,20 @@
-// // src/widgets/side-bar/SidebarItem.tsx
-
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/shared/lib/cn';
+import { IconSprite } from '@/shared/ui/icon/IconSprite';
+import type { SpriteName } from '@/shared/ui/icon/IconSprite';
 
 type SidebarItemProps = {
   path: string;
   title: string;
   isSidebarOpen: boolean;
-  activeIcon: React.ReactNode;
-  defaultIcon: React.ReactNode;
+  activeIcon: SpriteName;
+  defaultIcon: SpriteName;
 };
 
-export default function SidebarItem({
+export function SidebarItem({
   path,
   title,
   isSidebarOpen,
@@ -36,10 +36,11 @@ export default function SidebarItem({
         }
       )}
     >
-      {/* Иконка */}
-      <span className="shrink-0 text-xl">
-        {isActive ? activeIcon : defaultIcon}
-      </span>
+      {/* Иконка через спрайт */}
+      <IconSprite
+        iconName={isActive ? activeIcon : defaultIcon}
+        className="h-6 w-6 fill-white"
+      />
 
       {/* Название — только если сайдбар открыт */}
       {isSidebarOpen && (

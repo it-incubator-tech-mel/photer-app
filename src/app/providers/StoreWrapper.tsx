@@ -8,11 +8,11 @@ import { usePathname } from 'next/navigation';
 import { store } from '@/shared/state/store';
 import { Alert } from '@/shared/ui/alert/Alert';
 import { Header } from '@/widgets/header/Header';
-import Sidebar from '@/widgets/side-bar/Sidebar';
 import { ModalProvider } from './ModalProviders';
 import { cn } from '@/shared/lib/cn';
+import { Sidebar } from '@/widgets/side-bar/Sidebar';
 
-export default function StoreWrapper({
+export function StoreWrapper({
   children,
 }: {
   children: ReactNode;

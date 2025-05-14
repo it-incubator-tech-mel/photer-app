@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactElement, ReactNode } from 'react';
-import StoreWrapper from './providers/StoreWrapper';
+import { StoreWrapper } from './providers/StoreWrapper';
 
 const inter = Inter({
   variable: '--font-inter',

@@ -2,7 +2,7 @@
 
 import { cn } from '@/shared/lib/cn';
 
-export default function HoverDiv({
+export function HoverDiv({
   isActive,
   className,
   ...rest

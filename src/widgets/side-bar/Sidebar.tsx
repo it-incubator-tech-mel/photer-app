@@ -1,24 +1,26 @@
-// // src/widgets/side-bar/Sidebar.tsx
 'use client';
 
 import React from 'react';
-import { IoIosMenu } from 'react-icons/io';
-import { FiLogOut } from 'react-icons/fi';
-
-import HoverDiv from './HoverDiv';
 import { ytSidebarDataset } from './SidebarData';
-import SidebarItem from './SidebarItem';
 import { cn } from '@/shared/lib/cn';
+import { IconSprite } from '@/shared/ui/icon/IconSprite';
+import type { SpriteName } from '@/shared/ui/icon/IconSprite';
+import { HoverDiv } from './HoverDiv';
+import { SidebarItem } from './SidebarItem';
 
 type SidebarProps = {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
 };
 
-export default function Sidebar({
+export function Sidebar({
   isSidebarOpen,
   toggleSidebar,
 }: SidebarProps): React.JSX.Element {
+  const logoutDefaultIcon: SpriteName = 'log-out-outline';
+  const logoutActiveIcon: SpriteName = 'log-out';
+  const menuIcon: SpriteName = 'menu-outline';
+
   return (
     <div
       className={cn(
@@ -40,8 +42,13 @@ export default function Sidebar({
           className="flex items-center gap-2 rounded-full p-2"
           onClick={toggleSidebar}
         >
-          <IoIosMenu className="text-3xl" />
-          {isSidebarOpen && <FiLogOut className="rotate-180 text-xl" />}
+          <IconSprite iconName={menuIcon} className="h-6 w-6 fill-white" />
+          {isSidebarOpen && (
+            <IconSprite
+              iconName={logoutActiveIcon}
+              className="h-5 w-5 rotate-180 fill-white"
+            />
+          )}
         </HoverDiv>
       </section>
 
@@ -99,8 +106,8 @@ export default function Sidebar({
         <SidebarItem
           title="Log Out"
           path="/logout"
-          defaultIcon={<FiLogOut />}
-          activeIcon={<FiLogOut />}
+          defaultIcon={logoutDefaultIcon}
+          activeIcon={logoutActiveIcon}
           isSidebarOpen={isSidebarOpen}
         />
       </div>
