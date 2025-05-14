@@ -65,10 +65,19 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@tailwindcss/oxide",
       "core-js-pure",
       "esbuild",
-      "sharp"
-    ]
+      "sharp",
+      "unrs-resolver"
+    ],
+    "overrides": {
+      "next": "^15.2.3",
+      "image-size": "^1.2.1",
+      "esbuild": "^0.25.0",
+      "@babel/runtime": "^7.26.10",
+      "@babel/helpers": "^7.26.10"
+    }
   },
   "eslintConfig": {
     "extends": [
