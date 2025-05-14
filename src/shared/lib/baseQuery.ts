@@ -28,6 +28,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   await mutex.waitForUnlock();
 
+
   let result = await baseQuery(args, api, extraOptions);
   const token = localStorage.getItem('accessToken');
   if (result.error && result.error.status === 401 && token) {
@@ -59,6 +60,7 @@ export const baseQueryWithReauth: BaseQueryFn<
       await mutex.waitForUnlock();
       result = await baseQuery(args, api, extraOptions);
     }
+
   }
 
   return result;

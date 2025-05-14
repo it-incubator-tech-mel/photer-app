@@ -1,5 +1,6 @@
 // src/app/page.tsx
 'use client';
+
 import { useGetMeQuery } from '@/features/auth/api/authApi';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
@@ -11,6 +12,7 @@ import { ReactElement } from 'react';
 export default function Home(): ReactElement {
   const { data } = useGetMeQuery();
   const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
+
   return (
     <div>
       <main>

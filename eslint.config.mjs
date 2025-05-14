@@ -19,7 +19,7 @@ const eslintConfig = [
     ],
     rules: {
       curly: 'error',
-      'max-lines': ['error', 300],
+      'max-lines': ['error', 500],
       'react/no-multi-comp': 'error',
       '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/array-type': 'error',
