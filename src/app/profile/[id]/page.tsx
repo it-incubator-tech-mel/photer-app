@@ -12,6 +12,7 @@ export default function ProfilePage(): ReactElement {
   const { data: userData, isLoading } = useGetMeQuery();
 
   const { id: profileId } = params as { id: string };
+
   const isProfileOwner = useMemo(
     () => userData?.userId.toString() === profileId,
     [userData, profileId]

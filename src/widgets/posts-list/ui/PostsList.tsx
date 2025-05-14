@@ -40,9 +40,7 @@ export const PostsList = ({ profileId }: Props): ReactElement => {
 
   return (
     <div className="mt-12 grid grid-cols-2 gap-3 gap-y-3 sm:grid-cols-3 md:grid-cols-4">
-      {posts?.items.map((post) => (
-        <PostItem key={post.id} firstPhotoUrl={post.photos[0]} />
-      ))}
+      {posts?.items.map((post) => <PostItem key={post.id} post={post} />)}
       <div
         ref={triggerRef}
         className="col-span-full py-4 text-center text-gray-500"
