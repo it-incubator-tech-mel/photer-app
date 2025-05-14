@@ -41,11 +41,7 @@ export default function StoreWrapper({
           <main
             className={cn(
               'flex-1 overflow-auto transition-all duration-300',
-              showSidebar
-                ? isSidebarOpen
-                  ? 'px-6' // симметричные отступы при открытом сайдбаре
-                  : 'px-3' // чуть уже при закрытом сайдбаре
-                : 'px-6'
+              showSidebar ? (isSidebarOpen ? 'px-6' : 'px-3') : 'px-6'
             )}
           >
             {children}

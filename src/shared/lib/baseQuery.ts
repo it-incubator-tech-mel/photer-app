@@ -67,10 +67,10 @@
 // };
 
 // ////////////////////////////////////
-// src/shared/lib/baseQuery.ts - упрощённая версия, без авторизации
 // Поддержка флага ENABLE_AUTH через .env
 // ставишь ENABLE_AUTH = false — и все запросы идут без авторизации
 //ставишь ENABLE_AUTH = true — включается Authorization и refresh-token
+// src/shared/lib/baseQuery.ts - упрощённая версия, без авторизации
 
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type {
@@ -134,7 +134,7 @@ export const baseQueryWithReauth: BaseQueryFn<
           result = await baseQuery(args, api, extraOptions);
         } else {
           localStorage.removeItem('accessToken');
-          api.dispatch(baseApi.util.resetApiState()); // ✅ безопасный сброс store
+          api.dispatch(baseApi.util.resetApiState()); // безопасный сброс store
         }
       } finally {
         release(); // обязательно освободить mutex

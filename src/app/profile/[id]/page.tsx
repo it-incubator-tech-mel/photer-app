@@ -1,5 +1,4 @@
-// // src/app/profile/[id]/page.tsx
-
+// src/app/profile/[id]/page.tsx
 import { MainFeed } from '@/widgets/main-feed/MainFeed';
 import { Post } from '@/entities/post/model/types';
 import { notFound } from 'next/navigation';

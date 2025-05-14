@@ -19,11 +19,11 @@ export const MainFeed = ({ posts }: Props): ReactElement => {
     <div className="py-6">
       <div className="mx-auto w-full max-w-[1050px] px-4">
         <div className="grid grid-cols-1 gap-x-[30px] gap-y-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-          {posts.map((post) => {
+          {posts.map((post, index) => {
             const userId = post.userId ?? 'unknown';
             const modalHref = `/post/${post.id}`;
             const profileHref = `/profile/${userId}`;
-
+            const isFirst = index === 0;
             return (
               <div
                 key={post.id}
@@ -38,6 +38,7 @@ export const MainFeed = ({ posts }: Props): ReactElement => {
                         fill
                         sizes="234px"
                         className="object-cover"
+                        priority={isFirst}
                       />
                     )}
                   </div>

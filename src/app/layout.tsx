@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal, // добавили слот для глобальной модалки
+  modals,
 }: {
   children: ReactNode;
-  modal: ReactNode;
+  modals: ReactNode;
 }): ReactElement {
   return (
     <html lang="en">
@@ -30,7 +30,7 @@ export default function RootLayout({
       >
         <StoreWrapper>
           {children}
-          {modal} {/* глобальная SSR-модалка */}
+          {modals}
         </StoreWrapper>
       </body>
     </html>

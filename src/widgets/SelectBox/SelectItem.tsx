@@ -1,12 +1,52 @@
+// import { ReactElement } from 'react';
+// import * as Select from '@radix-ui/react-select';
+// import { SelectItemProps } from '@radix-ui/react-select';
+// import * as React from 'react';
+// import { cn } from '@/shared/lib/cn';
+// import Image, { StaticImageData } from 'next/image';
+
+// type Props = SelectItemProps & {
+//   icon?: StaticImageData | string;
+// };
+
+// export function SelectItem({
+//   children,
+//   className,
+//   icon,
+//   ...props
+// }: Props): ReactElement {
+//   return (
+//     <Select.Item
+//       className={cn(
+//         'regular-text-16 text-light-100 flex h-[36px] items-center px-[12px]',
+//         'focus:outline-0',
+//         'hover:text-accent-500 hover:bg-dark-300',
+//         className
+//       )}
+//       {...props}
+//     >
+//       <Select.ItemText asChild>
+//         <div className={'flex flex-row gap-[12px]'}>
+//           {icon && <Image src={icon} alt={'icon'} height={20} width={20} />}
+//           {children}
+//         </div>
+//       </Select.ItemText>
+//     </Select.Item>
+//   );
+// }
+
+'use client';
+
 import { ReactElement } from 'react';
 import * as Select from '@radix-ui/react-select';
 import { SelectItemProps } from '@radix-ui/react-select';
-import * as React from 'react';
-import { cn } from '@/shared/lib/cn';
 import Image, { StaticImageData } from 'next/image';
+import { SpriteIcon } from '@/shared/ui/icon/SpriteIcon';
+import { cn } from '@/shared/lib/cn';
+import { SpriteName } from 'public/icons/spriteNames';
 
 type Props = SelectItemProps & {
-  icon?: StaticImageData | string;
+  icon?: SpriteName | StaticImageData | string;
 };
 
 export function SelectItem({
@@ -15,6 +55,8 @@ export function SelectItem({
   icon,
   ...props
 }: Props): ReactElement {
+  const isSpriteIcon = typeof icon === 'string' && /^[a-z0-9\-]+$/i.test(icon);
+
   return (
     <Select.Item
       className={cn(
@@ -26,8 +68,24 @@ export function SelectItem({
       {...props}
     >
       <Select.ItemText asChild>
-        <div className={'flex flex-row gap-[12px]'}>
-          {icon && <Image src={icon} alt={'icon'} height={20} width={20} />}
+        <div className="flex flex-row items-center gap-[12px]">
+          {icon && (
+            <>
+              {isSpriteIcon ? (
+                <SpriteIcon name={icon as SpriteName} size={20} />
+              ) : (
+                <div className="relative h-[20px] w-[20px] shrink-0">
+                  <Image
+                    src={icon}
+                    alt="icon"
+                    fill
+                    className="object-contain"
+                    sizes="20px"
+                  />
+                </div>
+              )}
+            </>
+          )}
           {children}
         </div>
       </Select.ItemText>

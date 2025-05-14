@@ -7,7 +7,7 @@ export const revalidate = 60; // ISR: обновлять раз в 60 сек
 
 export default async function HomePage(): Promise<ReactElement> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?pageSize=100`, // запрашиваем больше, чтобы точно выбрать 4
+    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?pageSize=100`, // ⬅️ запрашиваем больше, чтобы точно выбрать 4
     {
       // включаем ISR для запроса (опционально, можно и без этого)
       next: { revalidate: 60 },

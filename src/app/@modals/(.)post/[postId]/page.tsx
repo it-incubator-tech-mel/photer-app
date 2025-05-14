@@ -1,4 +1,4 @@
-// src/app/@modal/(.)post/[postId]/page.tsx
+// src/app/@modals/(.)post/[postId]/page.tsx
 import { notFound } from 'next/navigation';
 import { ModalClientWrapper } from '@/shared/ui/modal/ModalClientWrapper';
 import { ClientModal } from '@/shared/ui/modal/ClientModal';

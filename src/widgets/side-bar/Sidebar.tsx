@@ -1,5 +1,4 @@
 // // src/widgets/side-bar/Sidebar.tsx
-
 'use client';
 
 import React from 'react';

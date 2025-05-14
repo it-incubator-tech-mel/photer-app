@@ -1,3 +1,4 @@
+///////////////////////////////////////////
 // src/shared/ui/modal/ModalSSR.tsx
 import { ReactNode } from 'react';
 
