@@ -1,3 +1,4 @@
+'use client';
 import { baseApi } from '@/shared/lib/baseApi';
 import { FormSchemaType } from '../forgot-password/types/forgotPasswordFormSchema';
 
@@ -15,11 +16,11 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      async onQueryStarted(arg, { queryFulfilled }) {
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled;
           localStorage.setItem('accessToken', response.data.accessToken);
-          //await dispatch(authApi.endpoints.getMe.initiate());
+          await dispatch(authApi.endpoints.getMe.initiate());
         } catch (error) {
           console.log(error);
         }

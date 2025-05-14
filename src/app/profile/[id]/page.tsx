@@ -2,10 +2,14 @@
 
 import { ReactElement, useMemo } from 'react';
 import { PostsList } from '@/widgets/posts-list/ui/PostsList';
+
 import { useGetMeQuery } from '@/features/auth/api/authApi';
-import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { Spinner } from '@/shared/ui';
+
+import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { useParams } from 'next/navigation';
+import { ReactElement, useMemo } from 'react';
+
 
 export default function ProfilePage(): ReactElement {
   const params = useParams();

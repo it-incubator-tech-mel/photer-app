@@ -1,9 +1,10 @@
+'use client';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
-import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 
 import { Mutex } from 'async-mutex';
 
@@ -26,41 +27,40 @@ export const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   await mutex.waitForUnlock();
-  let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error && result.error.status === 401) {
-    // if (!mutex.isLocked()) {
-    //   const release = await mutex.acquire();
-    //   try {
-    //     const refreshResult = await baseQuery(
-    //       {
-    //         url: '/auth/refresh-token',
-    //         method: 'POST',
-    //       },
-    //       api,
-    //       extraOptions
-    //     );
-    //
-    //     if (refreshResult.data) {
-    //       localStorage.setItem(
-    //         'accessToken',
-    //         (refreshResult.data as { accessToken: string }).accessToken
-    //       );
-    //       result = await baseQuery(args, api, extraOptions);
-    //     } else {
-    //       localStorage.removeItem('accessToken');
-    //       // api.dispatch(authApi.util.resetApiState());
-    //       if (typeof window !== 'undefined') {
-    //         window.location.href = '/sign-in';
-    //       }
-    //     }
-    //   } finally {
-    //     release();
-    //   }
-    // } else {
-    //   await mutex.waitForUnlock();
-    //   result = await baseQuery(args, api, extraOptions);
-    // }
+
+  let result = await baseQuery(args, api, extraOptions);
+  const token = localStorage.getItem('accessToken');
+  if (result.error && result.error.status === 401 && token) {
+    if (!mutex.isLocked()) {
+      const release = await mutex.acquire();
+      try {
+        const refreshResult = await baseQuery(
+          {
+            url: '/auth/refresh-token',
+            method: 'POST',
+          },
+          api,
+          extraOptions
+        );
+
+        if (refreshResult.data) {
+          localStorage.setItem(
+            'accessToken',
+            (refreshResult.data as { accessToken: string }).accessToken
+          );
+          result = await baseQuery(args, api, extraOptions);
+        } else {
+          localStorage.removeItem('accessToken');
+        }
+      } finally {
+        release();
+      }
+    } else {
+      await mutex.waitForUnlock();
+      result = await baseQuery(args, api, extraOptions);
+    }
+
   }
 
   return result;
