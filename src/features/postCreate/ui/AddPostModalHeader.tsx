@@ -26,7 +26,7 @@ export function AddPostModalHeader({
         onClick={onNext}
         disabled={disabled}
       >
-        Next
+        {text}
       </Button>
     </div>
   );
