@@ -6,11 +6,13 @@ export function AddPostModalHeader({
   onNext,
   disabled,
   title,
+  text = 'Next',
 }: {
   onBack: () => void;
   onNext: () => void;
   disabled: boolean;
   title: string;
+  text?: string;
 }): React.ReactElement {
   return (
     <div className="flex w-full items-center justify-between">
