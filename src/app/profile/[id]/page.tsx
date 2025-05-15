@@ -1,6 +1,5 @@
 'use client';
 
-import { ReactElement, useMemo } from 'react';
 import { PostsList } from '@/widgets/posts-list/ui/PostsList';
 
 import { useGetMeQuery } from '@/features/auth/api/authApi';
