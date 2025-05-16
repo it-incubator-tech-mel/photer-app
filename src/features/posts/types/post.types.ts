@@ -1,10 +1,3 @@
-export type Posts = {
-  items: PostType[];
-  page: number;
-  pageSize: number;
-  pagesCount: number;
-  totalCount: number;
-};
 export type PostType = {
   id: number;
   description: string;
@@ -13,6 +6,15 @@ export type PostType = {
   updatedAt: string;
 };
 
+export type PostsResponse = {
+  items: PostType[];
+  page: number;
+  pageSize: number;
+  pagesCount: number;
+  totalCount: number;
+};
+
+// Тип для универсальных ошибок API
 export type ErrorResponse = {
   error:
     | ErrorIncorrectValue
@@ -24,12 +26,10 @@ export type ErrorResponse = {
 
 type ErrorIncorrectValue = {
   status: 400;
-  errorsMessage: [
-    {
-      message: string;
-      field: string;
-    },
-  ];
+  errorsMessage: Array<{
+    message: string;
+    field: string;
+  }>;
 };
 
 type ErrorUnauthorized = {

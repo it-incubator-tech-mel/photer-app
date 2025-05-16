@@ -4,8 +4,8 @@ import { Spinner } from '@/shared/ui';
 import { EditPost } from './editPost/EditPost';
 import ViewPost from './viewPost/ViewPost';
 import { EllipsisMenu } from './viewPost/EllipsisMenu';
-import { useGetPostQuery } from '../api/postsApi';
 import { PostModalWrapper } from './PostWrapper';
+import { useGetPostQuery } from '@/shared/api/postsApi';
 
 type Props = {
   postId: number;

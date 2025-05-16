@@ -1,8 +1,10 @@
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig: import('next').NextConfig = {
   experimental: {
     optimizeCss: false,
+  },
+  images: {
+    domains: ['storage.yandexcloud.net'],
   },
 };
 

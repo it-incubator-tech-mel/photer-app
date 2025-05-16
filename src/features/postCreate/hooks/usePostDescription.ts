@@ -1,9 +1,9 @@
 import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '@/shared/state/store';
-import { useCreatePostMutation } from '../api/postsApi';
 import { closeModal } from '@/shared/state/slices/modalSlice';
 import { goToStep, resetPhotoFilter, resetState } from '../model/postSlice';
+import { useCreatePostMutation } from '@/shared/api/postsApi';
 
 const MAX_DESCRIPTION_LENGTH = 500;
 
