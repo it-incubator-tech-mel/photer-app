@@ -37,6 +37,7 @@ export function DescriptionStep({
           onNext={handleSubmit(onSubmit)}
           disabled={!isValid || !isDescriptionValid}
           title="Publication"
+          text={"Publish"}
         />
       }
       size="md"
