@@ -1,11 +1,13 @@
 'use client';
+
 import React, { ReactNode, useState } from 'react';
 import { Spinner } from '@/shared/ui';
 import { EditPost } from './editPost/EditPost';
 import ViewPost from './viewPost/ViewPost';
 import { EllipsisMenu } from './viewPost/EllipsisMenu';
-import { useGetPostQuery } from '../api/postsApi';
+import { useDeletePostMutation, useGetPostQuery } from '../api/postsApi';
 import { PostModalWrapper } from './PostWrapper';
+import { errorHandler } from '@/features/postModal/lib/errorHandler';
 
 type Props = {
   postId: number;
@@ -15,6 +17,19 @@ type Props = {
 export const MyPostModal = ({ onCloseAction, postId }: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
   const { data: post, isLoading } = useGetPostQuery(postId);
+  const [deletePost, { isLoading: isDeleting }] = useDeletePostMutation();
+
+  const handleDelete = async () => {
+
+    console.log('delete', postId);
+
+    try {
+      await deletePost(postId).unwrap();
+      onCloseAction();
+    } catch (e) {
+      errorHandler(e);
+    }
+  }
 
   if (isLoading)
     return (
@@ -42,8 +57,8 @@ export const MyPostModal = ({ onCloseAction, postId }: Props): ReactNode => {
                 {
                   title: 'Delete post',
                   iconName: 'trash-outline',
-                  callback: (): void => {},
-                },
+                  callback: handleDelete,
+                }
               ]}
             />
           </ViewPost>

@@ -44,7 +44,21 @@ export const postsApi = baseApi.injectEndpoints({
         },
       }
     ),
+    deletePost: builder.mutation<void, number>({
+      query: (postId) => ({
+        url: `/posts/${postId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['posts'],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (e) {
+          errorHandler(e);
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetPostQuery, useUpdatePostMutation } = postsApi;
+export const { useGetPostQuery, useUpdatePostMutation ,  useDeletePostMutation} = postsApi;
