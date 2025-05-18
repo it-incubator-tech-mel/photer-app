@@ -1,3 +1,4 @@
+import { useGetMeQuery } from '@/features/auth/api/authApi';
 import { IconSprite } from '@/shared/ui';
 import { SpriteName } from 'public/icons/spriteNames';
 

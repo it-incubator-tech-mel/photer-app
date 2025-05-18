@@ -1,7 +1,7 @@
 // src/app/create-post/page.tsx
 'use client';
 
-import { PostCreationWizard } from '@/features/postCreate';
+import { PostCreationWizard } from '@/features/posts';
 import { useRouter } from 'next/navigation';
 
 export default function CreatePost(): React.ReactElement {
