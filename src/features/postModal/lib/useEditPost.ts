@@ -1,6 +1,8 @@
+import { PostType } from '@/features/posts/types/post.types';
+import { useUpdatePostMutation } from '@/shared/api/postsApi';
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { useUpdatePostMutation } from '../api/postsApi';
-import { PostType } from './post.types';
+// import { useUpdatePostMutation } from '../api/postsApi';
+// import { PostType } from './post.types';
 
 type PropsHookEditPost = {
   onCloseAction: () => void;

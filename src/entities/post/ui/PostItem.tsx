@@ -1,33 +1,33 @@
 'use client';
-import { ReactElement, useState } from 'react';
+
+import { ReactElement } from 'react';
 import Image from 'next/image';
-import { PostType } from '@/features/postModal/lib/post.types';
-import { MyPostModal } from '@/features/postModal';
+import Link from 'next/link';
+import { PostType } from '@/features/posts/types/post.types';
 
 type Props = {
   post: PostType;
 };
 
 export const PostItem = ({ post }: Props): ReactElement => {
-  const [isOpenPost, setIsOpenPost] = useState(false);
-
   return (
-    <>
-      <div className={'relative h-57 w-58'} onClick={() => setIsOpenPost(true)}>
+    <Link
+      href={{
+        pathname: `/profile/${post.userId}`, // фон — профиль автора
+        query: { postId: post.id }, // открываем модалку по ID поста
+      }}
+      scroll={false}
+      shallow
+    >
+      <div className="relative h-57 w-58 cursor-pointer">
         <Image
           src={post.photos[0]}
-          alt={'post image'}
+          alt="post image"
           unoptimized
           fill
           className="object-cover"
         />
       </div>
-      {isOpenPost && (
-        <MyPostModal
-          postId={post.id}
-          onCloseAction={() => setIsOpenPost(false)}
-        />
-      )}
-    </>
+    </Link>
   );
 };

@@ -5,8 +5,8 @@ import { ConfirmCloseModal } from './ConfirmCloseModal';
 import { ReactNode } from 'react';
 import { useEditPost } from '../../lib/useEditPost';
 import { AvatarWithName } from '../viewPost/AvatarWithName';
-import { PostType } from '../../lib/post.types';
 import { Carousel } from '@/shared/ui/carousel/Carousel';
+import { PostType } from '@/features/posts/types/post.types';
 
 const MAX_SYMBOL_COUNT = 500;
 

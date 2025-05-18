@@ -18,3 +18,5 @@ export const IconSprite = ({
     </svg>
   );
 };
+
+export type { SpriteName };

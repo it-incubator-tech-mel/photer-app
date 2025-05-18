@@ -9,15 +9,16 @@ type Props = {
 
 export const PostDescription = ({ comment, dateTime }: Props): ReactNode => {
   const timeAgo = useTimeAgo(dateTime);
+
   return (
     <div className="relative flex gap-[12px]">
-      <div className="flex h-[36px] min-w-[36px] items-center justify-center overflow-hidden rounded-full object-cover">
+      <div className="h-[36px] w-[36px] overflow-hidden rounded-full">
         <Image
-          src={'/images/expired.png'}
-          alt={'icon'}
+          src="/images/expired.png"
+          alt="icon"
           width={36}
           height={36}
-          className="h-full w-full object-cover"
+          className="object-cover"
         />
       </div>
       <div className="flex w-full flex-col">

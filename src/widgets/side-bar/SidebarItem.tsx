@@ -1,56 +1,53 @@
-// srcwidgets/side-bar/SidebarItem.tsx
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import HoverDiv from './HoverDiv';
 import { cn } from '@/shared/lib/cn';
-import { IconSprite } from '@/shared/ui';
-import { SpriteName } from 'public/icons/spriteNames';
+import { IconSprite } from '@/shared/ui/icon/IconSprite';
+import type { SpriteName } from '@/shared/ui/icon/IconSprite';
 
 type SidebarItemProps = {
-  title: string | undefined;
-  defaultIconName: SpriteName;
-  activeIconName: SpriteName;
-  path?: string;
+  path: string;
+  title: string;
   isSidebarOpen: boolean;
+  activeIcon: SpriteName;
+  defaultIcon: SpriteName;
 };
 
-export default function SidebarItem({
-  title,
-  defaultIconName,
-  activeIconName,
+export function SidebarItem({
   path,
+  title,
   isSidebarOpen,
-}: SidebarItemProps): React.JSX.Element {
+  activeIcon,
+  defaultIcon,
+}: SidebarItemProps) {
   const pathname = usePathname();
+  const isActive = pathname === path;
 
   return (
-    <Link href={path ?? '#'}>
-      <HoverDiv
-        isActive={pathname === path}
-        className={cn(
-          'text-2xlitems-center flex w-full items-center gap-5 px-[20px]',
-          {
-            'min-w-[40px] flex-col gap-1 rounded-full': !isSidebarOpen,
-          }
-        )}
-      >
-        <IconSprite
-          iconName={isSidebarOpen ? defaultIconName : activeIconName}
-          className="mt-[4px] fill-white"
-          width="24"
-          height="24"
-        />
-        <p
-          className={cn('text-sm font-semibold', {
-            'text-[10px]': !isSidebarOpen,
-          })}
-        >
-          {isSidebarOpen && title}
-        </p>
-      </HoverDiv>
+    <Link
+      href={path}
+      className={cn(
+        'hover:bg-dark-500 flex items-center overflow-hidden rounded-lg px-3 py-2 text-sm transition-all',
+        {
+          'bg-dark-700 text-white': isActive,
+          'justify-center': !isSidebarOpen,
+          'gap-4': isSidebarOpen,
+        }
+      )}
+    >
+      {/* Иконка через спрайт */}
+      <IconSprite
+        iconName={isActive ? activeIcon : defaultIcon}
+        className="h-6 w-6 fill-white"
+      />
+
+      {/* Название — только если сайдбар открыт */}
+      {isSidebarOpen && (
+        <span className="truncate overflow-hidden text-ellipsis whitespace-nowrap">
+          {title}
+        </span>
+      )}
     </Link>
   );
 }
