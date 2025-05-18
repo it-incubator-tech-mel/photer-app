@@ -1,11 +1,13 @@
 'use client';
+
 import React, { ReactNode, useState } from 'react';
 import { Spinner } from '@/shared/ui';
 import { PostModalWrapper } from './PostWrapper';
 import { useGetPostQuery } from '@/features/posts/api/postsApi';
 import { ViewPost } from '@/features/posts';
-import { EllipsisMenu } from '@/features/posts/ui/postView/EllipsisMenu';
 import { EditPost } from '@/features/posts/ui/postEdit/EditPost';
+import { EllipsisMenu } from '@/features/posts/ui/postView/EllipsisMenu';
+import { errorHandler } from '@/features/posts/lib/errorHandler';
 
 type Props = {
   postId: number;
@@ -15,6 +17,18 @@ type Props = {
 export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
   const { data: post, isLoading } = useGetPostQuery(postId);
+  const [deletePost, { isLoading: isDeleting }] = useDeletePostMutation();
+
+  const handleDelete = async () => {
+    console.log('delete', postId);
+
+    try {
+      await deletePost(postId).unwrap();
+      onCloseAction();
+    } catch (e) {
+      errorHandler(e);
+    }
+  };
 
   if (isLoading)
     return (
@@ -42,7 +56,7 @@ export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
                 {
                   title: 'Delete post',
                   iconName: 'trash-outline',
-                  callback: (): void => {},
+                  callback: handleDelete,
                 },
               ]}
             />
@@ -54,3 +68,6 @@ export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
     );
   }
 };
+function useDeletePostMutation(): [any, { isLoading: any }] {
+  throw new Error('Function not implemented.');
+}
