@@ -1,5 +1,6 @@
 import React from 'react';
 import { Filter } from './filters';
+import Image from 'next/image';
 
 export type FilterGridProps = {
   filters: Filter[];
@@ -30,10 +31,11 @@ export function FiltersGrid({
                   : 'border-transparent'
               }`}
             >
-              <img
+              <Image
                 src={currentPhotoUrl || '/placeholder.svg'}
                 alt={filter.name}
                 className={`h-full w-full object-cover ${filter.className}`}
+                unoptimized
               />
             </div>
             <span className="text-light-100 mt-1 text-sm">{filter.name}</span>

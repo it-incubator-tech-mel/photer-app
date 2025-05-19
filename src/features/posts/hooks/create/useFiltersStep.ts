@@ -22,7 +22,7 @@ type UseFiltersStepResult = {
   hasPrev: boolean;
 };
 
-export const useFiltersStep = (onClose: () => void): UseFiltersStepResult => {
+export const useFiltersStep = (): UseFiltersStepResult => {
   const dispatch = useAppDispatch();
   const photos = useSelector((state: RootState) => state.post.photos);
   const currentIndex = useSelector(

@@ -1,14 +1,14 @@
 // srcwidgets/side-bar/SidebarItem.tsx
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import HoverDiv from './HoverDiv';
 import { cn } from '@/shared/lib/cn';
 import { IconSprite } from '@/shared/ui';
 import { SpriteName } from 'public/icons/spriteNames';
-import { authApi, useGetMeQuery } from '@/features/auth/api/authApi';
+import { authApi } from '@/features/auth/api/authApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/shared/state/store';
 
