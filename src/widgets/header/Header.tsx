@@ -1,7 +1,7 @@
 // src/widgets/header/Header.tsx
 'use client';
 
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import Link from 'next/link';
 import { Button } from '@/shared/ui/button/Button';
 import { useGetMeQuery } from '@/features/auth/api/authApi';

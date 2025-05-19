@@ -217,7 +217,7 @@ export const useFilterSave = (
         console.error('Ошибка при сохранении изображения с фильтром:', error);
       }
     },
-    [applyFilterToImage, dispatch]
+    [applyFilterToImage, dispatch, photos]
   );
 
   return {

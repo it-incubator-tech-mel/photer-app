@@ -1,4 +1,5 @@
 import { PhotoNavigation } from './PhotoNavigation';
+import Image from 'next/image';
 
 type PhotoPreviewWithNavProps = {
   url: string | undefined;
@@ -19,10 +20,11 @@ export function PhotoPreviewWithNav({
 }: PhotoPreviewWithNavProps): React.ReactElement {
   return (
     <div className="relative flex h-[400px] w-full items-center justify-center rounded-lg bg-black">
-      <img
+      <Image
         src={url || '/placeholder.svg'}
         alt="Preview"
         className={`max-h-full max-w-full object-contain ${filterClass}`}
+        unoptimized
       />
       <PhotoNavigation
         hasPrev={hasPrev}

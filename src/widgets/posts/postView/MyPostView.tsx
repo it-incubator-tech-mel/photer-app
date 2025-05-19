@@ -3,7 +3,10 @@
 import React, { ReactNode, useState } from 'react';
 import { Spinner } from '@/shared/ui';
 import { PostModalWrapper } from './PostWrapper';
-import { useGetPostQuery } from '@/features/posts/api/postsApi';
+import {
+  useDeletePostMutation,
+  useGetPostQuery,
+} from '@/features/posts/api/postsApi';
 import { ViewPost } from '@/features/posts';
 import { EditPost } from '@/features/posts/ui/postEdit/EditPost';
 import { EllipsisMenu } from '@/features/posts/ui/postView/EllipsisMenu';
@@ -17,11 +20,9 @@ type Props = {
 export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
   const { data: post, isLoading } = useGetPostQuery(postId);
-  const [deletePost, { isLoading: isDeleting }] = useDeletePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
-  const handleDelete = async () => {
-    console.log('delete', postId);
-
+  const handleDelete = async (): Promise<void> => {
     try {
       await deletePost(postId).unwrap();
       onCloseAction();
@@ -30,7 +31,7 @@ export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
     }
   };
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <PostModalWrapper onCloseAction={onCloseAction}>
         <div className="bg-dark-300 min-h-[400px] w-full">
@@ -38,6 +39,7 @@ export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
         </div>
       </PostModalWrapper>
     );
+  }
 
   if (post) {
     return (
@@ -68,6 +70,3 @@ export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
     );
   }
 };
-function useDeletePostMutation(): [any, { isLoading: any }] {
-  throw new Error('Function not implemented.');
-}

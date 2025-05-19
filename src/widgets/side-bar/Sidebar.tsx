@@ -17,7 +17,9 @@ export const Sidebar = (): React.JSX.Element | null => {
   const { data } = useGetMeQuery();
   const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
 
-  if (!data) return null;
+  if (!data) {
+    return null;
+  }
 
   return (
     <aside
