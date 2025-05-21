@@ -50,8 +50,8 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
               src={photo}
               alt={'Post image'}
               key={index}
-              width={500}
-              height={500}
+              width={1000}
+              height={1000}
               unoptimized
             />
           ))}

@@ -2,9 +2,9 @@
 
 import { useCallback, useState } from 'react';
 import { useAppDispatch } from '@/shared/state/store';
-import type { PixelCrop } from '@/shared/config/aspectRatios';
 import { PhotoSettings } from '../../lib/post.types';
 import { setPhotoSettings } from '../../model/postSlice';
+import { PixelCrop } from '../../lib/aspectRatios';
 
 type useImageCroppingReturn = {
   onCropComplete: (_: unknown, croppedAreaPixels: PixelCrop) => void;

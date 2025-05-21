@@ -24,6 +24,7 @@ export function PhotoPreviewWithNav({
         src={url || '/placeholder.svg'}
         alt="Preview"
         className={`max-h-full max-w-full object-contain ${filterClass}`}
+        fill
         unoptimized
       />
       <PhotoNavigation
