@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { useAppDispatch } from '@/shared/state/store';
 
-import { PixelCrop } from '@/shared/config/aspectRatios';
 import { PhotoSettings } from '../../lib/post.types';
 import { goToStep, setPhotoSettings } from '../../model/postSlice';
+import { PixelCrop } from '../../lib/aspectRatios';
 
 type useImageSaveReturn = {
   confirmCropping: (croppedAreaPixels: PixelCrop | null) => Promise<void>;

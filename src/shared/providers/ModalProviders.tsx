@@ -5,6 +5,7 @@ import { AuthModal } from '@/features/auth/modal/AuthModal';
 
 import { closeModal } from '@/shared/state/slices/modalSlice';
 import { Modal } from '@/widgets/modal/Modal';
+import { PostCreationWizard } from '@/features/posts';
 
 export function ModalProvider(): React.ReactElement | null {
   const { isOpen, type, props } = useSelector(
@@ -20,6 +21,7 @@ export function ModalProvider(): React.ReactElement | null {
     <>
       <Modal open={isOpen} onClose={() => dispatch(closeModal())}>
         {type === 'auth' && <AuthModal {...props} />}
+        {type === 'post-create' && <PostCreationWizard {...props} />}
       </Modal>
     </>
   );

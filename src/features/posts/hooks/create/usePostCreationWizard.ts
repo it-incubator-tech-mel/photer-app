@@ -12,9 +12,7 @@ type UsePostCreationWizardReturn = {
   handleCancelExit: () => void;
 };
 
-export function usePostCreationWizard(
-  exitSubscriberAction: () => void
-): UsePostCreationWizardReturn {
+export function usePostCreationWizard(): UsePostCreationWizardReturn {
   const { currentStep } = useSelector((state: RootState) => state.post);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const dispatch = useAppDispatch();
@@ -27,7 +25,6 @@ export function usePostCreationWizard(
     dispatch(resetState());
     dispatch(closeModal());
     setShowExitConfirm(false);
-    exitSubscriberAction();
   };
 
   const handleCancelExit = (): void => {

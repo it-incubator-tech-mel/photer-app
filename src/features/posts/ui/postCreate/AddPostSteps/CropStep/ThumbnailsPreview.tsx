@@ -8,7 +8,7 @@ import {
 import { useAppDispatch } from '@/shared/state/store';
 import { Button, IconSprite } from '@/shared/ui';
 import { toast } from 'react-toastify';
-import Image from 'next/image';
+import { default as NextImage } from 'next/image';
 
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
@@ -146,10 +146,12 @@ export function ThumbnailsPreview({
                 onClick={() => dispatch(setCurrentPhotoIndex(photoIndex))}
                 className={`h-20 w-20 p-0 ${currentIndex === photoIndex ? 'ring-2 ring-blue-500' : ''}`}
               >
-                <Image
+                <NextImage
                   src={photo}
                   alt={`Preview ${photoIndex}`}
                   className="h-20 w-20 object-cover"
+                  width={1000}
+                  height={1000}
                   unoptimized
                 />
               </button>

@@ -35,6 +35,8 @@ export function FiltersGrid({
                 src={currentPhotoUrl || '/placeholder.svg'}
                 alt={filter.name}
                 className={`h-full w-full object-cover ${filter.className}`}
+                width={1000}
+                height={1000}
                 unoptimized
               />
             </div>
