@@ -26,6 +26,7 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
+
     newPassword: builder.mutation<
       void,
       { newPassword: string; recoveryCode: string }
@@ -36,6 +37,7 @@ export const authApi = baseApi.injectEndpoints({
         body: body,
       }),
     }),
+
     passwordRecovery: builder.mutation<void, FormSchemaType>({
       query: (body) => ({
         url: '/auth/password-recovery',
@@ -46,6 +48,7 @@ export const authApi = baseApi.injectEndpoints({
         localStorage.setItem('email', arg.email);
       },
     }),
+
     recoveryPasswordResending: builder.mutation<void, { email: string }>({
       query: (body) => ({
         url: '/auth/password-recovery-resending',
@@ -57,6 +60,7 @@ export const authApi = baseApi.injectEndpoints({
       query: () => '/auth/me',
       providesTags: ['me'],
     }),
+
     logout: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
@@ -68,6 +72,7 @@ export const authApi = baseApi.injectEndpoints({
         dispatch(authApi.util.resetApiState());
       },
     }),
+
     register: builder.mutation<
       void,
       {
