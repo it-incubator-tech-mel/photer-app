@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import HoverDiv from './HoverDiv';
 import { cn } from '@/shared/lib/cn';
-import { Button, IconSprite } from '@/shared/ui';
+import { IconSprite } from '@/shared/ui';
 import { SpriteName } from 'public/icons/spriteNames';
 import { authApi } from '@/features/auth/api/authApi';
 import { useSelector } from 'react-redux';
