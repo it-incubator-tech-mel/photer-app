@@ -1,4 +1,3 @@
-import { IconSprite } from '@/shared/ui';
 import { SpriteName } from 'public/icons/spriteNames';
 
 type SidebarItem = {

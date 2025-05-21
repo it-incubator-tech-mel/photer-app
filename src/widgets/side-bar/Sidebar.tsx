@@ -17,12 +17,14 @@ export const Sidebar = (): React.JSX.Element | null => {
   const { data } = useGetMeQuery();
   const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
 
-  if (!data) return null;
+  if (!data) {
+    return null;
+  }
 
   return (
     <aside
       className={cn(
-        'flex h-[calc(100vh-60px)] w-60 flex-col justify-between border-r-2 border-zinc-700 bg-black text-slate-50 transition-all duration-300',
+        'sticky top-[60px] left-0 flex h-[calc(100vh-60px)] w-60 flex-col justify-between border-r-2 border-zinc-700 bg-black text-slate-50 transition-all duration-300',
         {
           'w-[64px]': !isSidebarOpen,
         }
@@ -30,12 +32,10 @@ export const Sidebar = (): React.JSX.Element | null => {
     >
       {/* Верхняя панель: бургер + стрелка */}
       <section
-        className={cn(
-          'between flex w-full items-center justify-center gap-4 py-4',
-          {
-            'justify-end px-5': isSidebarOpen, // отступы только если открыт
-          }
-        )}
+        className={cn('between flex w-full items-center gap-4 py-4', {
+          'justify-end px-5': isSidebarOpen, // отступы только если открыт
+          'justify-start pl-3': !isSidebarOpen, // отступы только если открыт
+        })}
       >
         <HoverDiv
           className="flex items-center gap-2 rounded-full p-2"
@@ -92,8 +92,8 @@ export const Sidebar = (): React.JSX.Element | null => {
       </ul>
 
       {/* Нижняя часть: Log Out */}
-      <div className="px-2 pb-6">
-        <LogoutButton openModal={openModal} />
+      <div className="pb-6">
+        <LogoutButton hideText={!isSidebarOpen} openModal={openModal} />
         <LogoutModal
           open={isOpen}
           userEmail={''}

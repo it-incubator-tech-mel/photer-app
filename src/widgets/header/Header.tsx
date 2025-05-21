@@ -1,11 +1,9 @@
 // src/widgets/header/Header.tsx
 'use client';
 
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import Link from 'next/link';
 import { Button } from '@/shared/ui/button/Button';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/shared/state/store';
 import { useGetMeQuery } from '@/features/auth/api/authApi';
 
 type Props = {
@@ -15,11 +13,8 @@ type Props = {
 export const Header = ({ withLoginBtn = false }: Props): ReactElement => {
   const { data } = useGetMeQuery();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
-    <header className="text-light-100 border-dark-300 h-[60px] w-full border-b-1 px-15 py-3 max-md:px-[15px]">
+    <header className="text-light-100 border-dark-300 bg-dark-900 sticky top-0 z-100 h-[60px] w-full border-b-1 px-15 py-3 max-md:px-[15px]">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between">
         <Link href={'/'} className="large-text">
           Inctagram

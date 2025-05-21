@@ -1,14 +1,12 @@
 'use client';
 
-import { PostsList } from '@/widgets/posts-list/ui/PostsList';
-
 import { useGetMeQuery } from '@/features/auth/api/authApi';
 import { Spinner } from '@/shared/ui';
+import { PostsList } from '@/widgets/posts';
 
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { useParams } from 'next/navigation';
 import { ReactElement, useMemo } from 'react';
-
 
 export default function ProfilePage(): ReactElement {
   const params = useParams();
@@ -25,7 +23,7 @@ export default function ProfilePage(): ReactElement {
     return <Spinner fullScreen />;
   }
   return (
-    <div className={'pl pr- h-full max-w-7xl pt-9 pr-16 pl-[226px]'}>
+    <div className={'h-full max-w-7xl px-[24px] pt-9'}>
       <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userData} />
       <PostsList profileId={profileId} />
     </div>
