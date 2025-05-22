@@ -26,20 +26,19 @@ export const postsApi = baseApi.injectEndpoints({
     }),
 
     createPost: builder.mutation({
-      query: (body) => {
-        const cookie = document.cookie
-          .split('; ')
-          .find((row) => row.startsWith('accessToken='));
-        const token = cookie?.split('=')[1];
-
-        return {
-          url: '/posts',
-          method: 'POST',
-          body: body,
-          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-        };
-      },
+      query: (body) => ({
+        url: '/posts',
+        method: 'POST',
+        body: body,
+      }),
       invalidatesTags: ['posts'],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (e) {
+          errorHandler(e);
+        }
+      },
     }),
 
     updatePost: builder.mutation<void, { postId: number; description: string }>(
