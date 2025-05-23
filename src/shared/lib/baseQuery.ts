@@ -1,3 +1,4 @@
+//src/shared/lib/baseQuery.ts
 'use client';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type {
@@ -27,8 +28,10 @@ export const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   await mutex.waitForUnlock();
+
   let result = await baseQuery(args, api, extraOptions);
-  if (result.error && result.error.status === 401) {
+  const token = localStorage.getItem('accessToken');
+  if (result.error && result.error.status === 401 && token) {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
@@ -58,5 +61,6 @@ export const baseQueryWithReauth: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     }
   }
+
   return result;
 };

@@ -3,13 +3,9 @@ import React, { ReactElement } from 'react';
 
 type Props = {
   openModal: () => void;
-  hideText?: boolean;
 };
 
-export function LogoutButton({
-  openModal,
-  hideText = false,
-}: Props): ReactElement {
+export function LogoutButton({ openModal }: Props): ReactElement {
   return (
     <Button
       onClick={openModal}
@@ -18,7 +14,7 @@ export function LogoutButton({
     >
       <div className="flex items-center gap-3">
         <IconSprite iconName="log-out" />
-        {!hideText && <span className="regular-text-14">Logout</span>}
+        <span className="regular-text-14">Logout</span>
       </div>
     </Button>
   );

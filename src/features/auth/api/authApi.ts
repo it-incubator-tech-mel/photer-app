@@ -1,4 +1,4 @@
-'use client';
+// src/features/auth/api/authApi.ts
 import { baseApi } from '@/shared/lib/baseApi';
 import { FormSchemaType } from '../forgot-password/types/forgotPasswordFormSchema';
 
@@ -16,17 +16,16 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled }) {
         try {
           const response = await queryFulfilled;
           localStorage.setItem('accessToken', response.data.accessToken);
-          await dispatch(authApi.endpoints.getMe.initiate());
+          //await dispatch(authApi.endpoints.getMe.initiate());
         } catch (error) {
           console.log(error);
         }
       },
     }),
-
     newPassword: builder.mutation<
       void,
       { newPassword: string; recoveryCode: string }
@@ -37,7 +36,6 @@ export const authApi = baseApi.injectEndpoints({
         body: body,
       }),
     }),
-
     passwordRecovery: builder.mutation<void, FormSchemaType>({
       query: (body) => ({
         url: '/auth/password-recovery',
@@ -48,7 +46,6 @@ export const authApi = baseApi.injectEndpoints({
         localStorage.setItem('email', arg.email);
       },
     }),
-
     recoveryPasswordResending: builder.mutation<void, { email: string }>({
       query: (body) => ({
         url: '/auth/password-recovery-resending',
@@ -60,7 +57,6 @@ export const authApi = baseApi.injectEndpoints({
       query: () => '/auth/me',
       providesTags: ['me'],
     }),
-
     logout: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
@@ -72,7 +68,6 @@ export const authApi = baseApi.injectEndpoints({
         dispatch(authApi.util.resetApiState());
       },
     }),
-
     register: builder.mutation<
       void,
       {
@@ -110,3 +105,4 @@ export const {
   useNewPasswordMutation,
   useRecoveryPasswordResendingMutation,
 } = authApi;
+/////////////////////////

@@ -1,78 +1,21 @@
-'use client';
-import { useLogInForm } from '@/features/auth/sign-in/hooks/useLogInForm';
-import { cn } from '@/shared/lib/cn';
-import { Button } from '@/shared/ui/button/Button';
-import { Input } from '@/shared/ui/input/Input';
-import { OAuthLinks } from '@/shared/ui/oauth/OAuthLinks';
-import { Card } from '@/widgets/card/card';
-import Link from 'next/link';
-import { ReactElement } from 'react';
+// src/app/(auth)/sign-in/page.tsx
 
-export default function LogIn(): ReactElement {
-  const {
-    register,
-    handleSubmit,
-    isDirty,
-    hasLoginError,
-    formErrors,
-    isLoading,
-  } = useLogInForm();
+'use client';
+
+import { ReactElement } from 'react';
+import LogIn from '@/features/auth/sign-in/ui/LogIn';
+import Link from 'next/link';
+
+export default function Page(): ReactElement {
   return (
-    <Card
-      className={cn(
-        'align-center mt-[24px] flex w-full max-w-[378px] flex-col justify-center p-[24px]',
-        'max-sm:bg-dark-900 max-sm:border-hidden'
-      )}
-    >
-      <h1 className="h1-text text-center">Sign In</h1>
-      <OAuthLinks />
-      <div className="mt-6 flex w-full flex-col justify-center align-middle">
-        <form onSubmit={handleSubmit} className={'flex flex-col items-end'}>
-          {hasLoginError && (
-            <p className={'text-danger-500 text-center'}>
-              The email or password are incorrect. Try again please
-            </p>
-          )}
-          <Input
-            className="w-full"
-            label={'Email'}
-            errorMessage={formErrors.email?.message}
-            {...register('email')}
-          />
-          <Input
-            type="password"
-            className="w-full"
-            label={'Password'}
-            errorMessage={formErrors.password?.message}
-            {...register('password')}
-          />
-          {/* TODO добавить ссылку на Forgot Password */}
-          <Link href="/forgot-password" className={'text-light-900'}>
-            Forgot Password
-          </Link>
-          <Button
-            className="my-5 w-full"
-            type="submit"
-            disabled={
-              !isDirty ||
-              isLoading ||
-              !!formErrors.email?.message ||
-              !!formErrors.password?.message
-            }
-          >
-            Sign In
-          </Button>
-        </form>
-        <p className="regular-text-16 text-center">Don’t have an account? </p>
-        <Link
-          href="/sign-up"
-          className={
-            'text-primary-500 text-accent-500 mx-auto w-20 p-2 font-semibold'
-          }
-        >
-          Sign Up
-        </Link>
-      </div>
-    </Card>
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+      <LogIn />
+      <Link
+        href="/"
+        className="mt-6 inline-block rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
+      >
+        Вернуться на главную
+      </Link>
+    </div>
   );
 }

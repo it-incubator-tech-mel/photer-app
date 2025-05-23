@@ -1,78 +1,53 @@
-// srcwidgets/side-bar/SidebarItem.tsx
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import HoverDiv from './HoverDiv';
 import { cn } from '@/shared/lib/cn';
-import { IconSprite } from '@/shared/ui';
-import { SpriteName } from 'public/icons/spriteNames';
-import { authApi } from '@/features/auth/api/authApi';
-import { useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '@/shared/state/store';
-import { openModal } from '@/shared/state/slices/modalSlice';
+import { IconSprite } from '@/shared/ui/icon/IconSprite';
+import type { SpriteName } from '@/shared/ui/icon/IconSprite';
 
 type SidebarItemProps = {
-  title: string | undefined;
-  defaultIconName: SpriteName;
-  activeIconName: SpriteName;
-  path?: string;
+  path: string;
+  title: string;
   isSidebarOpen: boolean;
+  activeIcon: SpriteName;
+  defaultIcon: SpriteName;
 };
 
-export default function SidebarItem({
-  title,
-  defaultIconName,
-  activeIconName,
+export function SidebarItem({
   path,
+  title,
   isSidebarOpen,
-}: SidebarItemProps): React.JSX.Element {
+  activeIcon,
+  defaultIcon,
+}: SidebarItemProps) {
   const pathname = usePathname();
-  const userId = useSelector(
-    (state: RootState) => authApi.endpoints.getMe.select()(state).data?.userId
-  );
-  const dispatch = useAppDispatch();
+  const isActive = pathname === path;
 
-  const iconAndText = (
-    <HoverDiv
-      isActive={pathname === path}
-      className={cn('flex w-full items-center gap-5 px-[20px]', {
-        'min-w-[40px] flex-col items-start gap-1 rounded-full px-[12px]':
-          !isSidebarOpen,
-      })}
+  return (
+    <Link
+      href={path}
+      className={cn(
+        'hover:bg-dark-500 flex items-center overflow-hidden rounded-lg px-3 py-2 text-sm transition-all',
+        {
+          'bg-dark-700 text-white': isActive,
+          'justify-center': !isSidebarOpen,
+          'gap-4': isSidebarOpen,
+        }
+      )}
     >
+      {/* Иконка через спрайт */}
       <IconSprite
-        iconName={isSidebarOpen ? defaultIconName : activeIconName}
-        className="mt-[4px] fill-white"
-        width="24"
-        height="24"
+        iconName={isActive ? activeIcon : defaultIcon}
+        className="h-6 w-6 fill-white"
       />
-      <p
-        className={cn('text-sm font-semibold', {
-          'text-[10px]': !isSidebarOpen,
-        })}
-      >
-        {isSidebarOpen && title}
-      </p>
-    </HoverDiv>
+
+      {/* Название — только если сайдбар открыт */}
+      {isSidebarOpen && (
+        <span className="truncate overflow-hidden text-ellipsis whitespace-nowrap">
+          {title}
+        </span>
+      )}
+    </Link>
   );
-
-  if (title === 'Profile' && userId) {
-    path = `/profile/${userId}`;
-    console.log(path);
-  }
-
-  if (title === 'Create') {
-    return (
-      <button
-        className="w-full"
-        onClick={() => dispatch(openModal({ type: 'post-create' }))}
-      >
-        {iconAndText}
-      </button>
-    );
-  }
-
-  return <Link href={path ?? '#'}>{iconAndText}</Link>;
 }
