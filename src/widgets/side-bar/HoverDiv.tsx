@@ -2,7 +2,7 @@
 
 import { cn } from '@/shared/lib/cn';
 
-export function HoverDiv({
+export default function HoverDiv({
   isActive,
   className,
   ...rest
@@ -13,7 +13,7 @@ export function HoverDiv({
     <div
       {...rest}
       className={cn(
-        'cursor-pointer rounded-xl px-3 py-2 transition-all hover:bg-zinc-800',
+        'cursor-pointer rounded-xl p-2 transition-all hover:bg-zinc-800',
         { 'bg-zinc-800': isActive },
         className
       )}

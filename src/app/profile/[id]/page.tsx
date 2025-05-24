@@ -2,7 +2,7 @@
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { MainFeed } from '@/widgets/main-feed/MainFeed';
-import { PostType } from '@/features/posts/types/post.types';
+import { PostType } from '@/features/posts/lib/post.types';
 
 export const revalidate = 60;
 

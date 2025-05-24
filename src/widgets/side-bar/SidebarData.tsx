@@ -1,61 +1,61 @@
-import type { SpriteName } from '@/shared/ui/icon/IconSprite';
+import { SpriteName } from 'public/icons/spriteNames';
 
 type SidebarItem = {
-  title: string;
-  path: string;
-  defaultIcon: SpriteName;
-  activeIcon: SpriteName;
+  title?: string;
+  path?: string;
+  defaultIconName: SpriteName;
+  activeIconName: SpriteName;
   nestedItems?: SidebarItem[];
-  sectionTitle?: string;
+  nestedTitle?: string;
 };
 
 export const ytSidebarDataset: SidebarItem[] = [
   {
     title: 'Feed',
     path: '/',
-    defaultIcon: 'home-outline',
-    activeIcon: 'home',
+    defaultIconName: 'home-outline',
+    activeIconName: 'home',
   },
   {
     title: 'Create',
     path: '/create-post',
-    defaultIcon: 'plus-square-outline',
-    activeIcon: 'plus-square',
+    defaultIconName: 'plus-square-outline',
+    activeIconName: 'plus-square',
   },
   {
-    title: 'My Profile',
+    title: 'Profile',
     path: '/profile',
-    defaultIcon: 'person-outline',
-    activeIcon: 'person',
+    defaultIconName: 'person-outline',
+    activeIconName: 'person',
   },
   {
     title: 'Messenger',
     path: '/messenger',
-    defaultIcon: 'paper-plane-outline',
-    activeIcon: 'paper-plane',
+    defaultIconName: 'message-circle-outline',
+    activeIconName: 'message-circle',
   },
   {
     title: 'Search',
     path: '/search',
-    defaultIcon: 'search-outline',
-    activeIcon: 'search',
+    defaultIconName: 'search-outline',
+    activeIconName: 'search',
   },
   {
     title: 'Statistics',
     path: '/statistics',
-    defaultIcon: 'trending-up-outline',
-    activeIcon: 'trending-up',
+    defaultIconName: 'trending-up-outline',
+    activeIconName: 'trending-up',
   },
   {
     title: 'Favorites',
     path: '/favorites',
-    defaultIcon: 'bookmark-outline',
-    activeIcon: 'bookmark',
+    defaultIconName: 'bookmark-outline',
+    activeIconName: 'bookmark',
   },
   {
     title: 'Log Out',
     path: '/logout',
-    defaultIcon: 'log-out-outline',
-    activeIcon: 'log-out',
+    defaultIconName: 'home-outline',
+    activeIconName: 'home-outline',
   },
 ];
