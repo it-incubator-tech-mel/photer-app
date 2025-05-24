@@ -7,10 +7,10 @@ import {
   useDeletePostMutation,
   useGetPostQuery,
 } from '@/features/posts/api/postsApi';
-import { ViewPost } from '@/features/posts';
 import { EditPost } from '@/features/posts/ui/postEdit/EditPost';
 import { EllipsisMenu } from '@/features/posts/ui/postView/EllipsisMenu';
 import { errorHandler } from '@/features/posts/lib/errorHandler';
+import { ViewPost } from '@/features/posts';
 
 type Props = {
   postId: number;

@@ -9,13 +9,13 @@ type Props = {
 export const ViewComment = ({ comment }: Props): ReactNode => {
   return (
     <div className="flex gap-[12px]">
-      <div className="h-[36px] w-[36px] overflow-hidden rounded-full">
+      <div className="h-[36px] min-w-[36px] overflow-hidden rounded-full">
         <Image
           src="/images/expired.png"
           alt="User avatar"
           width={36}
           height={36}
-          className="object-cover"
+          className="h-full w-full object-cover"
         />
       </div>
 

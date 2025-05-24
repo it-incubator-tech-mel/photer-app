@@ -1,5 +1,5 @@
 // src/app/page.tsx
-import { PostType } from '@/features/posts/types/post.types';
+import { PostType } from '@/features/posts/lib/post.types';
 import { MainFeed } from '@/widgets/main-feed/MainFeed';
 import { ReactElement } from 'react';
 

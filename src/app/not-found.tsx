@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function NotFoundPage() {
   return (
-    <main className="bg-dark-900 text-light-100 flex min-h-[calc(100vh-60px)] flex-col items-center justify-center px-4">
+    <main className="bg-dark-900 text-light-100 mx-auto flex min-h-[calc(100vh-60px)] flex-col items-center justify-center px-4">
       {/* 60px — это высота Header */}
       <h1 className="mb-4 text-3xl font-bold">404 — Страница не найдена</h1>
       <p className="text-light-900 mb-6 text-center">

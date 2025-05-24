@@ -9,7 +9,7 @@ export const postsApi = baseApi.injectEndpoints({
         url: '/posts',
         method: 'GET',
       }),
-      providesTags: ['posts'],
+      providesTags: ['Posts'],
     }),
 
     getPost: builder.query<PostType, number>({
@@ -31,7 +31,7 @@ export const postsApi = baseApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['posts'],
+      invalidatesTags: ['Posts'],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -48,7 +48,7 @@ export const postsApi = baseApi.injectEndpoints({
           method: 'PATCH',
           body: { description },
         }),
-        invalidatesTags: ['posts'],
+        invalidatesTags: ['Posts'],
         // Optimistic update
         async onQueryStarted(
           { postId, description },
@@ -73,7 +73,7 @@ export const postsApi = baseApi.injectEndpoints({
         url: `/posts/${postId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['posts'],
+      invalidatesTags: ['Posts'],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           await queryFulfilled;

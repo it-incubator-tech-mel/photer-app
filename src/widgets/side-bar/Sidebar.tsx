@@ -7,14 +7,18 @@ import { ytSidebarDataset } from './SidebarData';
 import SidebarItem from './SidebarItem';
 import { cn } from '@/shared/lib/cn';
 import { IconSprite } from '@/shared/ui';
-import { useGetMeQuery } from '@/features/auth/api/authApi';
+import { authApi } from '@/features/auth/api/authApi';
 import { LogoutButton } from '../logout-button/LogoutButton';
 import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
 import { useLogout } from '@/features/auth/hooks/useLogout';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/shared/state/store';
 
 export const Sidebar = (): React.JSX.Element | null => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const { data } = useGetMeQuery();
+  const data = useSelector(
+    (state: RootState) => authApi.endpoints.getMe.select()(state).data
+  );
   const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
 
   if (!data) {

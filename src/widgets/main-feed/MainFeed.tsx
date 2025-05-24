@@ -1,7 +1,7 @@
 // // src/widgets/main-feed/MainFeed.tsx
 'use client';
 
-import { PostType } from '@/features/posts/types/post.types';
+import { PostType } from '@/features/posts/lib/post.types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactElement } from 'react';

@@ -15,9 +15,9 @@ type Props = {
   children?: ReactNode;
 };
 
-export default function ViewPost({ post, children }: Props): ReactNode {
+export const ViewPost = ({ post, children }: Props): ReactNode => {
   return (
-    <div className="bg-dark-300 border-dark-100 flex h-[calc(100vh-80px)] w-full max-w-[1280px] overflow-hidden rounded-[2px] border-[1px] sm:h-[calc(100vh-100px)]">
+    <div className="bg-dark-300 border-dark-100 flex w-full max-w-[1280px] overflow-hidden rounded-[2px] border-[1px]">
       {/* Левая часть — фото со скроллом при необходимости */}
       <div className="flex-1 overflow-y-auto">
         <Carousel className="h-full w-full">
@@ -43,7 +43,7 @@ export default function ViewPost({ post, children }: Props): ReactNode {
       <div className="flex flex-1 flex-col justify-between overflow-y-auto">
         {/* Верх: шапка, описание, комментарии */}
         <div>
-          <div className="border-dark-100 flex justify-between border-b px-6 py-3">
+          <div className="border-dark-100 flex justify-between border-b px-6">
             <AvatarWithName />
             {children}
           </div>
@@ -59,11 +59,11 @@ export default function ViewPost({ post, children }: Props): ReactNode {
         </div>
 
         {/* Низ: инфо + форма добавления комментария */}
-        <div className="border-dark-100 flex flex-col border-t px-6 py-4">
+        <div className="border-dark-100 flex flex-col pt-4">
           <PostInfo createdDate={post.createdAt} />
           <AddComment />
         </div>
       </div>
     </div>
   );
-}
+};

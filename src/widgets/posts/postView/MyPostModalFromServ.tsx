@@ -3,11 +3,11 @@
 
 import { ReactNode, useState } from 'react';
 import { Spinner } from '@/shared/ui';
-import { EditPost } from './editPost/EditPost';
-import ViewPost from './viewPost/ViewPost';
-import { EllipsisMenu } from './viewPost/EllipsisMenu';
 import { PostModalWrapper } from './PostWrapper';
-import { PostType } from '@/features/posts/types/post.types';
+import { PostType } from '@/features/posts/lib/post.types';
+import { ViewPost } from '@/features/posts';
+import { EllipsisMenu } from '@/features/posts/ui/postView/EllipsisMenu';
+import { EditPost } from '@/features/posts/ui/postEdit/EditPost';
 
 type Props = {
   post: PostType;

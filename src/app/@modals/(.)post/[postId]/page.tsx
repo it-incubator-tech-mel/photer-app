@@ -1,8 +1,8 @@
 // src/app/@modals/(.)post/[postId]/page.tsx
 import { notFound } from 'next/navigation';
 import { ModalSSR } from '@/shared/ui/modal/ModalSSR';
-import { MyPostModalFromServer } from '@/features/postModal/ui/MyPostModalFromServer';
-import { PostType } from '@/features/posts/types/post.types';
+import { PostType } from '@/features/posts/lib/post.types';
+import { MyPostModalFromServer } from '@/widgets/posts/postView/MyPostModalFromServ';
 
 export default async function GlobalPostModal({
   params,
