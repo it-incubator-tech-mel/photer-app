@@ -1,4 +1,4 @@
-// src/degistw / header / Header.tsx;
+// src/widgets/header/Header.tsx;
 'use client';
 
 import { ReactElement } from 'react';
