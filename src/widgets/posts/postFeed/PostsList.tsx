@@ -21,7 +21,7 @@ export const PostsList = ({ profileId }: Props): ReactElement => {
   const triggerRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
-  const hasMore = posts && posts?.page <= posts?.pagesCount;
+  const hasMore = posts && posts?.page < posts?.pagesCount;
   const fetchNewPartPosts = useCallback(() => {
     if (posts) {
       dispatch(
