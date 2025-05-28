@@ -45,7 +45,7 @@ export const Modal = ({
   };
 
   return (
-    <Dialog onOpenChange={handleModalClosed} open={open}>
+    <Dialog onOpenChange={handleModalClosed} open={open} modal={false}>
       {open && (
         <DialogPortal forceMount>
           <DialogOverlay className="fixed inset-0 z-[998] bg-black/50" />
@@ -56,6 +56,7 @@ export const Modal = ({
               modalWidth[size]
             )}
             forceMount
+            aria-describedby={undefined}
           >
             <DialogTitle className="sr-only">
               {title || 'Modal dialog'}

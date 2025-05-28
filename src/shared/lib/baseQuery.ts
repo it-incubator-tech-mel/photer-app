@@ -1,62 +1,61 @@
-'use client';
-import { fetchBaseQuery } from '@reduxjs/toolkit/query';
+// src/shared/lib/baseQuery.ts
+
+import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
-
 import { Mutex } from 'async-mutex';
 
-// create a new mutex
 const mutex = new Mutex();
-const baseQuery = fetchBaseQuery({
+
+const rawBaseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
-  credentials: 'include',
-  prepareHeaders: (headers) => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
-    }
-    return headers;
-  },
+  credentials: 'include', // ⬅️ отправка cookie
 });
-export const baseQueryWithReauth: BaseQueryFn<
+
+export const baseQuery: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+  // ⏳ Ждём разблокировки мьютекса, если уже идёт обновление токенов
   await mutex.waitForUnlock();
-  let result = await baseQuery(args, api, extraOptions);
-  if (result.error && result.error.status === 401) {
+
+  let result = await rawBaseQuery(args, api, extraOptions);
+
+  // 🔁 Если accessToken истёк — пробуем refresh
+  if (result.error?.status === 401) {
+    // ❗ Только один поток должен выполнять refresh-token
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
+
       try {
-        const refreshResult = await baseQuery(
-          {
-            url: '/auth/refresh-token',
-            method: 'POST',
-          },
+        const refreshResult = await rawBaseQuery(
+          { url: '/auth/refresh-token', method: 'POST' },
           api,
           extraOptions
         );
 
-        if (refreshResult.data) {
-          localStorage.setItem(
-            'accessToken',
-            (refreshResult.data as { accessToken: string }).accessToken
-          );
-          result = await baseQuery(args, api, extraOptions);
+        if (!refreshResult.error) {
+          // ✅ Повторяем исходный запрос
+          result = await rawBaseQuery(args, api, extraOptions);
         } else {
-          localStorage.removeItem('accessToken');
+          console.error(
+            '[refresh-token] ❌ Ошибка при обновлении токена:',
+            refreshResult.error
+          );
         }
       } finally {
-        release();
+        release(); // 🔓 Освобождаем мьютекс
       }
     } else {
+      // ⏳ Ждём, пока другой поток завершит refresh
       await mutex.waitForUnlock();
-      result = await baseQuery(args, api, extraOptions);
+      result = await rawBaseQuery(args, api, extraOptions);
     }
   }
+
   return result;
 };

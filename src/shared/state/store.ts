@@ -1,20 +1,26 @@
+// src/shared/state/store.ts
+
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { useDispatch } from 'react-redux';
-import { baseApi } from '../lib/baseApi';
+
+import { baseApi } from '@/shared/lib/baseApi';
 import { modalReducer } from './slices/modalSlice';
-import { authApi } from '@/features/auth/api/authApi';
-import { postReducer } from '@/features/posts/model/postSlice';
+import { postReducer } from '@/features/postCreate/model/postSlice';
+import { authReducer } from '@/features/auth/model/authSlice';
 
 export const store = configureStore({
   reducer: {
+    auth: authReducer,
     modal: modalReducer,
-    authReducer: authApi.reducer,
     post: postReducer,
-    [baseApi.reducerPath]: baseApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer, // ⬅ все endpoints подключаются сюда через injectEndpoints
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: false,
+      immutableCheck: false, // <- отключили "тяжёлую" проверку
+    }).concat(baseApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

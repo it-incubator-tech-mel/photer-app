@@ -1,3 +1,4 @@
+// src/features/auth/sign-up/ui/SignUpForm.tsx
 'use client';
 
 import { FormFields } from './FormFields';

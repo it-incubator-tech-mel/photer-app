@@ -1,106 +1,227 @@
-// src/widgets/side-bar/Sidebar.tsx
+// 'use client';
+
+// import React from 'react';
+// import { ytSidebarDataset } from './SidebarData';
+// import { cn } from '@/shared/lib/cn';
+// import { IconSprite } from '@/shared/ui/icon/IconSprite';
+// import type { SpriteName } from '@/shared/ui/icon/IconSprite';
+// import { HoverDiv } from './HoverDiv';
+// import { SidebarItem } from './SidebarItem';
+
+// type SidebarProps = {
+//   isSidebarOpen: boolean;
+//   toggleSidebar: () => void;
+// };
+
+// export function Sidebar({
+//   isSidebarOpen,
+//   toggleSidebar,
+// }: SidebarProps): React.JSX.Element {
+//   const logoutDefaultIcon: SpriteName = 'log-out-outline';
+//   const logoutActiveIcon: SpriteName = 'log-out';
+//   const menuIcon: SpriteName = 'menu-outline';
+
+//   return (
+//     <div
+//       className={cn(
+//         'border-dark-100 sticky top-[60px] flex h-[calc(100vh-60px)] flex-col overflow-hidden border-r-2 bg-black text-slate-50 transition-all duration-300',
+//         {
+//           'w-[229px]': isSidebarOpen,
+//           'w-[64px]': !isSidebarOpen,
+//         }
+//       )}
+//     >
+//       {/* Верхняя панель: бургер-меню */}
+//       <section
+//         className={cn('flex items-center overflow-hidden py-4', {
+//           'justify-center': !isSidebarOpen,
+//           'gap-4 px-5': isSidebarOpen,
+//         })}
+//       >
+//         <HoverDiv
+//           className="flex items-center gap-2 rounded-full p-2"
+//           onClick={toggleSidebar}
+//         >
+//           <IconSprite iconName={menuIcon} className="h-6 w-6 fill-white" />
+//           {isSidebarOpen && (
+//             <IconSprite
+//               iconName={logoutActiveIcon}
+//               className="h-5 w-5 rotate-180 fill-white"
+//             />
+//           )}
+//         </HoverDiv>
+//       </section>
+
+//       {/* Центральная часть: пункты меню */}
+//       <div className="flex-1 overflow-hidden">
+//         {ytSidebarDataset
+//           .filter((d) => d.title !== 'Log Out')
+//           .map((d, i) => (
+//             <React.Fragment key={i}>
+//               {d.title && (
+//                 <section
+//                   className={cn('w-full truncate', {
+//                     'px-4': isSidebarOpen,
+//                   })}
+//                 >
+//                   <SidebarItem
+//                     path={d.path}
+//                     activeIcon={d.activeIcon}
+//                     defaultIcon={d.defaultIcon}
+//                     title={d.title}
+//                     isSidebarOpen={isSidebarOpen}
+//                   />
+//                 </section>
+//               )}
+
+//               {d.title === 'Search' && <div className="h-6" />}
+//               {d.title === 'Favorites' && <div className="h-2" />}
+
+//               {d.nestedItems && isSidebarOpen && d.nestedItems.length > 0 && (
+//                 <section className="border-dark-100 mt-4 w-full border-t px-4 pt-4">
+//                   <p className="mb-2 truncate px-3">{d.sectionTitle}</p>
+//                   {d.nestedItems.map((n, ni) => (
+//                     <SidebarItem
+//                       key={ni}
+//                       path={n.path}
+//                       activeIcon={n.activeIcon}
+//                       defaultIcon={n.defaultIcon}
+//                       title={n.title}
+//                       isSidebarOpen={isSidebarOpen}
+//                     />
+//                   ))}
+//                 </section>
+//               )}
+//             </React.Fragment>
+//           ))}
+
+//         {/* Log Out выше бордера */}
+//         <div
+//           className={cn('border-dark-100 mt-4 border-t pt-4', {
+//             'px-4': isSidebarOpen,
+//             'px-2': !isSidebarOpen,
+//           })}
+//         >
+//           <SidebarItem
+//             title="Log Out"
+//             path="/logout"
+//             defaultIcon={logoutDefaultIcon}
+//             activeIcon={logoutActiveIcon}
+//             isSidebarOpen={isSidebarOpen}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+/////////////////////////////////
 'use client';
 
-import React, { useState } from 'react';
-import HoverDiv from './HoverDiv';
+import React from 'react';
 import { ytSidebarDataset } from './SidebarData';
-import SidebarItem from './SidebarItem';
 import { cn } from '@/shared/lib/cn';
-import { IconSprite } from '@/shared/ui';
-import { useGetMeQuery } from '@/features/auth/api/authApi';
-import { LogoutButton } from '../logout-button/LogoutButton';
-import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
-import { useLogout } from '@/features/auth/hooks/useLogout';
+import { IconSprite } from '@/shared/ui/icon/IconSprite';
+import type { SpriteName } from '@/shared/ui/icon/IconSprite';
+import { HoverDiv } from './HoverDiv';
+import { SidebarItem } from './SidebarItem';
+import { LogoutSidebarItem } from './ui/LogoutSidebarItem';
 
-export const Sidebar = (): React.JSX.Element | null => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const { data } = useGetMeQuery();
-  const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
+type SidebarProps = {
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+};
 
-  if (!data) {
-    return null;
-  }
+export function Sidebar({
+  isSidebarOpen,
+  toggleSidebar,
+}: SidebarProps): React.JSX.Element {
+  const logoutActiveIcon: SpriteName = 'log-out';
+  const menuIcon: SpriteName = 'menu-outline';
 
   return (
-    <aside
+    <div
       className={cn(
-        'sticky top-[60px] left-0 flex h-[calc(100vh-60px)] w-60 flex-col justify-between border-r-2 border-zinc-700 bg-black text-slate-50 transition-all duration-300',
+        'border-dark-100 sticky top-[60px] flex h-[calc(100vh-60px)] flex-col overflow-hidden border-r-2 bg-black text-slate-50 transition-all duration-300',
         {
+          'w-[229px]': isSidebarOpen,
           'w-[64px]': !isSidebarOpen,
         }
       )}
     >
-      {/* Верхняя панель: бургер + стрелка */}
+      {/* Верхняя панель: бургер-меню */}
       <section
-        className={cn('between flex w-full items-center gap-4 py-4', {
-          'justify-end px-5': isSidebarOpen, // отступы только если открыт
-          'justify-start pl-3': !isSidebarOpen, // отступы только если открыт
+        className={cn('flex items-center overflow-hidden py-4', {
+          'justify-center': !isSidebarOpen,
+          'gap-4 px-5': isSidebarOpen,
         })}
       >
         <HoverDiv
           className="flex items-center gap-2 rounded-full p-2"
-          onClick={() => setSidebarOpen((prev) => !prev)}
+          onClick={toggleSidebar}
         >
-          {isSidebarOpen ? (
-            <IconSprite iconName="arrow-back-outline" />
-          ) : (
-            <IconSprite iconName="menu-outline" />
+          <IconSprite iconName={menuIcon} className="h-6 w-6 fill-white" />
+          {isSidebarOpen && (
+            <IconSprite
+              iconName={logoutActiveIcon}
+              className="h-5 w-5 rotate-180 fill-white"
+            />
           )}
         </HoverDiv>
       </section>
 
       {/* Центральная часть: пункты меню */}
-      {/* <main className="flex-1 overflow-hidden"> */}
-      <ul className="flex flex-1 flex-col gap-1">
+      <div className="flex-1 overflow-hidden">
         {ytSidebarDataset
-          .filter((dataset) => dataset.title !== 'Log Out')
-          .map((dataset, index) => (
-            <React.Fragment key={index}>
-              {dataset.title && (
-                <li className="w-full px-2">
+          .filter((d) => d.title !== 'Log Out')
+          .map((d, i) => (
+            <React.Fragment key={i}>
+              {d.title && (
+                <section
+                  className={cn('w-full truncate', {
+                    'px-4': isSidebarOpen,
+                  })}
+                >
                   <SidebarItem
-                    path={dataset.path}
-                    activeIconName={dataset.activeIconName}
-                    defaultIconName={dataset.defaultIconName}
-                    title={dataset.title}
+                    path={d.path}
+                    activeIcon={d.activeIcon}
+                    defaultIcon={d.defaultIcon}
+                    title={d.title}
                     isSidebarOpen={isSidebarOpen}
                   />
-                </li>
+                </section>
               )}
-              {dataset.title === 'Search' && <div className="h-6" />}
-              {dataset.title === 'Favorites' && <div className="h-10" />}
 
-              {dataset.nestedItems &&
-                isSidebarOpen &&
-                dataset.nestedItems.length > 0 && (
-                  <ul className="mt-4 w-full border-t border-zinc-600 px-4 pt-4">
-                    <p className="mb-2 px-3">{dataset.nestedTitle}</p>
-                    {dataset.nestedItems.map((item, index) => (
-                      <SidebarItem
-                        key={index}
-                        path={item.path}
-                        activeIconName={item.activeIconName}
-                        defaultIconName={item.defaultIconName}
-                        title={item.title}
-                        isSidebarOpen={isSidebarOpen}
-                      />
-                    ))}
-                  </ul>
-                )}
+              {d.title === 'Search' && <div className="h-6" />}
+              {d.title === 'Favorites' && <div className="h-2" />}
+
+              {d.nestedItems && isSidebarOpen && d.nestedItems.length > 0 && (
+                <section className="border-dark-100 mt-4 w-full border-t px-4 pt-4">
+                  <p className="mb-2 truncate px-3">{d.sectionTitle}</p>
+                  {d.nestedItems.map((n, ni) => (
+                    <SidebarItem
+                      key={ni}
+                      path={n.path}
+                      activeIcon={n.activeIcon}
+                      defaultIcon={n.defaultIcon}
+                      title={n.title}
+                      isSidebarOpen={isSidebarOpen}
+                    />
+                  ))}
+                </section>
+              )}
             </React.Fragment>
           ))}
-      </ul>
 
-      {/* Нижняя часть: Log Out */}
-      <div className="pb-6">
-        <LogoutButton hideText={!isSidebarOpen} openModal={openModal} />
-        <LogoutModal
-          open={isOpen}
-          userEmail={''}
-          onConfirmed={confirmLogout}
-          onCanceled={closeModal}
-        />
+        {/* Logout кнопка — вместо Link */}
+        <div
+          className={cn('border-dark-100 mt-4 border-t pt-4', {
+            'px-4': isSidebarOpen,
+            'px-2': !isSidebarOpen,
+          })}
+        >
+          <LogoutSidebarItem isSidebarOpen={isSidebarOpen} />
+        </div>
       </div>
-    </aside>
+    </div>
   );
-};
+}

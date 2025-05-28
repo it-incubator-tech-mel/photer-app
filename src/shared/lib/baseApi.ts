@@ -1,9 +1,10 @@
+// src/shared/lib/baseApi.ts
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithReauth } from './baseQuery';
+import { baseQuery } from './baseQuery';
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
-  baseQuery: baseQueryWithReauth,
+  baseQuery,
   endpoints: () => ({}),
-  tagTypes: ['me', 'ProfilePosts', 'posts'],
+  tagTypes: ['me', 'Posts', 'ProfilePosts'],
 });
