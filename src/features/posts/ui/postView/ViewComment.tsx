@@ -4,9 +4,10 @@ import { ReactNode } from 'react';
 
 type Props = {
   comment?: string;
+  isAuthorized?: boolean;
 };
 
-export const ViewComment = ({ comment }: Props): ReactNode => {
+export const ViewComment = ({ comment, isAuthorized }: Props): ReactNode => {
   return (
     <div className="flex gap-[12px]">
       <div className="h-[36px] min-w-[36px] overflow-hidden rounded-full">
@@ -31,7 +32,7 @@ export const ViewComment = ({ comment }: Props): ReactNode => {
             <span>Like: 1</span>
             <span className="cursor-pointer hover:underline">Answer</span>
           </div>
-          <Like />
+          {isAuthorized && <Like />}
         </div>
       </div>
     </div>

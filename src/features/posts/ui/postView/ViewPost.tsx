@@ -9,13 +9,19 @@ import { PostDescription } from './PostDescription';
 import { ViewComment } from './ViewComment';
 import { Carousel } from '@/shared/ui/carousel/Carousel';
 import { PostType } from '../../lib/post.types';
+import { User } from '@/shared/types/commonTypes';
 
 type Props = {
   post: PostType;
   children?: ReactNode;
+  isAuthorized: boolean;
 };
 
-export const ViewPost = ({ post, children }: Props): ReactNode => {
+export const ViewPost = ({
+  post,
+  children,
+  isAuthorized,
+}: Props): ReactNode => {
   return (
     <div className="bg-dark-300 border-dark-100 flex w-full max-w-[1280px] overflow-hidden rounded-[2px] border-[1px]">
       {/* Левая часть — фото со скроллом при необходимости */}
@@ -53,15 +59,15 @@ export const ViewPost = ({ post, children }: Props): ReactNode => {
               comment={post.description}
               dateTime={post.updatedAt}
             />
-            <ViewComment />
-            <ViewComment />
+            <ViewComment isAuthorized={isAuthorized} />
+            <ViewComment isAuthorized={isAuthorized} />
           </div>
         </div>
 
         {/* Низ: инфо + форма добавления комментария */}
         <div className="border-dark-100 flex flex-col pt-4">
-          <PostInfo createdDate={post.createdAt} />
-          <AddComment />
+          <PostInfo createdDate={post.createdAt} isAuthorized={isAuthorized} />
+          {isAuthorized && <AddComment />}
         </div>
       </div>
     </div>

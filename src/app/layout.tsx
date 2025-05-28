@@ -21,8 +21,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modals,
 }: Readonly<{
   children: ReactNode;
+  modals: ReactNode;
 }>): ReactElement {
   return (
     <html lang="en">
@@ -32,9 +34,11 @@ export default function RootLayout({
         <StoreWrapper>
           <div className="flex min-h-screen w-full flex-col">
             <Header withLoginBtn={true} />
+
             <div className="mx-auto flex w-full max-w-[1280px]">
               <Sidebar />
               {children}
+              {modals}
             </div>
           </div>
           <ModalProvider />

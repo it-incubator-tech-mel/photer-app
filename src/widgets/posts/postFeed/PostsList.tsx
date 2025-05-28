@@ -8,13 +8,15 @@ import {
 } from '@/features/posts/api/postsApi';
 import { useInfiniteScroll } from '@/features/posts/hooks/feed/useInfiniteScroll';
 import { PostItem } from './PostItem';
+import { Posts } from '@/features/posts/lib/post.types';
 
 type Props = {
   profileId: string;
+  posts?: Posts;
 };
 
-export const PostsList = ({ profileId }: Props): ReactElement => {
-  const { data: posts, isFetching } = useGetProfilePostsQuery({
+export const PostsList = ({ profileId, posts }: Props): ReactElement => {
+  const { data, isFetching } = useGetProfilePostsQuery({
     profileId,
     pageNumber: 1,
   });
@@ -38,6 +40,9 @@ export const PostsList = ({ profileId }: Props): ReactElement => {
 
   useInfiniteScroll({ callback: fetchNewPartPosts, hasMore, triggerRef });
 
+  // {
+  //   isFetching ? 'Загрузка...' : hasMore ? 'Прокрути вниз 👇' : 'Конец 🎉';
+  // }
   return (
     <div className="mt-12 flex flex-col">
       <div className="flex flex-wrap gap-[12px]">
@@ -46,9 +51,7 @@ export const PostsList = ({ profileId }: Props): ReactElement => {
       <div
         ref={triggerRef}
         className="col-span-full py-4 text-center text-gray-500"
-      >
-        {isFetching ? 'Загрузка...' : hasMore ? 'Прокрути вниз 👇' : 'Конец 🎉'}
-      </div>
+      ></div>
     </div>
   );
 };

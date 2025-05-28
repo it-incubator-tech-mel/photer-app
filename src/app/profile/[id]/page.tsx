@@ -1,31 +1,30 @@
-'use client';
-
-import { useGetMeQuery } from '@/features/auth/api/authApi';
-import { Spinner } from '@/shared/ui';
+import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
+import { cookies } from 'next/headers';
+import { ReactElement } from 'react';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { PostsListSSR } from '@/widgets/posts/postFeed/postsListSSR';
 import { PostsList } from '@/widgets/posts';
 
-import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
-import { useParams } from 'next/navigation';
-import { ReactElement, useMemo } from 'react';
+export default async function ProfilePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<ReactElement> {
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get('refreshToken')?.value;
+  const { id: profileId } = await params;
+  let isProfileOwner = false;
 
-export default function ProfilePage(): ReactElement {
-  const params = useParams();
-  const { data: userData, isLoading } = useGetMeQuery();
-
-  const { id: profileId } = params as { id: string };
-
-  const isProfileOwner = useMemo(
-    () => userData?.userId.toString() === profileId,
-    [userData, profileId]
-  );
-
-  if (isLoading) {
-    return <Spinner fullScreen />;
+  if (refreshToken) {
+    const decoded = jwt.decode(refreshToken);
+    const userId = (decoded as JwtPayload).userId;
+    isProfileOwner = userId == profileId ? true : false;
   }
+
   return (
     <div className={'h-full max-w-7xl px-[24px] pt-9'}>
-      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userData} />
-      <PostsList profileId={profileId} />
+      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!refreshToken} />
+      <PostsListSSR profileId={profileId} />
     </div>
   );
 }

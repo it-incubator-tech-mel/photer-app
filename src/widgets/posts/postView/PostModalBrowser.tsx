@@ -2,7 +2,6 @@
 
 import React, { ReactNode, useState } from 'react';
 import { Spinner } from '@/shared/ui';
-import { PostModalWrapper } from './PostWrapper';
 import {
   useDeletePostMutation,
   useGetPostQuery,
@@ -11,16 +10,28 @@ import { EditPost } from '@/features/posts/ui/postEdit/EditPost';
 import { EllipsisMenu } from '@/features/posts/ui/postView/EllipsisMenu';
 import { errorHandler } from '@/features/posts/lib/errorHandler';
 import { ViewPost } from '@/features/posts';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/shared/state/store';
+import { authApi } from '@/features/auth/api/authApi';
+import { PostModalWrapper } from '@/features/posts/ui/postView/PostWrapper';
 
 type Props = {
   postId: number;
   onCloseAction: () => void;
 };
 
-export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
+export const PostModalBrowser = ({
+  onCloseAction,
+  postId,
+}: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
   const { data: post, isLoading } = useGetPostQuery(postId);
   const [deletePost] = useDeletePostMutation();
+
+  const user = useSelector(
+    (state: RootState) => authApi.endpoints.getMe.select()(state).data
+  );
+  const isOwner = post?.userId === user?.userId;
 
   const handleDelete = async (): Promise<void> => {
     try {
@@ -45,23 +56,25 @@ export const MyPostView = ({ onCloseAction, postId }: Props): ReactNode => {
     return (
       <PostModalWrapper onCloseAction={onCloseAction}>
         {!isEdit ? (
-          <ViewPost post={post}>
-            <EllipsisMenu
-              menuItems={[
-                {
-                  title: 'Edit post',
-                  iconName: 'edit-2-outline',
-                  callback: (): void => {
-                    setIsEdit(true);
+          <ViewPost isAuthorized={!!user} post={post}>
+            {isOwner && (
+              <EllipsisMenu
+                menuItems={[
+                  {
+                    title: 'Edit post',
+                    iconName: 'edit-2-outline',
+                    callback: (): void => {
+                      setIsEdit(true);
+                    },
                   },
-                },
-                {
-                  title: 'Delete post',
-                  iconName: 'trash-outline',
-                  callback: handleDelete,
-                },
-              ]}
-            />
+                  {
+                    title: 'Delete post',
+                    iconName: 'trash-outline',
+                    callback: handleDelete,
+                  },
+                ]}
+              />
+            )}
           </ViewPost>
         ) : (
           <EditPost post={post} onCloseAction={() => setIsEdit(false)} />
