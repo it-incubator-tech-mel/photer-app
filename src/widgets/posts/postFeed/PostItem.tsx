@@ -17,14 +17,15 @@ export const PostItem = ({ post }: Props): ReactElement => {
         className={'relative h-57 w-[250px]'}
         onClick={() => setIsOpenPost(true)}
       >
-        post
-        <Image
-          src={post.photos[0]}
-          alt={'post image'}
-          unoptimized
-          fill
-          className="object-cover"
-        />
+        {post.photos.length > 0 && (
+          <Image
+            src={post.photos[0]}
+            alt={'post image'}
+            unoptimized
+            fill
+            className="object-cover"
+          />
+        )}
       </div>
       {isOpenPost && (
         <PostModalBrowser
