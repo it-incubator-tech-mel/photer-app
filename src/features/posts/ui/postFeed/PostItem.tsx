@@ -2,7 +2,7 @@
 import { ReactElement, useState } from 'react';
 import Image from 'next/image';
 import { PostType } from '@/features/posts/lib/post.types';
-import { PostModalBrowser } from '../postView/PostModalBrowser';
+import { PostModalBrowser } from '@/widgets/posts';
 
 type Props = {
   post: PostType;

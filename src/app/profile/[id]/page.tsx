@@ -1,29 +1,25 @@
+// src/app/profile/[id]/page.tsx
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
-import { cookies } from 'next/headers';
 import { ReactElement } from 'react';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import { PostsListSSR } from '@/widgets/posts/postFeed/postsListSSR';
-import { PostsList } from '@/widgets/posts';
+import { getUserId } from '@/shared/lib/ssr/getUserId';
 
 export default async function ProfilePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }): Promise<ReactElement> {
-  const cookieStore = await cookies();
-  const refreshToken = cookieStore.get('refreshToken')?.value;
   const { id: profileId } = await params;
   let isProfileOwner = false;
+  const userId = await getUserId();
 
-  if (refreshToken) {
-    const decoded = jwt.decode(refreshToken);
-    const userId = (decoded as JwtPayload).userId;
+  if (userId) {
     isProfileOwner = userId == profileId ? true : false;
   }
 
   return (
     <div className={'h-full max-w-7xl px-[24px] pt-9'}>
-      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!refreshToken} />
+      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userId} />
       <PostsListSSR profileId={profileId} />
     </div>
   );

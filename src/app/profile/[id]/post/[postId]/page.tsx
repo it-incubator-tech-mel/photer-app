@@ -1,4 +1,4 @@
-// src/app/post/[postId]/page.tsx
+// src/app/profile/[id]/post/[postId]/page.tsx
 import { notFound, redirect } from 'next/navigation';
 import { PostType } from '@/features/posts/lib/post.types';
 import { PostModalSSR } from '@/widgets/posts/postView/PostModalSSR';

@@ -60,7 +60,6 @@ export default function SidebarItem({
 
   if (title === 'Profile' && userId) {
     path = `/profile/${userId}`;
-    console.log(path);
   }
 
   if (title === 'Create') {
