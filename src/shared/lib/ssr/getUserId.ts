@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-export const getUserId = async () => {
+export const getUserId = async (): Promise<string | null> => {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get('refreshToken')?.value;
   if (refreshToken) {

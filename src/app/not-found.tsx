@@ -2,8 +2,9 @@
 'use client';
 
 import Link from 'next/link';
+import { ReactElement } from 'react';
 
-export default function NotFoundPage() {
+export default function NotFoundPage(): ReactElement {
   return (
     <main className="bg-dark-900 text-light-100 mx-auto flex min-h-[calc(100vh-60px)] flex-col items-center justify-center px-4">
       {/* 60px — это высота Header */}

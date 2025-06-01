@@ -18,7 +18,7 @@ export const signUpSchema = z
       .min(6, 'Password must be at least 6 characters long')
       .max(30, 'Maximum number of characters 30')
       .regex(
-        /^[a-zA-Z0-9_-]+$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,30}$/,
         'Password can only contain letters, numbers, underscores, and hyphens'
       ),
     terms: z.boolean().refine((val) => val, {

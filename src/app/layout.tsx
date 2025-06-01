@@ -23,7 +23,6 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
-  modals: ReactNode;
 }>): ReactElement {
   return (
     <html lang="en">

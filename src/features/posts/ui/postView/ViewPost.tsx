@@ -9,7 +9,6 @@ import { PostDescription } from './PostDescription';
 import { ViewComment } from './ViewComment';
 import { Carousel } from '@/shared/ui/carousel/Carousel';
 import { PostType } from '../../lib/post.types';
-import { User } from '@/shared/types/commonTypes';
 
 type Props = {
   post: PostType;

@@ -1,5 +1,5 @@
 import { RootState, useAppDispatch } from '@/shared/state/store';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { postsApi, useLazyGetProfilePostsQuery } from '../../api/postsApi';
 import { useSelector } from 'react-redux';
 import { Posts } from '../../lib/post.types';
@@ -10,7 +10,16 @@ type Props = {
   ssrPosts?: Posts;
   profileId: string;
 };
-export const usePostsList = ({ ssrPosts, profileId }: Props) => {
+type usePostsListReturn = {
+  posts: Posts | undefined;
+  isFetching: boolean;
+  triggerRef: RefObject<HTMLDivElement | null>;
+  hasMore: boolean | undefined;
+};
+export const usePostsList = ({
+  ssrPosts,
+  profileId,
+}: Props): usePostsListReturn => {
   const dispatch = useAppDispatch();
   const triggerRef = useRef<HTMLDivElement>(null);
   const [getProfilePosts, { isFetching }] = useLazyGetProfilePostsQuery();
@@ -18,7 +27,6 @@ export const usePostsList = ({ ssrPosts, profileId }: Props) => {
     (state: RootState) => state.post.cachedProfilePages
   );
 
-  console.log('pageNumber', pageNumber);
   const postsFromCache = useSelector(
     (state: RootState) =>
       postsApi.endpoints.getProfilePosts.select({
@@ -48,14 +56,14 @@ export const usePostsList = ({ ssrPosts, profileId }: Props) => {
       );
       dispatch(thunk);
     }
-  }, []);
+  }, [dispatch, postsFromCache, ssrPosts, profileId]);
 
   const hasMore = posts && posts?.page < posts?.pagesCount;
 
   const fetchNewPartPosts = useCallback(() => {
     dispatch(cachedProfilePages(posts!.page + 1));
     getProfilePosts({ profileId, pageNumber });
-  }, [dispatch, posts, profileId]);
+  }, [dispatch, posts, profileId, pageNumber, getProfilePosts]);
 
   useInfiniteScroll({ callback: fetchNewPartPosts, hasMore, triggerRef });
   return {

@@ -1,14 +1,15 @@
 // src/app/profile/[id]/post/[postId]/page.tsx
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { PostType } from '@/features/posts/lib/post.types';
 import { PostModalSSR } from '@/widgets/posts/postView/PostModalSSR';
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
+import { ReactElement } from 'react';
 
 export default async function SSRPublicPost({
   params,
 }: {
   params: Promise<{ id: string; postId: string }>;
-}) {
+}): Promise<ReactElement> {
   const { id, postId } = await params;
 
   const res = await fetch(
@@ -18,7 +19,9 @@ export default async function SSRPublicPost({
     }
   );
 
-  if (!res.ok) return notFound();
+  if (!res.ok) {
+    return notFound();
+  }
 
   const post: PostType = await res.json();
 
