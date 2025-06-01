@@ -1,10 +1,10 @@
 // src/app/profile/[id]/page.tsx
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { ReactElement } from 'react';
-import { PostsListSSR } from '@/widgets/posts/postFeed/postsListSSR';
 import { getUserId } from '@/shared/lib/ssr/getUserId';
+import { PostsListSSR } from '@/widgets/posts';
 
-export default async function ProfilePage({
+export default async function SSRProfilePage({
   params,
 }: {
   params: Promise<{ id: string }>;

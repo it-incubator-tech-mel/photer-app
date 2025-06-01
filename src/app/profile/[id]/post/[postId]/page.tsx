@@ -1,34 +1,41 @@
 // src/app/profile/[id]/post/[postId]/page.tsx
 import { notFound } from 'next/navigation';
 import { PostType } from '@/features/posts/lib/post.types';
-import { PostModalSSR } from '@/widgets/posts/postView/PostModalSSR';
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { ReactElement } from 'react';
+import { getUserId } from '@/shared/lib/ssr/getUserId';
+import { PostModalSSR } from '@/widgets/posts';
 
 export default async function SSRPublicPost({
   params,
 }: {
   params: Promise<{ id: string; postId: string }>;
 }): Promise<ReactElement> {
-  const { id, postId } = await params;
+  const { id: profileId, postId } = await params;
+  let isProfileOwner = false;
+  const userId = await getUserId();
 
-  const res = await fetch(
+  if (userId) {
+    isProfileOwner = userId == profileId ? true : false;
+  }
+
+  const getPost = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/posts/${postId}`,
     {
       cache: 'no-store',
     }
   );
 
-  if (!res.ok) {
+  if (!getPost.ok) {
     return notFound();
   }
 
-  const post: PostType = await res.json();
+  const post: PostType = await getPost.json();
 
   return (
     <div className={'h-full max-w-7xl px-[24px] pt-9'}>
-      <ProfileCard isOwner={false} isAuthorized={false} />
-      <PostModalSSR profileId={id} post={post} />
+      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userId} />
+      <PostModalSSR profileId={profileId} post={post} />
     </div>
   );
 }
