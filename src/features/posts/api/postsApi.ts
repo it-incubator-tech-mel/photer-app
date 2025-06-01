@@ -9,7 +9,7 @@ export const postsApi = baseApi.injectEndpoints({
         url: '/posts',
         method: 'GET',
       }),
-      providesTags: ['posts'],
+      providesTags: ['Posts'],
     }),
 
     getPost: builder.query<PostType, number>({
@@ -56,7 +56,7 @@ export const postsApi = baseApi.injectEndpoints({
           method: 'PATCH',
           body: { description },
         }),
-        invalidatesTags: ['posts'],
+        invalidatesTags: ['Posts'],
         // Optimistic update
         async onQueryStarted(
           { postId, description },
@@ -108,6 +108,7 @@ export const postsApi = baseApi.injectEndpoints({
     >({
       query: ({ profileId, pageNumber = 1 }) =>
         `/posts/users/${profileId}?pageNumber=${pageNumber}`,
+      keepUnusedDataFor: 300,
       serializeQueryArgs: ({ endpointName }) => `${endpointName}`,
       merge: (currentCacheData, responseData) => {
         const cashedPostsIds = new Set(
@@ -133,10 +134,10 @@ export const postsApi = baseApi.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.items.map(({ id }) => ({ type: 'posts' as const, id })),
-              { type: 'posts', id: 'PROFILE_POSTS_LIST' },
+              ...result.items.map(({ id }) => ({ type: 'Posts' as const, id })),
+              { type: 'Posts', id: 'PROFILE_POSTS_LIST' },
             ]
-          : [{ type: 'posts', id: 'PROFILE_POSTS_LIST' }],
+          : [{ type: 'Posts', id: 'PROFILE_POSTS_LIST' }],
     }),
   }),
 });
@@ -148,4 +149,5 @@ export const {
   useGetPostsQuery,
   useDeletePostMutation,
   useGetProfilePostsQuery,
+  useLazyGetProfilePostsQuery,
 } = postsApi;

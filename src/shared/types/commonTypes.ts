@@ -9,3 +9,8 @@ export const isError404 = (error: unknown): error is Error404Type => {
   const typedError = error as { data: Error404Type };
   return typedError?.data.statusCode === 404;
 };
+
+export type User = {
+  userId: number;
+  email: string;
+};

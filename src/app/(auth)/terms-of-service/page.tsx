@@ -1,4 +1,3 @@
-'use client';
 import { LegalInfo } from '@/features/auth/ui/legalInfo/LegalInfo';
 import { ReactElement } from 'react';
 

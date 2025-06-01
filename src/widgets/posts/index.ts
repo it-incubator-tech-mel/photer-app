@@ -1,2 +1,3 @@
-export { PostsList } from './postFeed/PostsList';
-export { MyPostView } from './postView/MyPostView';
+export { PostModalSSR } from './postView/PostModalSSR';
+export { PostsListSSR } from './postFeed/PostsListSSR';
+export { PostModalBrowser } from './postView/PostModalBrowser';

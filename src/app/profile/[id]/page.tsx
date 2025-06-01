@@ -1,31 +1,26 @@
-'use client';
-
-import { useGetMeQuery } from '@/features/auth/api/authApi';
-import { Spinner } from '@/shared/ui';
-import { PostsList } from '@/widgets/posts';
-
+// src/app/profile/[id]/page.tsx
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
-import { useParams } from 'next/navigation';
-import { ReactElement, useMemo } from 'react';
+import { ReactElement } from 'react';
+import { getUserId } from '@/shared/lib/ssr/getUserId';
+import { PostsListSSR } from '@/widgets/posts';
 
-export default function ProfilePage(): ReactElement {
-  const params = useParams();
-  const { data: userData, isLoading } = useGetMeQuery();
+export default async function SSRProfilePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<ReactElement> {
+  const { id: profileId } = await params;
+  let isProfileOwner = false;
+  const userId = await getUserId();
 
-  const { id: profileId } = params as { id: string };
-
-  const isProfileOwner = useMemo(
-    () => userData?.userId.toString() === profileId,
-    [userData, profileId]
-  );
-
-  if (isLoading) {
-    return <Spinner fullScreen />;
+  if (userId) {
+    isProfileOwner = userId == profileId ? true : false;
   }
+
   return (
     <div className={'h-full max-w-7xl px-[24px] pt-9'}>
-      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userData} />
-      <PostsList profileId={profileId} />
+      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userId} />
+      <PostsListSSR profileId={profileId} />
     </div>
   );
 }

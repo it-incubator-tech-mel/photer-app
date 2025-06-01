@@ -26,7 +26,7 @@ export const PostDescription = ({ comment, dateTime }: Props): ReactNode => {
           {comment}
         </p>
         <div className="flex justify-between">
-          <div className="text-light-900 flex gap-[12px]">
+          <div className="text-light-900 flex gap-[12px] text-[12px]">
             <span>{timeAgo}</span>
           </div>
         </div>
