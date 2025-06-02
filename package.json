@@ -24,7 +24,9 @@
     "@tailwindcss/postcss": "^4.0.1",
     "async-mutex": "^0.5.0",
     "clsx": "^2.1.1",
-    "next": "15.1.6",
+    "framer-motion": "^12.10.5",
+    "jsonwebtoken": "^9.0.2",
+    "next": "^15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-easy-crop": "^5.4.1",
@@ -33,7 +35,7 @@
     "react-toastify": "^11.0.3",
     "swiper": "^11.2.6",
     "tailwind-merge": "^3.0.1",
-    "zod": "3.24.1"
+    "zod": "3.24.4"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.4",
@@ -46,6 +48,7 @@
     "@storybook/react": "8.5.3",
     "@storybook/test": "8.5.3",
     "@types/grecaptcha": "^3.0.9",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -66,10 +69,19 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@tailwindcss/oxide",
       "core-js-pure",
       "esbuild",
-      "sharp"
-    ]
+      "sharp",
+      "unrs-resolver"
+    ],
+    "overrides": {
+      "next": "^15.2.3",
+      "image-size": "^1.2.1",
+      "esbuild": "^0.25.0",
+      "@babel/runtime": "^7.26.10",
+      "@babel/helpers": "^7.26.10"
+    }
   },
   "eslintConfig": {
     "extends": [

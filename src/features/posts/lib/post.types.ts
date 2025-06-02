@@ -43,6 +43,9 @@ export type PostCreationState = {
   description: string;
   error?: string;
 };
+export type PostCachedState = {
+  cachedProfilePages: number;
+};
 
 export type ErrorResponse = {
   error:

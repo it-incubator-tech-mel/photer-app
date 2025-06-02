@@ -2,15 +2,17 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   CreationStep,
   PhotoSettings,
+  PostCachedState,
   PostCreationState,
 } from '../lib/post.types';
 
 // начальный стейт в photos массив фоток с настройками
-const initialState: PostCreationState = {
+const initialState: PostCreationState & PostCachedState = {
   currentStep: 'upload',
   photos: [],
   currentPhotoIndex: 0,
   description: '',
+  cachedProfilePages: 0,
 };
 
 const postSlice = createSlice({
@@ -94,6 +96,11 @@ const postSlice = createSlice({
       }
     },
     resetState: () => initialState,
+
+    // указатель закешированных страниц профиля
+    cachedProfilePages: (state, action) => {
+      state.cachedProfilePages = action.payload;
+    },
   },
 });
 
@@ -107,6 +114,7 @@ export const {
   resetState,
   resetPhotoFilter,
   resetPhotoCrop,
+  cachedProfilePages,
 } = postSlice.actions;
 
 export const postReducer = postSlice.reducer;
