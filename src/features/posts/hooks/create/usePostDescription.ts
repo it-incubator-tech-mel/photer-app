@@ -77,11 +77,12 @@ export function usePostDescription(onClose: () => void): {
         }
       }
 
+      dispatch(closeModal());
+
       formData.append('description', data.description);
 
       await createPost(formData).unwrap();
       dispatch(resetState());
-      dispatch(closeModal());
       onClose();
     } catch (error) {
       console.error('Ошибка:', error);
