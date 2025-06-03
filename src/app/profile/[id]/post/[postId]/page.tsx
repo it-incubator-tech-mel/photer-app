@@ -4,7 +4,7 @@ import { PostType } from '@/features/posts/lib/post.types';
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { ReactElement } from 'react';
 import { getUserId } from '@/shared/lib/ssr/getUserId';
-import { PostModalSSR } from '@/widgets/posts';
+import { WrapPostModalSSR } from '@/widgets/posts';
 
 export default async function SSRPublicPost({
   params,
@@ -35,7 +35,7 @@ export default async function SSRPublicPost({
   return (
     <div className={'h-full max-w-7xl px-[24px] pt-9'}>
       <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userId} />
-      <PostModalSSR profileId={profileId} post={post} />
+      <WrapPostModalSSR profileId={profileId} post={post} />
     </div>
   );
 }
