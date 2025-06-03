@@ -1,31 +1,61 @@
 // src/app/profile/page.tsx
-import { cookies } from 'next/headers';
+
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 export default async function MyProfileRedirectPage() {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
 
-  //  Неавторизован → на /sign-in
-  if (!accessToken) {
-    redirect('/sign-in');
+  if (!refreshToken) {
+    console.log('No refreshToken');
+    return redirect('/sign-in?redirect=/profile');
   }
 
-  //  Получаем userId через /auth/me
-  const res = await fetch('http://localhost:3001/api/v1/auth/me', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    cache: 'no-store',
-  });
+  console.log('Trying to refresh accessToken...');
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh-token`,
+    {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        Cookie: `refreshToken=${refreshToken}`,
+      },
+    }
+  );
 
   if (!res.ok) {
-    redirect('/sign-in');
+    console.log('Refresh-token request failed');
+    return redirect('/sign-in?redirect=/profile');
   }
 
-  const data = await res.json();
-  const userId = data.userId;
+  const { accessToken } = await res.json();
+  console.log('accessToken:', accessToken);
 
-  //  Редирект на свою страницу профиля
-  redirect(`/profile/${userId}`);
+  const meResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/auth/me`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      credentials: 'include',
+    }
+  );
+  console.log('/auth/me status:', meResponse.status);
+
+  if (!meResponse.ok) {
+    console.log('/auth/me request failed');
+    return redirect('/sign-in?redirect=/profile');
+  }
+
+  const meData = await meResponse.json();
+  const userId = meData.userId;
+
+  if (!userId) {
+    console.log('No userId in /auth/me response');
+    return redirect('/sign-in?redirect=/profile');
+  }
+
+  return redirect(`/profile/${userId}`);
 }

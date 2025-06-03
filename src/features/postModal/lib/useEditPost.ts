@@ -1,8 +1,6 @@
 import { PostType } from '@/features/posts/types/post.types';
 import { useUpdatePostMutation } from '@/shared/api/postsApi';
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
-// import { useUpdatePostMutation } from '../api/postsApi';
-// import { PostType } from './post.types';
 
 type PropsHookEditPost = {
   onCloseAction: () => void;
@@ -61,7 +59,8 @@ export function useEditPost({
   };
 
   const handleUpdatePost = (): void => {
-    updatePost({ postId: post.id, description });
+    // updatePost({ postId: post.id, description });
+    updatePost({ postId: Number(post.id), description });
     onCloseAction();
   };
 

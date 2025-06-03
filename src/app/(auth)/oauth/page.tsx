@@ -1,5 +1,5 @@
 'use client';
-import { useGetMeQuery } from '@/features/auth/api/authApi';
+import { useGetMeQuery } from '@/features/auth/api/authApi.client';
 import { Spinner } from '@/shared/ui';
 import { useRouter } from 'next/navigation';
 import { ReactElement, useEffect } from 'react';

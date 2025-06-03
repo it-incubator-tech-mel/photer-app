@@ -1,7 +1,7 @@
 // src/shared/api/postsApi.ts
 import { errorHandler } from '@/features/postModal/lib/errorHandler';
 import { PostType, PostsResponse } from '@/features/posts/types/post.types';
-import { baseApi } from '@/shared/lib/baseApi';
+import { baseClientApi } from './baseClientApi';
 
 type GetPostsResponse = {
   items: PostType[];
@@ -9,7 +9,7 @@ type GetPostsResponse = {
   pagesCount: number;
 };
 
-export const postsApi = baseApi.injectEndpoints({
+export const postsApi = baseClientApi.injectEndpoints({
   endpoints: (builder) => ({
     // Главная страница — список постов
     getPosts: builder.query<GetPostsResponse, void>({

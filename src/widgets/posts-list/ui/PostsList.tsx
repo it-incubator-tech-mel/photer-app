@@ -1,13 +1,10 @@
 'use client';
 
 import { ReactElement, useCallback, useRef } from 'react';
-import {
-  postsApi,
-  useGetProfilePostsQuery,
-} from '@/features/posts/api/postsApi';
 import { useAppDispatch } from '@/shared/state/store';
 import { PostItem } from '@/entities/post/ui/PostItem';
 import { useInfiniteScroll } from '@/features/posts/hooks/useInfiniteScroll';
+import { postsApi, useGetProfilePostsQuery } from '@/shared/api/postsApi';
 
 type Props = {
   profileId: string;

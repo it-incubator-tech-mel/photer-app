@@ -1,4 +1,15 @@
+// // src/app/profile/[id]/page.tsx
+// export default function UserProfilePage() {
+//   return (
+//     <div className="text-light-900 p-6 text-center text-xl">
+//       Это страница профиля пользователя
+//     </div>
+//   );
+// }
+
+///////////////////////////////
 // src/app/profile/[id]/page.tsx
+
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { MainFeed } from '@/widgets/main-feed/MainFeed';
