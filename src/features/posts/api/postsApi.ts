@@ -31,6 +31,7 @@ export const postsApi = baseApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
+
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled;
