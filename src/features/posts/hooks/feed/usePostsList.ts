@@ -61,9 +61,7 @@ export const usePostsList = ({
   const hasMore = posts && posts?.page < posts?.pagesCount;
 
   const fetchNewPartPosts = useCallback(() => {
-    console.log(pageNumber);
     dispatch(cachedProfilePages(posts!.page + 1));
-
     getProfilePosts({ profileId, pageNumber });
   }, [dispatch, posts, profileId, pageNumber, getProfilePosts]);
 
