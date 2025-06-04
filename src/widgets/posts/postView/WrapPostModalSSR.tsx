@@ -1,17 +1,17 @@
 'use client';
-import { useState } from 'react';
 import { PostModal } from './PostModal';
 import { PostType } from '@/features/posts/lib/post.types';
 import { useRouter } from 'next/navigation';
+import { ReactElement } from 'react';
 
 type Props = {
   post: PostType;
   profileId?: string;
 };
 
-export const WrapPostModalSSR = ({ post, profileId }: Props) => {
+export const WrapPostModalSSR = ({ post, profileId }: Props): ReactElement => {
   const router = useRouter();
-  const handleClose = () => {
+  const handleClose = (): void => {
     router.push(`/profile/${profileId}`);
   };
 

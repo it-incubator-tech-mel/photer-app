@@ -41,7 +41,6 @@ export const usePostsList = ({
 
   useEffect(() => {
     setPosts(postsFromCache);
-    console.log('postsFromCache', postsFromCache);
   }, [postsFromCache]);
 
   useEffect(() => {

@@ -1,12 +1,9 @@
 import { authApi } from '@/features/auth/api/authApi';
-import {
-  useDeletePostMutation,
-  useGetPostQuery,
-} from '@/features/posts/api/postsApi';
+import { useDeletePostMutation } from '@/features/posts/api/postsApi';
 import { errorHandler } from '@/features/posts/lib/errorHandler';
 import { PostType } from '@/features/posts/lib/post.types';
 import { RootState } from '@/shared/state/store';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 type Props = {
@@ -14,7 +11,18 @@ type Props = {
   onCloseAction: () => void;
   profileId?: string;
 };
-export const usePostModal = ({ post, onCloseAction, profileId }: Props) => {
+
+type usePostModalReturn = {
+  userId: number | undefined;
+  isOwner: boolean;
+  handleDelete: () => Promise<void>;
+};
+
+export const usePostModal = ({
+  post,
+  onCloseAction,
+  profileId,
+}: Props): usePostModalReturn => {
   const [deletePost] = useDeletePostMutation();
   const isOwnerPost = useRef(false);
 
@@ -22,7 +30,6 @@ export const usePostModal = ({ post, onCloseAction, profileId }: Props) => {
     (state: RootState) => authApi.endpoints.getMe.select()(state).data?.userId
   );
 
-  console.log('userId', userId);
   if (userId) {
     isOwnerPost.current = post?.userId == userId;
   }
