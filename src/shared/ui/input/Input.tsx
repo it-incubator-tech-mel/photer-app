@@ -18,12 +18,14 @@ type Props = ComponentProps<'input'> & {
   onSearchClick?: () => void;
   onChangeValue?: (value: string) => void;
   onEnter?: (e: KeyboardEvent<HTMLInputElement>) => void;
+  required?: boolean;
 };
 
 export const Input = ({
   type = 'text',
   label,
   errorMessage,
+  required = false,
   className = '',
   onSearchClick,
   disabled = false,
@@ -73,11 +75,12 @@ export const Input = ({
         <label
           htmlFor={inputId}
           className={cn(
-            'regular-text-14 text-light-900 flex flex-col text-sm leading-6',
+            'regular-text-14 text-light-900 flex text-sm leading-6',
             disabled && 'text-dark-100'
           )}
         >
           {label}
+          {required ? <span className="text-danger-500">*</span> : ''}
         </label>
       )}
       {type === 'search' && (
