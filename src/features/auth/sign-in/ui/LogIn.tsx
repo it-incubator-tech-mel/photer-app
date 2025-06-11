@@ -22,7 +22,7 @@ export default function LogIn({ onSubmit }: Props): ReactElement {
     hasLoginError,
     formErrors,
     isLoading,
-  } = useLogInForm(onSubmit); 
+  } = useLogInForm(onSubmit); // передаём callback
 
   return (
     <Card

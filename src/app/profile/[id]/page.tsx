@@ -1,13 +1,3 @@
-// // src/app/profile/[id]/page.tsx
-// export default function UserProfilePage() {
-//   return (
-//     <div className="text-light-900 p-6 text-center text-xl">
-//       Это страница профиля пользователя
-//     </div>
-//   );
-// }
-
-///////////////////////////////
 // src/app/profile/[id]/page.tsx
 
 import { cookies } from 'next/headers';
@@ -24,8 +14,12 @@ export default async function ProfilePage({
 }) {
   const { id: userId } = await params;
 
+  // const postsRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/posts?userId=${userId}&pageSize=8`
+  // );
+
   const postsRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?userId=${userId}&pageSize=8`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/posts/user/${userId}`
   );
 
   if (!postsRes.ok) return notFound();

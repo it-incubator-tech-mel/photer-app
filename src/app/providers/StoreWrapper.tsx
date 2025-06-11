@@ -20,15 +20,21 @@ export function StoreWrapper({
   const pathname = usePathname();
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
+  // Показывать ли сайдбар
+  // const sidebarRoutes = ['/profile', '/create', '/messenger', '/search'];
   const sidebarRoutes = ['/', '/profile', '/create', '/messenger', '/search'];
   const showSidebar = sidebarRoutes.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`)
   );
 
+  // Показывать ли кнопки Log In и Sign Up
+  const withLoginBtn =
+    !pathname.startsWith('/profile') && !pathname.startsWith('/create-post');
+
   return (
     <Provider store={store}>
       <div className="flex min-h-screen w-full flex-col">
-        <Header withLoginBtn={true} />
+        <Header withLoginBtn={withLoginBtn} />
 
         <div className="flex flex-1">
           {showSidebar && (

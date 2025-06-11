@@ -13,7 +13,7 @@ const rawBaseQuery = fetchBaseQuery({
   credentials: 'include',
   prepareHeaders: (headers) => {
     const cookieHeader = cookies().toString();
-    console.log('SSR Cookies:', cookieHeader); 
+    console.log('SSR Cookies:', cookieHeader); // лог куков
     if (cookieHeader) headers.set('cookie', cookieHeader);
     return headers;
   },
@@ -24,8 +24,8 @@ export const baseQuery: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  console.log('SSR fetch args:', args); 
+  console.log('SSR fetch args:', args); // лог запроса
   const result = await rawBaseQuery(args, api, extraOptions);
-  console.log('SSR fetch result:', result); 
+  console.log('SSR fetch result:', result); // лог ответа
   return result;
 };

@@ -26,6 +26,7 @@ export const PostItem = ({ post }: Props): ReactElement => {
           unoptimized
           fill
           className="object-cover"
+          // object-contain
         />
       </div>
     </Link>

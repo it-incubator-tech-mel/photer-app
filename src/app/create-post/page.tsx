@@ -13,7 +13,7 @@ export default async function CreatePost() {
 
   return (
     <div className="px-4 py-8">
-      <PostCreationWizard /> 
+      <PostCreationWizard />
     </div>
   );
 }

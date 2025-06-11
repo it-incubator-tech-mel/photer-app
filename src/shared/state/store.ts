@@ -14,12 +14,12 @@ export const store = configureStore({
     auth: authReducer,
     modal: modalReducer,
     post: postReducer,
-    [baseClientApi.reducerPath]: baseClientApi.reducer, // ⬅ все endpoints подключаются сюда через injectEndpoints
+    [baseClientApi.reducerPath]: baseClientApi.reducer, // все endpoints подключаются сюда через injectEndpoints
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-      immutableCheck: false, // <- отключили "тяжёлую" проверку
+      immutableCheck: false, // отключили "тяжёлую" проверку
     }).concat(baseClientApi.middleware),
 });
 
