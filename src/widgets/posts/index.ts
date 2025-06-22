@@ -1,3 +1,3 @@
-export { PostModalSSR } from './postView/PostModalSSR';
+export { PostModal } from './postView/PostModal';
+export { WrapPostModalSSR } from './postView/WrapPostModalSSR';
 export { PostsListSSR } from './postFeed/PostsListSSR';
-export { PostModalBrowser } from './postView/PostModalBrowser';
