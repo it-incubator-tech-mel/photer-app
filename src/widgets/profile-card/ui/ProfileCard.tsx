@@ -1,4 +1,3 @@
-'use client';
 import Image from 'next/image';
 import defaultAvatar from '../../../../public/images/defaultAvatar.png';
 import { ProfileButtons } from '@/widgets/profile-card/profile-buttons/ProfileButtons';

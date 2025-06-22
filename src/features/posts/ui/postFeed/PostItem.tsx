@@ -2,7 +2,7 @@
 import { ReactElement, useState } from 'react';
 import Image from 'next/image';
 import { PostType } from '@/features/posts/lib/post.types';
-import { PostModalBrowser } from '@/widgets/posts';
+import { PostModal } from '@/widgets/posts';
 
 type Props = {
   post: PostType;
@@ -28,10 +28,7 @@ export const PostItem = ({ post }: Props): ReactElement => {
         )}
       </div>
       {isOpenPost && (
-        <PostModalBrowser
-          postId={post.id}
-          onCloseAction={() => setIsOpenPost(false)}
-        />
+        <PostModal post={post} onCloseAction={() => setIsOpenPost(false)} />
       )}
     </>
   );
