@@ -1,19 +1,15 @@
+'use client';
+
 import { PostsList } from '@/features/posts/ui/postFeed/PostsList';
 import { ReactElement } from 'react';
+import { useGetProfilePostsQuery } from '@/features/posts/api/postsApi';
 
 type Props = {
   profileId: string;
 };
-export async function PostsListSSR({
-  profileId,
-}: Props): Promise<ReactElement> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/posts/users/${profileId}?pageNumber=1&pageSize=8&sortDirection=desc&sortBy=createdAt`,
-    {
-      cache: 'no-store',
-    }
-  );
-  const posts = await res.json();
+
+export function PostsListSSR({ profileId }: Props): ReactElement {
+  const { data: posts } = useGetProfilePostsQuery({ profileId, pageNumber: 1 });
 
   return <PostsList ssrPosts={posts} profileId={profileId} />;
 }

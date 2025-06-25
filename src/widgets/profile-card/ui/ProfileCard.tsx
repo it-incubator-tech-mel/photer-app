@@ -4,8 +4,9 @@ import defaultAvatar from '../../../../public/images/defaultAvatar.png';
 import { ProfileButtons } from '@/widgets/profile-card/profile-buttons/ProfileButtons';
 import { ProfileStats } from '@/entities/profile/ui/ProfileStats';
 import Link from 'next/link';
-import { ReactElement } from 'react';
+import { ReactElement, useRef } from 'react';
 import { Button } from '@/shared/ui/button/Button';
+import { useUploadAvatarMutation } from '@/features/profile/profileApi';
 
 type Props = {
   isOwner: boolean;
@@ -15,6 +16,28 @@ type Props = {
 };
 
 export const ProfileCard = ({ isOwner, isAuthorized }: Props): ReactElement => {
+  const [uploadAvatar] = useUploadAvatarMutation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('avatar', file);
+      
+      try {
+        await uploadAvatar(formData).unwrap();
+      } catch (error) {
+        console.error('Failed to upload avatar:', error);
+      }
+    }
+  };
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  console.log('ProfileCard props:', { isOwner, isAuthorized });
   return (
     <div className={'flex gap-9'}>
       <div className="flex flex-col items-center">
@@ -24,10 +47,18 @@ export const ProfileCard = ({ isOwner, isAuthorized }: Props): ReactElement => {
           width={204}
           height={204}
           className={'rounded-full'}
-        />
+          priority
+        /> 
         {isOwner && (
           <div className="mt-4 w-full flex justify-center">
-            <Button variant="outlined" className="w-49">
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={handleAvatarUpload}
+            />
+            <Button variant="outlined" className="w-49" onClick={handleButtonClick}>
               Add a Profile Photo
             </Button>
           </div>
