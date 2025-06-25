@@ -6,6 +6,7 @@ import { ProfileStats } from '@/entities/profile/ui/ProfileStats';
 import Link from 'next/link';
 import { ReactElement } from 'react';
 import { Button } from '@/shared/ui/button/Button';
+import { useIsProfileOwner } from '@/features/auth/hooks/useIsProfileOwner';
 
 type Props = {
   isOwner: boolean;
@@ -14,7 +15,11 @@ type Props = {
   //profileInfo: UserProfile
 };
 
-export const ProfileCard = ({ isOwner, isAuthorized }: Props): ReactElement => {
+export const ProfileCard = ({ isOwner: isOwnerFromProps, isAuthorized }: Props): ReactElement => {
+  // For local development, we use the hook to determine ownership
+  const isOwnerFromHook = useIsProfileOwner();
+  const isOwner = process.env.NODE_ENV === 'development' ? isOwnerFromHook : isOwnerFromProps;
+
   return (
     <div className={'flex gap-9'}>
       <div className="flex flex-col items-center gap-4">
@@ -25,7 +30,7 @@ export const ProfileCard = ({ isOwner, isAuthorized }: Props): ReactElement => {
           height={204}
           className={'rounded-full'}
         />
-        {!isOwner && (
+        {isOwner && (
           <Button
             variant="outlined"
             className="w-[196px] whitespace-nowrap"
