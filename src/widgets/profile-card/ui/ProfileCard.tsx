@@ -5,6 +5,7 @@ import { ProfileButtons } from '@/widgets/profile-card/profile-buttons/ProfileBu
 import { ProfileStats } from '@/entities/profile/ui/ProfileStats';
 import Link from 'next/link';
 import { ReactElement } from 'react';
+import { Button } from '@/shared/ui/button/Button';
 
 type Props = {
   isOwner: boolean;
@@ -16,13 +17,24 @@ type Props = {
 export const ProfileCard = ({ isOwner, isAuthorized }: Props): ReactElement => {
   return (
     <div className={'flex gap-9'}>
-      <Image
-        src={defaultAvatar} // || profileInfo.avatar
-        alt="avatar"
-        width={204}
-        height={204}
-        className={'rounded-full'}
-      />
+      <div className="flex flex-col items-center gap-4">
+        <Image
+          src={defaultAvatar} // || profileInfo.avatar
+          alt="avatar"
+          width={204}
+          height={204}
+          className={'rounded-full'}
+        />
+        {!isOwner && (
+          <Button
+            variant="outlined"
+            className="w-[196px] whitespace-nowrap"
+            onClick={() => {/* TODO: Implement photo upload */}}
+          >
+            Add a Profile Photo
+          </Button>
+        )}
+      </div>
       <div className={'flex w-full flex-col gap-5'}>
         <div className={'flex justify-between'}>
           <h2 className={'h1-text'}>URLProfile{/*|| profileInfo.userName*/}</h2>
