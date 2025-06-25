@@ -43,7 +43,7 @@ export function Button({
   return (
     <Component
       className={cn(
-        'h3-text text-light-100 inline-flex h-[36px] items-center justify-center rounded-sm border-2 border-transparent px-6 py-1.5 text-center focus:border-2',
+        'h3-text text-light-100 inline-flex h-[36px] text-center whitespace-nowrap items-center justify-center rounded-sm border-2 border-transparent px-6 py-1.5 text-center focus:border-2',
         buttonVariants[variant],
         className,
         icon && 'px-3'
