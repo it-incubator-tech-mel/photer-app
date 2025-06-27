@@ -6,13 +6,14 @@ type UploadAvatarResponse = {
 
 export const profileApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        uploadAvatar: builder.mutation<UploadAvatarResponse, FormData>({
+        uploadAvatar: builder.mutation<string, FormData>({
             query: (formData) => ({
                 url: '/profile/avatar',
                 method: 'POST',
                 body: formData,
                 formData: true,
             }),
+            transformResponse: (response: UploadAvatarResponse) => response.fileUrl,
             invalidatesTags: ['me'],
         }),
     }),

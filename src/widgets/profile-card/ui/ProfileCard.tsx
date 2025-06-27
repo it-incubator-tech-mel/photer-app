@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import defaultAvatar from '../../../../public/images/defaultAvatar.png';
 import { ProfileButtons } from '@/widgets/profile-card/profile-buttons/ProfileButtons';
@@ -18,6 +18,8 @@ type Props = {
 };
 
 export const ProfileCard = ({ isOwner: isOwnerFromProps, isAuthorized }: Props): ReactElement => {
+  const [currentAvatar, setCurrentAvatar] = useState<string | null>(null);
+
   // For local development, we use the hook to determine ownership
   const isOwnerFromHook = useIsProfileOwner();
   const isOwner = process.env.NODE_ENV === 'development' ? isOwnerFromHook : isOwnerFromProps;
@@ -29,7 +31,11 @@ export const ProfileCard = ({ isOwner: isOwnerFromProps, isAuthorized }: Props):
     if (!file) return;
 
     try {
-      await uploadAvatar(file);
+      console.log('Uploading file:', file);
+      const response = await uploadAvatar(file);
+      console.log('Upload response:', response);
+      setCurrentAvatar(response);
+      console.log('Current avatar set to:', response);
     } catch (error) {
       // Handle error (you might want to show a toast or alert)
       console.error('Failed to upload avatar:', error);
@@ -44,11 +50,13 @@ export const ProfileCard = ({ isOwner: isOwnerFromProps, isAuthorized }: Props):
     <div className={'flex gap-9'}>
       <div className="flex flex-col items-center gap-4">
         <Image
-          src={defaultAvatar} // || profileInfo.avatar
+          src={currentAvatar || defaultAvatar}
           alt="avatar"
           width={204}
           height={204}
-          className={'rounded-full'}
+          className={'rounded-full object-cover'}
+          priority
+          unoptimized
         />
         {isOwner && (
           <>

@@ -9,7 +9,7 @@ export const useAvatarUpload = () => {
             formData.append('file', file);
 
             const response = await uploadAvatar(formData).unwrap();
-            return response.fileUrl;
+            return response;
         } catch (error) {
             console.error('Error uploading avatar:', error);
             throw error;
