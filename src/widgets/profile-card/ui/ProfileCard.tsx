@@ -1,4 +1,5 @@
 'use client';
+import { useRef } from 'react';
 import Image from 'next/image';
 import defaultAvatar from '../../../../public/images/defaultAvatar.png';
 import { ProfileButtons } from '@/widgets/profile-card/profile-buttons/ProfileButtons';
@@ -7,6 +8,7 @@ import Link from 'next/link';
 import { ReactElement } from 'react';
 import { Button } from '@/shared/ui/button/Button';
 import { useIsProfileOwner } from '@/features/auth/hooks/useIsProfileOwner';
+import { useAvatarUpload } from '@/features/profile/hooks/useAvatarUpload';
 
 type Props = {
   isOwner: boolean;
@@ -19,6 +21,24 @@ export const ProfileCard = ({ isOwner: isOwnerFromProps, isAuthorized }: Props):
   // For local development, we use the hook to determine ownership
   const isOwnerFromHook = useIsProfileOwner();
   const isOwner = process.env.NODE_ENV === 'development' ? isOwnerFromHook : isOwnerFromProps;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { uploadAvatar, isLoading } = useAvatarUpload();
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      await uploadAvatar(file);
+    } catch (error) {
+      // Handle error (you might want to show a toast or alert)
+      console.error('Failed to upload avatar:', error);
+    }
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
     <div className={'flex gap-9'}>
@@ -31,13 +51,23 @@ export const ProfileCard = ({ isOwner: isOwnerFromProps, isAuthorized }: Props):
           className={'rounded-full'}
         />
         {isOwner && (
-          <Button
-            variant="outlined"
-            className="w-[196px] whitespace-nowrap"
-            onClick={() => {/* TODO: Implement photo upload */}}
-          >
-            Add a Profile Photo
-          </Button>
+          <>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileSelect}
+              accept="image/*"
+              className="hidden"
+            />
+            <Button
+              variant="outlined"
+              className="w-[196px] whitespace-nowrap"
+              onClick={handleUploadClick}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Uploading...' : 'Add a Profile Photo'}
+            </Button>
+          </>
         )}
       </div>
       <div className={'flex w-full flex-col gap-5'}>
