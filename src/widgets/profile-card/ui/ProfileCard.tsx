@@ -11,18 +11,15 @@ import { useIsProfileOwner } from '@/features/auth/hooks/useIsProfileOwner';
 import { useAvatarUpload } from '@/features/profile/hooks/useAvatarUpload';
 
 type Props = {
-  isOwner: boolean;
   isAuthorized: boolean;
   //for the future
   //profileInfo: UserProfile
 };
 
-export const ProfileCard = ({ isOwner: isOwnerFromProps, isAuthorized }: Props): ReactElement => {
+export const ProfileCard = ({ isAuthorized }: Props): ReactElement => {
   const [currentAvatar, setCurrentAvatar] = useState<string | null>(null);
 
-  // For local development, we use the hook to determine ownership
-  const isOwnerFromHook = useIsProfileOwner();
-  const isOwner = process.env.NODE_ENV === 'development' ? isOwnerFromHook : isOwnerFromProps;
+  const isOwner = useIsProfileOwner();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadAvatar, isLoading } = useAvatarUpload();
 
@@ -81,7 +78,7 @@ export const ProfileCard = ({ isOwner: isOwnerFromProps, isAuthorized }: Props):
       <div className={'flex w-full flex-col gap-5'}>
         <div className={'flex justify-between'}>
           <h2 className={'h1-text'}>URLProfile{/*|| profileInfo.userName*/}</h2>
-          {isAuthorized && <ProfileButtons isOwner={isOwner} />}
+          {(isOwner) && <ProfileButtons isOwner={isOwner} />}
         </div>
 
         <ProfileStats following={2218} followers={2218} publications={2218} />
