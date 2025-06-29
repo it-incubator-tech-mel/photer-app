@@ -51,7 +51,7 @@ export const ProfileCard = ({ isAuthorized }: Props): ReactElement => {
           alt="avatar"
           width={204}
           height={204}
-          className={'rounded-full object-cover'}
+          className={'rounded-full object-cover h-[204px] w-[204px]'}
           priority
           unoptimized
         />
