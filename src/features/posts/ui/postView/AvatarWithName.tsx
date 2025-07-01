@@ -1,7 +1,12 @@
 import { CircleAvatar } from '@/shared/ui/circleAvatar/CircleAvatar';
 import { ReactNode } from 'react';
 
-export const AvatarWithName = (): ReactNode => {
+type Props = {
+  avatarUrl: string;
+  userName: string;
+};
+
+export const AvatarWithName = ({ avatarUrl, userName }: Props): ReactNode => {
   return (
     <div className="flex items-center gap-[12px] py-[12px]">
       <CircleAvatar src={'/images/expired.png'} />

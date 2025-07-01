@@ -25,7 +25,7 @@ export default function RootLayout({
   children: ReactNode;
 }>): ReactElement {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.className}>
       <body
         className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-screen`}
       >

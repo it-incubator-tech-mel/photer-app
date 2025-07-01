@@ -35,7 +35,7 @@ export default async function HomePage(): Promise<ReactElement> {
   ]);
 
   const usersCount =
-    usersCountResult.status === 'fulfilled' ? usersCountResult.value : -1;
+    usersCountResult.status === 'fulfilled' ? usersCountResult.value : 0;
   const posts =
     postsResult.status === 'fulfilled' ? postsResult.value.items : [];
 
