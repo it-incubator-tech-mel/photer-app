@@ -25,16 +25,14 @@ export default function RootLayout({
   children: ReactNode;
 }>): ReactElement {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} bg-dark-900 regular-text-16 text-light-100 h-screen`}
-      >
+    <html lang="en" className={inter.className}>
+      <body className={`bg-dark-900 regular-text-16 text-light-100 h-screen`}>
         <StoreWrapper>
           <div className="flex min-h-screen w-full flex-col">
             <Header withLoginBtn={true} />
-            <div className="mx-auto flex w-full max-w-[1280px]">
+            <div className="flex w-full">
               <Sidebar />
-              {children}
+              <div className="mx-auto max-w-[1280px]">{children}</div>
             </div>
           </div>
           <ModalProvider />
