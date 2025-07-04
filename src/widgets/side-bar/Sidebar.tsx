@@ -6,7 +6,7 @@ import HoverDiv from './HoverDiv';
 import { ytSidebarDataset } from './SidebarData';
 import SidebarItem from './SidebarItem';
 import { cn } from '@/shared/lib/cn';
-import { IconSprite } from '@/shared/ui';
+import { IconSprite, Scrollbar } from '@/shared/ui';
 import { authApi } from '@/features/auth/api/authApi';
 import { LogoutButton } from '../logout-button/LogoutButton';
 import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
@@ -55,45 +55,49 @@ export const Sidebar = (): React.JSX.Element | null => {
 
       {/* Центральная часть: пункты меню */}
       {/* <main className="flex-1 overflow-hidden"> */}
-      <ul className="flex flex-1 flex-col gap-1">
-        {ytSidebarDataset
-          .filter((dataset) => dataset.title !== 'Log Out')
-          .map((dataset, index) => (
-            <React.Fragment key={index}>
-              {dataset.title && (
-                <li className="w-full px-2">
-                  <SidebarItem
-                    path={dataset.path}
-                    activeIconName={dataset.activeIconName}
-                    defaultIconName={dataset.defaultIconName}
-                    title={dataset.title}
-                    isSidebarOpen={isSidebarOpen}
-                  />
-                </li>
-              )}
-              {dataset.title === 'Search' && <div className="h-6" />}
-              {dataset.title === 'Favorites' && <div className="h-10" />}
-
-              {dataset.nestedItems &&
-                isSidebarOpen &&
-                dataset.nestedItems.length > 0 && (
-                  <ul className="mt-4 w-full border-t border-zinc-600 px-4 pt-4">
-                    <p className="mb-2 px-3">{dataset.nestedTitle}</p>
-                    {dataset.nestedItems.map((item, index) => (
+      <Scrollbar>
+        <nav>
+          <ul className="flex flex-1 flex-col gap-1">
+            {ytSidebarDataset
+              .filter((dataset) => dataset.title !== 'Log Out')
+              .map((dataset, index) => (
+                <React.Fragment key={index}>
+                  {dataset.title && (
+                    <li className="w-full px-2">
                       <SidebarItem
-                        key={index}
-                        path={item.path}
-                        activeIconName={item.activeIconName}
-                        defaultIconName={item.defaultIconName}
-                        title={item.title}
+                        path={dataset.path}
+                        activeIconName={dataset.activeIconName}
+                        defaultIconName={dataset.defaultIconName}
+                        title={dataset.title}
                         isSidebarOpen={isSidebarOpen}
                       />
-                    ))}
-                  </ul>
-                )}
-            </React.Fragment>
-          ))}
-      </ul>
+                    </li>
+                  )}
+                  {dataset.title === 'Search' && <div className="h-6" />}
+                  {dataset.title === 'Favorites' && <div className="h-10" />}
+
+                  {dataset.nestedItems &&
+                    isSidebarOpen &&
+                    dataset.nestedItems.length > 0 && (
+                      <ul className="mt-4 w-full border-t border-zinc-600 px-4 pt-4">
+                        <p className="mb-2 px-3">{dataset.nestedTitle}</p>
+                        {dataset.nestedItems.map((item, index) => (
+                          <SidebarItem
+                            key={index}
+                            path={item.path}
+                            activeIconName={item.activeIconName}
+                            defaultIconName={item.defaultIconName}
+                            title={item.title}
+                            isSidebarOpen={isSidebarOpen}
+                          />
+                        ))}
+                      </ul>
+                    )}
+                </React.Fragment>
+              ))}
+          </ul>
+        </nav>
+      </Scrollbar>
 
       {/* Нижняя часть: Log Out */}
       <div className="pb-6">
