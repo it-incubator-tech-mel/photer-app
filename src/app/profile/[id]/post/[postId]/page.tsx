@@ -34,7 +34,7 @@ export default async function SSRPublicPost({
 
   return (
     <div className={'h-full max-w-7xl px-[24px] pt-9'}>
-      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userId} />
+      <ProfileCard isAuthorized={!!userId} />
       <WrapPostModalSSR profileId={profileId} post={post} />
     </div>
   );
