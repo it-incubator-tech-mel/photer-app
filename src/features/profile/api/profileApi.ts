@@ -4,8 +4,29 @@ type UploadAvatarResponse = {
     fileUrl: string;
 };
 
+export type Profile = {
+    id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    city: string | null;
+    country: string | null;
+    birthDate: string | null;
+    aboutMe: string | null;
+    avatarUrl: string | null;
+    createdAt: string;
+    updatedAt: string;
+};
+
 export const profileApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
+        getProfile: builder.query<Profile, void>({
+            query: () => ({
+                url: '/profile',
+                method: 'GET',
+            }),
+            providesTags: ['Profile'],
+        }),
         uploadAvatar: builder.mutation<string, FormData>({
             query: (formData) => ({
                 url: '/profile/avatar',
@@ -14,9 +35,9 @@ export const profileApi = baseApi.injectEndpoints({
                 formData: true,
             }),
             transformResponse: (response: UploadAvatarResponse) => response.fileUrl,
-            invalidatesTags: ['me'],
+            invalidatesTags: ['Profile'], // This will refetch profile data after upload
         }),
     }),
 });
 
-export const { useUploadAvatarMutation } = profileApi; 
+export const { useGetProfileQuery, useUploadAvatarMutation } = profileApi; 
