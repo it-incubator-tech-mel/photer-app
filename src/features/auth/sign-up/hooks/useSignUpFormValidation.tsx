@@ -13,7 +13,7 @@ export function useSignUpFormValidation(): UseSignUpFormValidationReturn {
     formState: { errors, isValid },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
-    mode: 'onBlur',
+    mode: 'onChange',
   });
 
   return {
