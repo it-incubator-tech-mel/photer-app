@@ -22,7 +22,7 @@ export function useSignUpFormValidation(): UseSignUpFormValidationReturn {
     handleSubmit,
     control,
     setError,
-    errors,
     isValid,
+    errors,
   };
 }
