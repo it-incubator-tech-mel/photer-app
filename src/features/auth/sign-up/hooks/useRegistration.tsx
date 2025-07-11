@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRegisterMutation } from '../../api/authApi';
 import type { SignUpFormData } from './validationSchema';
 import { UseRegistrationReturn } from '../types/useSignUpFormReturn';
 import { useDispatch } from 'react-redux';
 import { openModal } from '@/shared/state/slices/modalSlice';
 import { useRouter } from 'next/navigation';
+import { useRegisterMutation } from '../../api/authApi.client';
 
 export function useRegistration(): UseRegistrationReturn {
   const [registerUser, { isLoading, error }] = useRegisterMutation();

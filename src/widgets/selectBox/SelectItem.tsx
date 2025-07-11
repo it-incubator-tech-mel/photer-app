@@ -4,9 +4,9 @@ import { ReactElement } from 'react';
 import * as Select from '@radix-ui/react-select';
 import { SelectItemProps } from '@radix-ui/react-select';
 import Image, { StaticImageData } from 'next/image';
+import { SpriteIcon } from '@/shared/ui/icon/SpriteIcon';
 import { cn } from '@/shared/lib/cn';
 import { SpriteName } from 'public/icons/spriteNames';
-import { IconSprite } from '@/shared/ui';
 
 type Props = SelectItemProps & {
   icon?: SpriteName | StaticImageData | string;
@@ -35,11 +35,7 @@ export function SelectItem({
           {icon && (
             <>
               {isSpriteIcon ? (
-                <IconSprite
-                  iconName={icon as SpriteName}
-                  width={20}
-                  height={20}
-                />
+                <SpriteIcon name={icon as SpriteName} size={20} />
               ) : (
                 <div className="relative h-[20px] w-[20px] shrink-0">
                   <Image
