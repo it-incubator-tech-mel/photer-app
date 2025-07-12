@@ -3,11 +3,11 @@ import expiredImage from 'public/images/expired.png';
 import Image from 'next/image';
 import { ReactElement } from 'react';
 import { Button } from '@/shared/ui';
-import { useRecoveryPasswordResendingMutation } from '@/features/auth/api/authApi';
 import { ErrorMessage } from '@/app/(auth)/forgot-password/page';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '@/shared/state/store';
 import { openModal } from '@/shared/state/slices/modalSlice';
+import { useRecoveryPasswordResendingMutation } from '@/features/auth/api/authApi.client';
 
 export default function ResendLink(): ReactElement {
   const [resendLink, { isLoading }] = useRecoveryPasswordResendingMutation();

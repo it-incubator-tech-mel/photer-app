@@ -1,3 +1,4 @@
+// src/features/auth/ui/login-form/LogoutForm.tsx
 import { cn } from '@/shared/lib/cn';
 import { Button } from '@/shared/ui';
 import { Modal } from '@/widgets/modal/Modal';
