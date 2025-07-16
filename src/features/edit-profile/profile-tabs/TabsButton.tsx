@@ -1,11 +1,16 @@
 import { cn } from '@/shared/lib/cn';
+import { ReactNode } from 'react';
 
 type Props = {
   children: string;
   onClick?: () => void;
   isActive?: boolean;
 };
-export const TabsButton = ({ children, onClick, isActive }: Props) => {
+export const TabsButton = ({
+  children,
+  onClick,
+  isActive,
+}: Props): ReactNode => {
   return (
     <button
       className={cn(

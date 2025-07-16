@@ -24,9 +24,8 @@ export const ProfileCard = ({
   profileId,
   posts,
 }: Props): ReactElement => {
-  const [isEditProfile, setIsEditProfile] = useState(true);
+  const [isEditProfile, setIsEditProfile] = useState(false);
 
-  console.log('isAuthorized', isAuthorized);
   if (isEditProfile) {
     return <EditProfile />;
   }

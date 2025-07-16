@@ -1,100 +1,120 @@
 'use client';
 import { Button, Input, Textarea } from '@/shared/ui';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import z from 'zod';
-import { Calendar } from './Calendar';
-import CountrySelect from './CountrySelect';
+import { Controller } from 'react-hook-form';
+import { SitySelect } from './SitySelect';
+import { Calendar } from './Calendar/Calendar';
+import { CountrySelect } from './CountrySelect';
+import { useProfieGenInfo } from '../hooks/useProfieGenInfo';
+import { ReactNode } from 'react';
 
-const profileGenInfoSchema = z.object({
-  username: z
-    .string()
-    .min(6, 'Username must be at least 6 characters')
-    .max(30, 'Username must be at most 30 characters')
-    .regex(
-      /^[a-zA-Z0-9_-]+$/,
-      'Username can only contain letters, numbers, underscores, and hyphens'
-    ),
-  firstName: z
-    .string()
-    .min(1, 'First name must be at least 1 characters')
-    .max(50, 'First name must be at most 50 characters')
-    .regex(
-      /^[0-9A-Za-zА-Яа-я_-]+$/,
-      'First name can only contain letters (both Latin and Cyrillic), numbers, underscores, and hyphens.'
-    ),
-  lastName: z
-    .string()
-    .min(1, 'Last name must be at least 1 characters')
-    .max(50, 'Last name must be at most 50 characters')
-    .regex(
-      /^[0-9A-Za-zА-Яа-я_-]+$/,
-      'Last name can only contain letters (both Latin and Cyrillic), numbers, underscores, and hyphens.'
-    ),
-  aboutMe: z
-    .string()
-    .max(200, 'About me must be at most 200 characters')
-    .regex(
-      /^[0-9A-Za-zА-Яа-я_-]+$/,
-      'About me can contain letters (both Latin A-Z, a-z and Cyrillic А-Я, а-я), numbers (0-9), and special characters.'
-    ),
-});
-export type ProfileGenInfoSchema = z.infer<typeof profileGenInfoSchema>;
-
-export const GeneralInformation = (props: {}) => {
+export const GeneralInformation = (): ReactNode => {
   const {
-    register,
     handleSubmit,
-    reset,
-    formState: { isDirty, errors },
-  } = useForm<ProfileGenInfoSchema>({
-    resolver: zodResolver(profileGenInfoSchema),
-    mode: 'onBlur',
-  });
-  return (
-    <div className="flex w-full">
-      <div className="flex-1">photo</div>
-      <div className="flex-3">
-        <Input
-          type="text"
-          required
-          label="Username"
-          errorMessage={errors.username?.message}
-          {...register('username')}
-          autoComplete="username"
-        />
-        <Input
-          type="text"
-          required
-          label="First name"
-          errorMessage={errors.firstName?.message}
-          {...register('firstName')}
-          autoComplete="username"
-        />
-        <Input
-          type="text"
-          required
-          label="Last name"
-          errorMessage={errors.lastName?.message}
-          {...register('lastName')}
-          autoComplete="username"
-        />
-        <Input type="text" label="Date of birth" />
-        <Calendar />
-        <div className="flex">
-          <CountrySelect />
-          <Input type="text" label="Select your country " />
-          <Input type="text" label="Select your city" />
-        </div>
-        <Textarea
-          label="About me"
-          errorMessage={errors.aboutMe?.message}
-          {...register('aboutMe')}
-          autoComplete="aboutMe"
-        />
+    handleChange,
+    register,
+    control,
+    errors,
+    countryCode,
+    setCountryCode,
+    isLoading,
+    isError,
+    isDirty,
+    formatDate,
+  } = useProfieGenInfo();
 
-        <Button disabled={!errors}>Save Changes</Button>
-      </div>
+  return (
+    <div className="flex w-full flex-col">
+      <form onSubmit={handleSubmit}>
+        <div className="flex">
+          <div className="flex-1">
+            photo
+            {/* Добавление/обновление фото сюда */}
+          </div>
+          <div className="flex-3">
+            <Input
+              type="text"
+              required
+              label="Username"
+              errorMessage={errors.username?.message}
+              {...register('username')}
+              onChange={handleChange}
+            />
+            <Input
+              type="text"
+              required
+              label="First name"
+              errorMessage={errors.firstName?.message}
+              {...register('firstName')}
+              onChange={handleChange}
+            />
+            <Input
+              type="text"
+              required
+              label="Last name"
+              errorMessage={errors.lastName?.message}
+              {...register('lastName')}
+              onChange={handleChange}
+            />
+            <Controller
+              name="birthDate"
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const date = value ? new Date(value) : new Date();
+                return (
+                  <Calendar
+                    selected={date}
+                    onChange={(date: Date | null) => {
+                      if (date instanceof Date) {
+                        const event = {
+                          target: { name: 'birthday', value: formatDate(date) },
+                        };
+                        onChange(event);
+                      }
+                    }}
+                  />
+                );
+              }}
+            />
+            <div className="mt-[16px] flex justify-between gap-2">
+              <Controller
+                name="country"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CountrySelect
+                    value={value ?? ''}
+                    handleSelectCountry={(country) => {
+                      setCountryCode(country.cca2);
+                      onChange(country.name);
+                    }}
+                  />
+                )}
+              />
+              <Controller
+                name="city"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <SitySelect
+                    cca2Code={countryCode}
+                    onChange={onChange}
+                    value={value ?? ''}
+                  />
+                )}
+              />
+            </div>
+            <Textarea
+              label="About me"
+              errorMessage={errors.aboutMe?.message}
+              {...register('aboutMe')}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        <div className="border-dark-300 mt-[24px] flex justify-end border-t-[1px] pt-[24px]">
+          <Button type="submit" disabled={!isDirty || isError}>
+            {isLoading ? 'Сохранение...' : 'Сохранить изменения'}
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };

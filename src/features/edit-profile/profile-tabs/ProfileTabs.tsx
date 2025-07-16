@@ -1,4 +1,5 @@
 'use client';
+import { ReactNode } from 'react';
 import { Tabs } from '../EditProfile';
 import { TabsButton } from './TabsButton';
 
@@ -11,11 +12,12 @@ export const ProfileTabs = ({
   tabs,
   currentTab,
   setCurrentTabAction,
-}: Props) => {
+}: Props): ReactNode => {
   return (
     <div className="flex w-full">
-      {tabs.map((tab) => (
+      {tabs.map((tab, index) => (
         <TabsButton
+          key={index}
           isActive={tab === currentTab}
           onClick={() => {
             setCurrentTabAction(tab);

@@ -15,6 +15,7 @@ export default async function SSRProfilePage({
   if (userId) {
     isProfileOwner = userId == profileId ? true : false;
   }
+
   const resToPosts = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/posts/users/${profileId}?pageNumber=1&pageSize=8&sortDirection=desc&sortBy=createdAt`,
     {

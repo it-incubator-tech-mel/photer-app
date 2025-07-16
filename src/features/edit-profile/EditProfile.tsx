@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { GeneralInformation } from './general-iformation/GeneralInformation';
 import { Devices } from './devices/Devices';
 import { AccountManagement } from './account-management/AccountManagement';
@@ -13,10 +13,10 @@ const tabs = [
 ];
 export type Tabs = typeof tabs;
 
-export const EditProfile = (props: {}) => {
+export const EditProfile = (): ReactNode => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
 
-  const renderTab = () => {
+  const renderTab = (): ReactNode => {
     switch (currentTab) {
       case 'General iformation':
         return <GeneralInformation />;
