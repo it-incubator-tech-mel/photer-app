@@ -7,33 +7,41 @@ import { ProfileStats } from '@/entities/profile/ui/ProfileStats';
 import Link from 'next/link';
 import { ReactElement } from 'react';
 import { Button } from '@/shared/ui/button/Button';
-import { useIsProfileOwner } from '@/features/auth/hooks/useIsProfileOwner';
 import { useAvatarUpload } from '@/features/profile/hooks/useAvatarUpload';
-import { useGetProfileQuery } from '@/features/profile/api/profileApi';
 
 type Props = {
+  isOwner: boolean;
   isAuthorized: boolean;
   //for the future
   //profileInfo: UserProfile
 };
 
-export const ProfileCard = ({ isAuthorized }: Props): ReactElement => {
-  const { data: profile, isLoading: isProfileLoading } = useGetProfileQuery(undefined, {
-    skip: !isAuthorized, // Only fetch if user is authorized
-  });
+export const ProfileCard = ({ isOwner, isAuthorized }: Props): ReactElement => {
+  // Для разработки - захардкоженные данные профиля
+  const profile = {
+    firstName: 'John',
+    lastName: 'Doe',
+    username: 'johndoe',
+    aboutMe:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    avatarUrl: null,
+  };
 
-  const isOwner = useIsProfileOwner();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadAvatar, isLoading } = useAvatarUpload();
 
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     try {
       console.log('Uploading file:', file);
       await uploadAvatar(file);
-      console.log('Upload successful - profile will be refetched automatically');
+      console.log(
+        'Upload successful - profile will be refetched automatically'
+      );
     } catch (error) {
       // Handle error (you might want to show a toast or alert)
       console.error('Failed to upload avatar:', error);
@@ -44,20 +52,21 @@ export const ProfileCard = ({ isAuthorized }: Props): ReactElement => {
     fileInputRef.current?.click();
   };
 
-  const displayName = profile ?
-    `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || profile.username
+  const displayName = profile
+    ? `${profile.firstName || ''} ${profile.lastName || ''}`.trim() ||
+      profile.username
     : 'URLProfile';
 
   return (
     <div className={'flex gap-9'}>
       <div className="flex flex-col items-center gap-4">
-        <div className="w-[204px] h-[204px] rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+        <div className="h-[204px] w-[204px] flex-shrink-0 overflow-hidden rounded-full bg-gray-200">
           <Image
             src={profile?.avatarUrl || defaultAvatar}
             alt="avatar"
             width={204}
             height={204}
-            className={'w-full h-full object-cover'}
+            className={'h-full w-full object-cover'}
             priority
             unoptimized
           />
@@ -85,7 +94,7 @@ export const ProfileCard = ({ isAuthorized }: Props): ReactElement => {
       <div className={'flex w-full flex-col gap-5'}>
         <div className={'flex justify-between'}>
           <h2 className={'h1-text'}>{displayName}</h2>
-          {(isOwner) && <ProfileButtons isOwner={isOwner} />}
+          {isOwner && <ProfileButtons isOwner={isOwner} />}
         </div>
 
         <ProfileStats following={2218} followers={2218} publications={2218} />
@@ -94,8 +103,8 @@ export const ProfileCard = ({ isAuthorized }: Props): ReactElement => {
             {profile?.aboutMe || (
               <>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                ad minim veniam, quis nostrud exercitation ullamco{' '}
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco{' '}
                 <Link href={'#'} className={'regular-link'}>
                   laboris nisi ut aliquip ex ea commodo consequat.
                 </Link>
