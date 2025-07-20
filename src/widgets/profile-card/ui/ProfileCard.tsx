@@ -12,8 +12,8 @@ import { Posts } from '@/features/posts/lib/post.types';
 type Props = {
   isOwner: boolean;
   isAuthorized: boolean;
-  profileId: string;
-  posts: Posts;
+  profileId?: string;
+  posts?: Posts;
   //for the future
   //profileInfo: UserProfile
 };
