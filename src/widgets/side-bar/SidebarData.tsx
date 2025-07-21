@@ -1,61 +1,61 @@
-import { SpriteName } from 'public/icons/spriteNames';
+import type { SpriteName } from '@/shared/ui/icon/IconSprite';
 
 type SidebarItem = {
-  title?: string;
-  path?: string;
-  defaultIconName: SpriteName;
-  activeIconName: SpriteName;
+  title: string;
+  path: string;
+  defaultIcon: SpriteName;
+  activeIcon: SpriteName;
   nestedItems?: SidebarItem[];
-  nestedTitle?: string;
+  sectionTitle?: string;
 };
 
 export const ytSidebarDataset: SidebarItem[] = [
   {
     title: 'Feed',
     path: '/',
-    defaultIconName: 'home-outline',
-    activeIconName: 'home',
+    defaultIcon: 'home-outline',
+    activeIcon: 'home',
   },
   {
     title: 'Create',
     path: '/create-post',
-    defaultIconName: 'plus-square-outline',
-    activeIconName: 'plus-square',
+    defaultIcon: 'plus-square-outline',
+    activeIcon: 'plus-square',
   },
   {
-    title: 'Profile',
+    title: 'My Profile',
     path: '/profile',
-    defaultIconName: 'person-outline',
-    activeIconName: 'person',
+    defaultIcon: 'person-outline',
+    activeIcon: 'person',
   },
   {
     title: 'Messenger',
     path: '/messenger',
-    defaultIconName: 'message-circle-outline',
-    activeIconName: 'message-circle',
+    defaultIcon: 'paper-plane-outline',
+    activeIcon: 'paper-plane',
   },
   {
     title: 'Search',
     path: '/search',
-    defaultIconName: 'search-outline',
-    activeIconName: 'search',
+    defaultIcon: 'search-outline',
+    activeIcon: 'search',
   },
   {
     title: 'Statistics',
     path: '/statistics',
-    defaultIconName: 'trending-up-outline',
-    activeIconName: 'trending-up',
+    defaultIcon: 'trending-up-outline',
+    activeIcon: 'trending-up',
   },
   {
     title: 'Favorites',
     path: '/favorites',
-    defaultIconName: 'bookmark-outline',
-    activeIconName: 'bookmark',
+    defaultIcon: 'bookmark-outline',
+    activeIcon: 'bookmark',
   },
   {
     title: 'Log Out',
     path: '/logout',
-    defaultIconName: 'home-outline',
-    activeIconName: 'home-outline',
+    defaultIcon: 'log-out-outline',
+    activeIcon: 'log-out',
   },
 ];

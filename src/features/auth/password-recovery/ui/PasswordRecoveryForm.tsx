@@ -8,10 +8,10 @@ import {
   RecoveryPasswordFormSchema,
   RecoveryPasswordFormSchemaType,
 } from '@/features/auth/password-recovery/types/recoveryPasswordForm/recoveryPasswordFormShcema';
-import { useNewPasswordMutation } from '@/features/auth/api/authApi';
 import { Card } from '@/widgets/card/card';
 import { Button, Input } from '@/shared/ui';
 import { toast } from 'react-toastify';
+import { useNewPasswordMutation } from '../../api/authApi.client';
 
 export function PasswordRecoveryForm(): ReactElement {
   const searchParams = useSearchParams();
