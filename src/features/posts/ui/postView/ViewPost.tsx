@@ -26,7 +26,6 @@ export const ViewPost = ({
       {/* Левая часть — фото со скроллом при необходимости */}
       <div className="flex-1 overflow-y-auto">
         <Carousel className="h-full w-full">
-          <div className="min-h-0 overflow-y-auto">
             {post.photos.map((photo, index) => (
               <Image
                 key={index}
@@ -40,7 +39,6 @@ export const ViewPost = ({
                 className="h-full w-full object-cover"
               />
             ))}
-          </div>
         </Carousel>
       </div>
 
