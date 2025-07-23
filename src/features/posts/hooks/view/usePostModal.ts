@@ -13,7 +13,7 @@ type Props = {
 };
 
 type usePostModalReturn = {
-  userId: number | undefined;
+  userId: string | undefined;
   isOwner: boolean;
   handleDelete: () => Promise<void>;
 };
@@ -31,10 +31,10 @@ export const usePostModal = ({
   );
 
   if (userId) {
-    isOwnerPost.current = post?.userId == userId;
+    isOwnerPost.current = post?.owner.userId == userId;
   }
   if (profileId) {
-    isOwnerPost.current = post?.userId.toString() === profileId;
+    isOwnerPost.current = post?.owner.userId.toString() === profileId;
   }
   const isOwner = isOwnerPost.current;
 

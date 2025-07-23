@@ -1,21 +1,25 @@
 'use client';
 
-import { ReactElement, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Button, Scrollbar } from '@/shared/ui';
 
 type Props = {
   description: string;
 };
 
-export const Description = ({ description }: Props): ReactElement => {
+export const Description = ({ description }: Props): ReactNode => {
   const [isShowMore, setIsShowMore] = useState(false);
+
+  if (!description) {
+    return null;
+  }
 
   const handleClick = (): void => {
     setIsShowMore(!isShowMore);
   };
 
-  const visibleDescription = description.slice(0, isShowMore ? undefined : 90);
-  const isLongDescription = description.length > 90;
+  const visibleDescription = description.slice(0, isShowMore ? undefined : 85);
+  const isLongDescription = description.length > 85;
 
   return (
     <Scrollbar>

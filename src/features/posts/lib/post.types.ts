@@ -1,12 +1,19 @@
 import { PixelCrop } from './aspectRatios';
 
 export type PostType = {
-  id: number;
-  userId: number;
+  id: string;
   description: string;
-  photos: string[];
   createdAt: string;
   updatedAt: string;
+  status: boolean;
+  photos: string[];
+  owner: {
+    userId: string;
+    userName: string;
+    avatarUrl: string | null;
+    firstName: string | null;
+    lastName: string | null;
+  };
 };
 
 export type Posts = {

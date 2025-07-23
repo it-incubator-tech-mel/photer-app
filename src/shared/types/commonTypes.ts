@@ -11,6 +11,6 @@ export const isError404 = (error: unknown): error is Error404Type => {
 };
 
 export type User = {
-  userId: number;
+  userId: string;
   email: string;
 };

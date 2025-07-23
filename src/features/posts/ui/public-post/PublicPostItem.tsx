@@ -6,7 +6,6 @@ import { useTimeAgo } from '@/features/posts/hooks/view/useTimePost';
 import { Description } from '@/entities/post/ui/Description';
 import { PostType } from '@/features/posts/lib/post.types';
 import { ReactElement } from 'react';
-import { NewDescription } from '@/entities/TextDescription';
 
 type Props = {
   post: PostType;
@@ -15,14 +14,10 @@ type Props = {
 export const PublicPostItem = async ({
   post,
 }: Props): Promise<ReactElement> => {
-  const user = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/profile/${post.userId}`
-  ).then((res) => res.json());
-
   return (
     <div className="flex h-98 w-58 flex-col">
       <Link
-        href={`/profile/${post.userId}/post/${post.id}`}
+        href={`/profile/${post.owner.userId}/post/${post.id}`}
         className="h-60 shrink-0"
       >
         <Carousel className="relative h-full">
@@ -40,15 +35,16 @@ export const PublicPostItem = async ({
         </Carousel>
       </Link>
 
-      <Link href={`/profile/${post.userId}`}>
-        <AvatarWithName avatarUrl={user.avtarUrl} userName={user.username} />
+      <Link href={`/profile/${post.owner.userId}`}>
+        <AvatarWithName
+          avatarUrl={post.owner.avatarUrl}
+          userName={post.owner.userName}
+        />
       </Link>
 
       <span className="small-text text-light-900">
         {useTimeAgo(post.createdAt)}
       </span>
-
-      {/*<NewDescription text={post.description} />*/}
 
       <Description description={post.description} />
     </div>
