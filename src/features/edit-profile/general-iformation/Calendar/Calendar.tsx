@@ -41,9 +41,9 @@ export const Calendar = ({
       popperPlacement="bottom-start"
       popperClassName="!top-[-30px] "
       calendarStartDay={1} // Устанавливаем начало недели на понедельник
-      dateFormat="dd/MM/yyyy"
       onKeyDown={handleKeyDown}
       onChange={onChange}
+      dateFormat="dd/MM/yyyy"
       {...rest}
       customInput={<Input errorMessage={errorMessage} type="date" />}
       renderCustomHeader={({ date, changeYear, changeMonth }) => {

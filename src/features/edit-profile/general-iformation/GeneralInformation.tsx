@@ -6,6 +6,7 @@ import { Calendar } from './Calendar/Calendar';
 import { CountrySelect } from './CountrySelect';
 import { useProfieGenInfo } from '../hooks/useProfieGenInfo';
 import { ReactNode } from 'react';
+import { convertDateToString, convertStringToDate } from '../lib/genInfoLib';
 
 export const GeneralInformation = (): ReactNode => {
   const {
@@ -19,7 +20,6 @@ export const GeneralInformation = (): ReactNode => {
     isLoading,
     isError,
     isDirty,
-    formatDate,
   } = useProfieGenInfo();
 
   return (
@@ -59,14 +59,17 @@ export const GeneralInformation = (): ReactNode => {
               name="birthDate"
               control={control}
               render={({ field: { onChange, value } }) => {
-                const date = value ? new Date(value) : new Date();
+                const date = convertStringToDate(value);
                 return (
                   <Calendar
                     selected={date}
                     onChange={(date: Date | null) => {
-                      if (date instanceof Date) {
+                      if (date) {
                         const event = {
-                          target: { name: 'birthday', value: formatDate(date) },
+                          target: {
+                            name: 'birthday',
+                            value: convertDateToString(date),
+                          },
                         };
                         onChange(event);
                       }

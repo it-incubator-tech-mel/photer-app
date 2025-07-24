@@ -21,7 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { setGenInfoData } from '../model/genInfoSlice';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { formatDate, isOlderThan13 } from '../lib/genInfoLib';
+import { isOlderThan13 } from '../lib/genInfoLib';
 
 type useProfieGenInfoReturn = {
   handleSubmit: FormEventHandler<HTMLFormElement>;
@@ -36,7 +36,6 @@ type useProfieGenInfoReturn = {
   handleChange: (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  formatDate: (date: Date) => string;
 };
 export const useProfieGenInfo = (): useProfieGenInfoReturn => {
   const [countryCode, setCountryCode] = useState<string>();
@@ -108,6 +107,5 @@ export const useProfieGenInfo = (): useProfieGenInfoReturn => {
     countryCode,
     setCountryCode,
     handleChange,
-    formatDate,
   };
 };
