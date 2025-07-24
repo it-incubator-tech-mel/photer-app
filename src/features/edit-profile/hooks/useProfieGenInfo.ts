@@ -22,6 +22,7 @@ import { setGenInfoData } from '../model/genInfoSlice';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { isOlderThan13 } from '../lib/genInfoLib';
+import { parse } from 'date-fns';
 
 type useProfieGenInfoReturn = {
   handleSubmit: FormEventHandler<HTMLFormElement>;
@@ -76,7 +77,9 @@ export const useProfieGenInfo = (): useProfieGenInfoReturn => {
 
   const onSubmit = async (data: ProfileGenInfoSchema): Promise<void> => {
     if (data.birthDate) {
-      const isOld = isOlderThan13(new Date(data.birthDate));
+      const isOld = isOlderThan13(
+        parse(data.birthDate, 'dd.MM.yyyy', new Date())
+      );
       if (!isOld) {
         router.push('/privacy-policy');
         toast.error('A user under 13 cannot create a profile. Privacy Policy');
