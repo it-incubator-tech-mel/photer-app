@@ -34,7 +34,7 @@ export const usePostModal = ({
     isOwnerPost.current = post?.userId == userId;
   }
   if (profileId) {
-    isOwnerPost.current = post?.userId.toString() === profileId;
+    isOwnerPost.current = String(post?.userId) === profileId;
   }
   const isOwner = isOwnerPost.current;
 
