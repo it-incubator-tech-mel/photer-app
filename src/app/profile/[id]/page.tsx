@@ -2,7 +2,6 @@
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { ReactElement } from 'react';
 import { getUserId } from '@/shared/lib/ssr/getUserId';
-import { PostsListSSR } from '@/widgets/posts';
 
 export default async function SSRProfilePage({
   params,
@@ -17,10 +16,22 @@ export default async function SSRProfilePage({
     isProfileOwner = userId == profileId ? true : false;
   }
 
+  const resToPosts = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/posts/users/${profileId}?pageNumber=1&pageSize=8&sortDirection=desc&sortBy=createdAt`,
+    {
+      cache: 'no-store',
+    }
+  );
+  const posts = await resToPosts.json();
+
   return (
-    <div className={'h-full max-w-7xl px-[24px] pt-9'}>
-      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userId} />
-      <PostsListSSR profileId={profileId} />
+    <div className={'h-full w-full px-[24px] pt-9'}>
+      <ProfileCard
+        profileId={profileId}
+        isOwner={isProfileOwner}
+        isAuthorized={!!userId}
+        posts={posts}
+      />
     </div>
   );
 }

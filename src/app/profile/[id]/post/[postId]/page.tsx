@@ -1,4 +1,3 @@
-// src/app/profile/[id]/post/[postId]/page.tsx
 import { notFound } from 'next/navigation';
 import { PostType } from '@/features/posts/lib/post.types';
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
@@ -34,7 +33,11 @@ export default async function SSRPublicPost({
 
   return (
     <div className={'h-full max-w-7xl px-[24px] pt-9'}>
-      <ProfileCard isOwner={isProfileOwner} isAuthorized={!!userId} />
+      <ProfileCard
+        isOwner={isProfileOwner}
+        isAuthorized={!!userId}
+        profileId={profileId}
+      />
       <WrapPostModalSSR profileId={profileId} post={post} />
     </div>
   );

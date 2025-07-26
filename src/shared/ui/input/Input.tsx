@@ -11,19 +11,25 @@ import {
 import { IconSprite } from '@/shared/ui';
 
 type Props = ComponentProps<'input'> & {
-  type?: 'text' | 'email' | 'password' | 'search' | 'file';
+  type?: 'text' | 'email' | 'password' | 'search' | 'file' | 'date';
   label?: string;
   errorMessage?: string;
   className?: string;
   onSearchClick?: () => void;
   onChangeValue?: (value: string) => void;
   onEnter?: (e: KeyboardEvent<HTMLInputElement>) => void;
+  handleOnBlur?: () => void;
+  handleOnFocus?: () => void;
+  required?: boolean;
+  children?: React.ReactNode;
+  readOnly?: boolean;
 };
 
 export const Input = ({
   type = 'text',
   label,
   errorMessage,
+  required = false,
   className = '',
   onSearchClick,
   disabled = false,
@@ -31,7 +37,11 @@ export const Input = ({
   onChange,
   onChangeValue,
   onEnter,
+  handleOnBlur,
+  handleOnFocus,
   onKeyDown,
+  children,
+  readOnly,
   ...rest
 }: Props): ReactElement => {
   const inputId = useId();
@@ -40,7 +50,7 @@ export const Input = ({
   const [isFocused, setIsFocused] = useState(false);
 
   let inputType = type;
-  if (type === 'password' && !isHidden) {
+  if ((type === 'password' && !isHidden) || type === 'date') {
     inputType = 'text';
   }
 
@@ -73,11 +83,12 @@ export const Input = ({
         <label
           htmlFor={inputId}
           className={cn(
-            'regular-text-14 text-light-900 flex flex-col text-sm leading-6',
+            'regular-text-14 text-light-900 flex text-sm leading-6',
             disabled && 'text-dark-100'
           )}
         >
           {label}
+          {required ? <span className="text-danger-500">*</span> : ''}
         </label>
       )}
       {type === 'search' && (
@@ -107,13 +118,20 @@ export const Input = ({
           type === 'password' && 'pr-10',
           type === 'search' && 'pr-2 pl-10'
         )}
-        onBlur={() => setIsFocused(false)}
-        onFocus={() => setIsFocused(true)}
+        onBlur={() => {
+          setIsFocused(false);
+          handleOnBlur?.();
+        }}
+        onFocus={() => {
+          setIsFocused(true);
+          handleOnFocus?.();
+        }}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
         placeholder={isFocused ? '' : placeholder}
         disabled={disabled}
         {...rest}
+        readOnly={readOnly}
       />
       {type === 'password' && (
         <button
@@ -128,6 +146,13 @@ export const Input = ({
           />
         </button>
       )}
+      {type === 'date' && (
+        <IconSprite
+          iconName={'calendar'}
+          className={'fill-light-100 absolute top-[5px] right-2'}
+        />
+      )}
+      {children}
       {errorMessage && (
         <p className={'text-danger-500 text-regular text-sm leading-6'}>
           {errorMessage}
