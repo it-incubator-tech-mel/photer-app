@@ -7,6 +7,7 @@ import { CountrySelect } from './CountrySelect';
 import { useProfieGenInfo } from '../hooks/useProfieGenInfo';
 import { ReactNode } from 'react';
 import { convertDateToString, convertStringToDate } from '../lib/genInfoLib';
+import { AddAvatar } from './AddAvatar';
 
 export const GeneralInformation = (): ReactNode => {
   const {
@@ -20,6 +21,7 @@ export const GeneralInformation = (): ReactNode => {
     isLoading,
     isError,
     isDirty,
+    avatarUrl,
   } = useProfieGenInfo();
 
   return (
@@ -27,8 +29,7 @@ export const GeneralInformation = (): ReactNode => {
       <form onSubmit={handleSubmit}>
         <div className="flex">
           <div className="flex-1">
-            photo
-            {/* Добавление/обновление фото сюда */}
+            <AddAvatar avatarUrl={avatarUrl} />
           </div>
           <div className="flex-3">
             <Input
@@ -114,7 +115,7 @@ export const GeneralInformation = (): ReactNode => {
         </div>
         <div className="border-dark-300 mt-[24px] flex justify-end border-t-[1px] pt-[24px]">
           <Button type="submit" disabled={!isDirty || isError}>
-            {isLoading ? 'Сохранение...' : 'Сохранить изменения'}
+            {isLoading ? 'Saving...' : 'Save changes'}
           </Button>
         </div>
       </form>

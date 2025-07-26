@@ -32,7 +32,7 @@ export default function RootLayout({
             <Header withLoginBtn={true} />
             <div className="flex w-full">
               <Sidebar />
-              <div className="mx-auto max-w-[1280px]">{children}</div>
+              <div className="mx-auto w-full max-w-[1280px]">{children}</div>
             </div>
           </div>
           <ModalProvider />

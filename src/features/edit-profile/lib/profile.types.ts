@@ -7,7 +7,9 @@ export type ProfileGenIfo = {
   country: string;
   city: string;
   aboutMe: string;
+  avatarUrl: string;
 };
+
 export type Country = {
   cca2: string;
   flags: {
@@ -23,6 +25,11 @@ export type Country = {
   };
   official: string;
 };
+
 export type Cca2Code = {
   cca2: string;
+};
+
+export type UploadAvatarResponse = {
+  fileUrl: string;
 };

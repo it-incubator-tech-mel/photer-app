@@ -37,6 +37,7 @@ type useProfieGenInfoReturn = {
   handleChange: (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  avatarUrl: string | null;
 };
 export const useProfieGenInfo = (): useProfieGenInfoReturn => {
   const [countryCode, setCountryCode] = useState<string>();
@@ -47,6 +48,13 @@ export const useProfieGenInfo = (): useProfieGenInfoReturn => {
   const { data: userInfoFromServer } = useGetCurrentUserQuery();
   const [updateGenInfo] = useUpdateProfileGenInfoMutation();
   const router = useRouter();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (userInfoFromServer) {
+      console.log(userInfoFromServer);
+    }
+  }, [userInfoFromServer]);
 
   const {
     register,
@@ -64,6 +72,7 @@ export const useProfieGenInfo = (): useProfieGenInfoReturn => {
   useEffect(() => {
     if (userInfoFromServer) {
       reset(userInfoFromServer);
+      setAvatarUrl(userInfoFromServer.avatarUrl);
     }
   }, [userInfoFromServer, reset]);
 
@@ -110,5 +119,6 @@ export const useProfieGenInfo = (): useProfieGenInfoReturn => {
     countryCode,
     setCountryCode,
     handleChange,
+    avatarUrl,
   };
 };

@@ -1,4 +1,3 @@
-// src/app/profile/[id]/post/[postId]/page.tsx
 import { notFound } from 'next/navigation';
 import { PostType } from '@/features/posts/lib/post.types';
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';

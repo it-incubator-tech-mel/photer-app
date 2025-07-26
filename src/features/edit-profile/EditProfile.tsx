@@ -4,6 +4,7 @@ import { Devices } from './devices/Devices';
 import { AccountManagement } from './account-management/AccountManagement';
 import { MyPayments } from './my-payments/MyPayments';
 import { ProfileTabs } from './profile-tabs/ProfileTabs';
+import { Button } from '@/shared/ui';
 
 const tabs = [
   'General iformation',
@@ -13,7 +14,8 @@ const tabs = [
 ];
 export type Tabs = typeof tabs;
 
-export const EditProfile = (): ReactNode => {
+type Props = { onClose: () => void };
+export const EditProfile = ({ onClose }: Props): ReactNode => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
 
   const renderTab = (): ReactNode => {
@@ -31,13 +33,21 @@ export const EditProfile = (): ReactNode => {
     }
   };
   return (
-    <div>
+    <div className="flex w-full flex-col">
       <ProfileTabs
         tabs={tabs}
         currentTab={currentTab}
         setCurrentTabAction={setCurrentTab}
       />
       <div className="mt-[24px]">{renderTab()}</div>
+      <Button
+        className="mt-[24px] ml-auto w-[160px]"
+        onClick={() => {
+          onClose();
+        }}
+      >
+        Cancel
+      </Button>
     </div>
   );
 };

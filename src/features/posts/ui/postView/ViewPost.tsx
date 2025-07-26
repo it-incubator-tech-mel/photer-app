@@ -26,19 +26,19 @@ export const ViewPost = ({
       {/* Левая часть — фото со скроллом при необходимости */}
       <div className="flex-1 overflow-y-auto">
         <Carousel className="h-full w-full">
-            {post.photos.map((photo, index) => (
-              <Image
-                key={index}
-                src={photo}
-                alt="Post image"
-                width={800}
-                height={800}
-                unoptimized
-                priority={index === 0}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="h-full w-full object-cover"
-              />
-            ))}
+          {post.photos.map((photo, index) => (
+            <Image
+              key={index}
+              src={photo}
+              alt="Post image"
+              width={800}
+              height={800}
+              unoptimized
+              priority={index === 0}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="h-full w-full object-cover"
+            />
+          ))}
         </Carousel>
       </div>
 

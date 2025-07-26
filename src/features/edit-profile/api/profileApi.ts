@@ -1,5 +1,5 @@
 import { baseApi } from '@/shared/lib/baseApi';
-import { ProfileGenIfo } from '../lib/profile.types';
+import { ProfileGenIfo, UploadAvatarResponse } from '../lib/profile.types';
 import { ProfileGenInfoSchema } from '../general-iformation/genInfoSchema';
 
 export const profileApi = baseApi.injectEndpoints({
@@ -9,6 +9,7 @@ export const profileApi = baseApi.injectEndpoints({
         url: '/profile',
         method: 'GET',
       }),
+      providesTags: ['Profile'],
     }),
     createProfileGenInfo: builder.mutation<ProfileGenIfo, ProfileGenInfoSchema>(
       {
@@ -29,6 +30,16 @@ export const profileApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    uploadAvatar: builder.mutation<string, FormData>({
+      query: (formData) => ({
+        url: '/profile/avatar',
+        method: 'POST',
+        body: formData,
+        formData: true,
+      }),
+      transformResponse: (response: UploadAvatarResponse) => response.fileUrl,
+      invalidatesTags: ['Profile'], // This will refetch profile data after upload
+    }),
   }),
 });
 
@@ -36,4 +47,5 @@ export const {
   useGetCurrentUserQuery,
   useCreateProfileGenInfoMutation,
   useUpdateProfileGenInfoMutation,
+  useUploadAvatarMutation,
 } = profileApi;
