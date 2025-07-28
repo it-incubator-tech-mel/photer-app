@@ -11,9 +11,9 @@ type Props = {
   post: PostType;
 };
 
-export const PublicPostItem = async ({
-  post,
-}: Props): Promise<ReactElement> => {
+export const PublicPostItem = ({ post }: Props): ReactElement => {
+  const timeAgo = useTimeAgo(post.createdAt);
+
   return (
     <div className="flex h-98 w-58 flex-col">
       <Link
@@ -42,9 +42,7 @@ export const PublicPostItem = async ({
         />
       </Link>
 
-      <span className="small-text text-light-900">
-        {useTimeAgo(post.createdAt)}
-      </span>
+      <span className="small-text text-light-900">{timeAgo}</span>
 
       <Description description={post.description} />
     </div>

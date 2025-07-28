@@ -15,7 +15,5 @@ export const WrapPostModalSSR = ({ post, profileId }: Props): ReactElement => {
     router.push(`/profile/${profileId}`);
   };
 
-  return (
-    <PostModal onCloseAction={handleClose} post={post} profileId={profileId} />
-  );
+  return <PostModal onCloseAction={handleClose} post={post} />;
 };

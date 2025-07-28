@@ -56,7 +56,19 @@ export const usePostsList = ({
       );
       dispatch(thunk);
     }
-  }, [dispatch, postsFromCache, ssrPosts, profileId]);
+    if (postsFromCache && profileId !== postsFromCache.items[0].owner.userId) {
+      dispatch(cachedProfilePages(1));
+      dispatch(postsApi.util.invalidateTags(['Posts']));
+      getProfilePosts({ profileId, pageNumber: 1 });
+    }
+  }, [
+    dispatch,
+    postsFromCache,
+    ssrPosts,
+    profileId,
+    pageNumber,
+    getProfilePosts,
+  ]);
 
   const hasMore = posts && posts?.page < posts?.pagesCount;
 

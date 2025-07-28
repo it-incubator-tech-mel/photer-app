@@ -82,6 +82,7 @@ export const postsApi = baseApi.injectEndpoints({
         url: `/posts/${postId}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Posts'],
       async onQueryStarted(postId, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;

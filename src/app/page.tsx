@@ -47,7 +47,7 @@ export default async function HomePage(): Promise<ReactElement> {
   ];
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-4">
+    <main className="flex flex-1 flex-col items-center px-4">
       <Toaster messages={errors} type={'error'} />
       <UsersCount usersCount={usersCount} />
 
