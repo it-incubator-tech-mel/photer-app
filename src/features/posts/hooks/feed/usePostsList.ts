@@ -78,6 +78,7 @@ export const usePostsList = ({
   }, [dispatch, posts, profileId, pageNumber, getProfilePosts]);
 
   useInfiniteScroll({ callback: fetchNewPartPosts, hasMore, triggerRef });
+
   return {
     posts,
     isFetching,
