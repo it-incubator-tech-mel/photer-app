@@ -59,7 +59,7 @@ export function useEditPost({
   };
 
   const handleUpdatePost = (): void => {
-    updatePost({ postId: post.id, description });
+    updatePost({ postId: Number(post.id), description });
     onCloseAction();
   };
 

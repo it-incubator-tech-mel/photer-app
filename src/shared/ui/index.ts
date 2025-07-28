@@ -9,3 +9,4 @@ export { Spinner } from './spinner/Spinner';
 export { Scrollbar } from './scrollbar/Scrollbar';
 export { Carousel } from './carousel/Carousel';
 export { Slider } from './slider/slider';
+export { Toaster } from './toaster/Toaster';

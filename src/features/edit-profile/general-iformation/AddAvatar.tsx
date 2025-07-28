@@ -34,7 +34,6 @@ export const AddAvatar = ({ avatarUrl }: Props): ReactNode => {
     fileInputRef.current?.click();
   };
 
-  console.log(avatarUrl);
   return (
     <div className="flex max-w-[204px] flex-col items-center gap-[24px]">
       <div className="h-[204px] w-[204px] flex-shrink-0 overflow-hidden rounded-full bg-gray-200">

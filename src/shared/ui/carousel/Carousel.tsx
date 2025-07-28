@@ -21,6 +21,7 @@ export const Carousel = ({ children, className }: Props): ReactNode => {
   return (
     <div className={cn('w-full overflow-hidden', className)}>
       <Swiper
+        className={className}
         modules={[Navigation, Pagination]}
         slidesPerView={1}
         navigation={{

@@ -32,6 +32,7 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
     MAX_SYMBOL_COUNT,
   });
 
+  console.log('post', post);
   return (
     <div
       ref={editPostRef}
@@ -58,7 +59,10 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
         </Carousel>
         <div className="flex flex-1 flex-col justify-between px-[24px] pb-[24px]">
           <div>
-            <AvatarWithName />
+            <AvatarWithName
+              avatarUrl={post.owner.avatarUrl}
+              userName={post.owner.userName}
+            />
             <div className="flex flex-col items-end justify-between pb-[32px]">
               <Textarea
                 label="Add publication descriptions"

@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentPropsWithoutRef, ReactElement, ReactNode } from 'react';
+import { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import { cn } from '@/shared/lib/cn';
 
@@ -12,7 +12,7 @@ export type ScrollbarProps = {
   /** maxWidth viewport in pixels */
   maxWidth?: number | string;
   type?: ScrollArea.ScrollAreaProps['type'];
-} & ComponentPropsWithoutRef<'div'>;
+} & ComponentPropsWithRef<'div'>;
 
 export const Scrollbar = ({
   children,

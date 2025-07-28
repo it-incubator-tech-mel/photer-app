@@ -4,17 +4,21 @@ import defaultAvatar from '../../../../public/images/defaultAvatar.png';
 import { ProfileButtons } from '@/widgets/profile-card/profile-buttons/ProfileButtons';
 import { ProfileStats } from '@/entities/profile/ui/ProfileStats';
 import Link from 'next/link';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { EditProfile } from '@/features/edit-profile/EditProfile';
 import { PostsList } from '@/features/posts/ui/postFeed/PostsList';
 import { Posts } from '@/features/posts/lib/post.types';
-import { useGetCurrentUserQuery } from '@/features/edit-profile/api/profileApi';
+import { profileApi } from '@/features/edit-profile/api/profileApi';
+import { RootState, useAppDispatch } from '@/shared/state/store';
+import { useSelector } from 'react-redux';
+import { ProfileGenIfo } from '@/features/edit-profile/lib/profile.types';
 
 type Props = {
   isOwner: boolean;
   isAuthorized: boolean;
   profileId?: string;
   posts?: Posts;
+  profile?: ProfileGenIfo;
 };
 
 export const ProfileCard = ({
@@ -22,9 +26,26 @@ export const ProfileCard = ({
   isAuthorized,
   profileId,
   posts,
+  profile,
 }: Props): ReactElement => {
+  const dispatch = useAppDispatch();
   const [isEditProfile, setIsEditProfile] = useState(false);
-  const { data: user } = useGetCurrentUserQuery();
+
+  const user = useSelector(
+    (state: RootState) =>
+      profileApi.endpoints.getCurrentUser.select()(state).data
+  );
+
+  useEffect(() => {
+    if ((!user && profile) || (profile && user?.id !== profile.id)) {
+      const thunk = profileApi.util.upsertQueryData(
+        'getCurrentUser',
+        undefined,
+        profile
+      );
+      dispatch(thunk);
+    }
+  }, [dispatch, user, profile]);
 
   if (isEditProfile) {
     return <EditProfile onClose={() => setIsEditProfile(false)} />;

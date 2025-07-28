@@ -47,15 +47,15 @@ export const ViewPost = ({
         {/* Верх: шапка, описание, комментарии */}
         <div>
           <div className="border-dark-100 flex justify-between border-b px-6">
-            <AvatarWithName />
+            <AvatarWithName
+              avatarUrl={post.owner.avatarUrl}
+              userName={post.owner.userName}
+            />
             {children}
           </div>
 
           <div className="border-dark-100 flex flex-col gap-4 border-b px-6 pt-4 pb-2">
-            <PostDescription
-              comment={post.description}
-              dateTime={post.updatedAt}
-            />
+            <PostDescription post={post} />
             <ViewComment isAuthorized={isAuthorized} />
             <ViewComment isAuthorized={isAuthorized} />
           </div>

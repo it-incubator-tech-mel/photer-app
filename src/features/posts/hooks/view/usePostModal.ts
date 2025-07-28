@@ -13,7 +13,7 @@ type Props = {
 };
 
 type usePostModalReturn = {
-  userId: number | undefined;
+  userId: string | undefined;
   isOwner: boolean;
   handleDelete: () => Promise<void>;
 };
@@ -21,7 +21,6 @@ type usePostModalReturn = {
 export const usePostModal = ({
   post,
   onCloseAction,
-  profileId,
 }: Props): usePostModalReturn => {
   const [deletePost] = useDeletePostMutation();
   const isOwnerPost = useRef(false);
@@ -31,10 +30,7 @@ export const usePostModal = ({
   );
 
   if (userId) {
-    isOwnerPost.current = post?.userId == userId;
-  }
-  if (profileId) {
-    isOwnerPost.current = String(post?.userId) === profileId;
+    isOwnerPost.current = post?.owner.userId == userId;
   }
   const isOwner = isOwnerPost.current;
 

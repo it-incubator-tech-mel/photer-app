@@ -50,12 +50,6 @@ export const useProfieGenInfo = (): useProfieGenInfoReturn => {
   const router = useRouter();
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (userInfoFromServer) {
-      console.log(userInfoFromServer);
-    }
-  }, [userInfoFromServer]);
-
   const {
     register,
     handleSubmit,

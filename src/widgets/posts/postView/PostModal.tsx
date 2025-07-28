@@ -11,20 +11,14 @@ import { usePostModal } from '@/features/posts/hooks/view/usePostModal';
 type Props = {
   post: PostType;
   onCloseAction: () => void;
-  profileId?: string;
 };
 
-export const PostModal = ({
-  onCloseAction,
-  post,
-  profileId,
-}: Props): ReactNode => {
+export const PostModal = ({ onCloseAction, post }: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
 
   const { userId, isOwner, handleDelete } = usePostModal({
     onCloseAction,
     post,
-    profileId,
   });
 
   return (
