@@ -29,7 +29,8 @@ export const ProfileCard = ({
   profile,
 }: Props): ReactElement => {
   const dispatch = useAppDispatch();
-  const [isEditProfile, setIsEditProfile] = useState(false);
+  const [isEditProfile, setIsEditProfile] = useState(true);
+  // const [isEditProfile, setIsEditProfile] = useState(false);
 
   const user = useSelector(
     (state: RootState) =>

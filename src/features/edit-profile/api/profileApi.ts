@@ -40,6 +40,13 @@ export const profileApi = baseApi.injectEndpoints({
       transformResponse: (response: UploadAvatarResponse) => response.fileUrl,
       invalidatesTags: ['Profile'], // This will refetch profile data after upload
     }),
+    createPaymentSubscription: builder.mutation<void, void>({
+      query: (body) => ({
+        url: '/subscriptions',
+        method: 'POST',
+        body: body,
+      }),
+    }),
   }),
 });
 
@@ -48,4 +55,5 @@ export const {
   useCreateProfileGenInfoMutation,
   useUpdateProfileGenInfoMutation,
   useUploadAvatarMutation,
+  useCreatePaymentSubscriptionMutation,
 } = profileApi;
