@@ -15,8 +15,8 @@ export const AccountManagement = (): ReactNode => {
 
   const isBusiness = watch('account-type') === 'Business';
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: any, type: 'STRIPE' | 'PAYPAL') => {
+    console.log(type, data);
   };
   return (
     <div className="flex flex-col gap-[24px]">
@@ -36,7 +36,7 @@ export const AccountManagement = (): ReactNode => {
         </>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         <div>
           <h3>Account type</h3>
           <Card className="px-[20px] py-[14px]">
@@ -64,7 +64,7 @@ export const AccountManagement = (): ReactNode => {
         </div>
         {isBusiness && (
           <>
-            <div>
+            <div className="mt-[30px]">
               <h3>Your subscription costs:</h3>
               <Card className="px-[20px] py-[14px]">
                 <Controller
@@ -75,7 +75,6 @@ export const AccountManagement = (): ReactNode => {
                       <RadioReusableGroup
                         defaultValue={value}
                         onValueChange={(e) => {
-                          console.log(e);
                           onChange(e);
                         }}
                         options={[
@@ -90,8 +89,12 @@ export const AccountManagement = (): ReactNode => {
                 />
               </Card>
             </div>
-            <div className="flex items-center justify-end gap-[54px]">
-              <button>
+            <div className="mt-[30px] flex items-center justify-end gap-[54px]">
+              <button
+                className="cursor-pointer"
+                type="button"
+                onClick={handleSubmit((data) => onSubmit(data, 'PAYPAL'))}
+              >
                 <IconSprite
                   iconName="paypal"
                   className="fill-dark-500"
@@ -100,12 +103,18 @@ export const AccountManagement = (): ReactNode => {
                 />
               </button>
               or
-              <IconSprite
-                iconName="stripe"
-                className="fill-dark-500"
-                width={96}
-                height={64}
-              />
+              <button
+                className="cursor-pointer"
+                type="button"
+                onClick={handleSubmit((data) => onSubmit(data, 'STRIPE'))}
+              >
+                <IconSprite
+                  iconName="stripe"
+                  className="fill-dark-500"
+                  width={96}
+                  height={64}
+                />
+              </button>
             </div>
           </>
         )}
