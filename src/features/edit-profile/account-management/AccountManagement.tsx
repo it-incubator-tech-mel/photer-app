@@ -2,8 +2,13 @@ import { Checkbox, IconSprite, RadioReusableGroup } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
 import { ReactNode, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useUpdateAutoRenewalMutation } from '../api/profileApi';
 
 export const AccountManagement = (): ReactNode => {
+  // UC-2: Хук для отмены автопродления
+  const [updateAutoRenewal, { isLoading: isUpdatingAutoRenewal }] =
+    useUpdateAutoRenewalMutation();
+
   const {
     handleSubmit,
     watch,
@@ -14,6 +19,28 @@ export const AccountManagement = (): ReactNode => {
   });
 
   const isBusiness = watch('account-type') === 'Business';
+
+  // UC-2: Обработчик отмены автопродления
+  const handleAutoRenewalChange = async (checked: boolean) => {
+    try {
+      console.log('UC-2: Updating auto-renewal to:', checked);
+
+      // Пока бэк не готов - просто логируем
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Mock: Auto-renewal', checked ? 'enabled' : 'cancelled');
+        return;
+      }
+
+      await updateAutoRenewal({
+        subscriptionId: 'mock-subscription-id', // пока мок
+        autoRenewal: checked,
+      }).unwrap();
+
+      console.log('Auto-renewal updated successfully');
+    } catch (error) {
+      console.error('Failed to update auto-renewal:', error);
+    }
+  };
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -32,7 +59,11 @@ export const AccountManagement = (): ReactNode => {
               <span>10.10.2023</span>
             </div>
           </Card>
-          <Checkbox label="Auto-Renewal" />
+          <Checkbox
+            label="Auto-Renewal"
+            onCheckedChange={handleAutoRenewalChange}
+            disabled={isUpdatingAutoRenewal}
+          />
         </>
       )}
 

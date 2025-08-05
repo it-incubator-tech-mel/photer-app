@@ -47,6 +47,17 @@ export const profileApi = baseApi.injectEndpoints({
         body: body,
       }),
     }),
+    // UC-2: Отмена автоматического продления подписки
+    updateAutoRenewal: builder.mutation<
+      void,
+      { subscriptionId: string; autoRenewal: boolean }
+    >({
+      query: ({ subscriptionId, autoRenewal }) => ({
+        url: `/subscriptions/${subscriptionId}/auto-renewal`,
+        method: 'PATCH',
+        body: { autoRenewal },
+      }),
+    }),
   }),
 });
 
@@ -56,4 +67,5 @@ export const {
   useUpdateProfileGenInfoMutation,
   useUploadAvatarMutation,
   useCreatePaymentSubscriptionMutation,
+  useUpdateAutoRenewalMutation,
 } = profileApi;
