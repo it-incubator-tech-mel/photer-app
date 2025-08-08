@@ -18,7 +18,7 @@ export function LogoutButton({
     >
       <div className="flex items-center gap-3">
         <IconSprite iconName="log-out" />
-        {!hideText && <span className="regular-text-14">Logout</span>}
+        {!hideText && <span className="regular-text-14">Log Out</span>}
       </div>
     </Button>
   );
