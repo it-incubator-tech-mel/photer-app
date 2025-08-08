@@ -1,7 +1,10 @@
 import { Checkbox, IconSprite, RadioReusableGroup } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
+import { Modal } from '@/widgets/modal/Modal';
 import { ReactNode, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { ModalNofify } from './ModalNofify';
 
 export const AccountManagement = (): ReactNode => {
   const {
@@ -17,6 +20,7 @@ export const AccountManagement = (): ReactNode => {
 
   const onSubmit = (data: any, type: 'STRIPE' | 'PAYPAL') => {
     console.log(type, data);
+    toast.success('Payment was successful!');
   };
   return (
     <div className="flex flex-col gap-[24px]">
@@ -119,6 +123,7 @@ export const AccountManagement = (): ReactNode => {
           </>
         )}
       </form>
+      <ModalNofify />
     </div>
   );
 };

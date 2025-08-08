@@ -21,6 +21,7 @@ export type ModalProps = {
   title?: string;
   headerContent?: ReactNode;
   showHeader?: boolean;
+  modal?: boolean;
 } & ComponentProps<'div'>;
 
 export const Modal = ({
@@ -33,6 +34,7 @@ export const Modal = ({
   title,
   headerContent,
   showHeader = true,
+  modal = false,
 }: ModalProps): ReactElement => {
   const handleModalClosed = (): void => {
     onClose?.();
@@ -44,7 +46,7 @@ export const Modal = ({
   };
 
   return (
-    <Dialog onOpenChange={handleModalClosed} open={open} modal={false}>
+    <Dialog onOpenChange={handleModalClosed} open={open} modal={modal}>
       {open && (
         <DialogPortal forceMount>
           <DialogOverlay className="fixed inset-0 z-[998] bg-black/50" />
