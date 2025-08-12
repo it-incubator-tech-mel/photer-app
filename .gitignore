@@ -43,3 +43,8 @@ next-env.d.ts
 /.idea/
 
 *storybook.log
+
+# env
+.env
+.env.*
+!.env.example
