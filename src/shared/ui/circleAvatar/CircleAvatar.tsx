@@ -21,8 +21,6 @@ export const CircleAvatar = ({ src, className }: Props): ReactNode => {
         width={36}
         height={36}
         className="h-full w-full object-cover"
-        priority
-        unoptimized
       />
     </div>
   );

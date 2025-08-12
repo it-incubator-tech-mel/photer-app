@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLogoutMutation } from '../api/authApi';
+import { useLogoutMutation } from '../api/authApi.client';
 
 type LogoutReturn = {
   isOpen: boolean;

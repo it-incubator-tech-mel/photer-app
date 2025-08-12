@@ -1,11 +1,11 @@
 'use client';
 import { ReactElement, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi';
 import { ForgotPasswordForm } from '@/features/auth/forgot-password/ui/ForgotPasswordForm';
 import { FormSchemaType } from '@/features/auth/forgot-password/types/forgotPasswordFormSchema';
 import { openModal } from '@/shared/state/slices/modalSlice';
 import { useAppDispatch } from '@/shared/state/store';
+import { usePasswordRecoveryMutation } from '@/features/auth/api/authApi.client';
 
 export type ErrorMessage = {
   field: string;
