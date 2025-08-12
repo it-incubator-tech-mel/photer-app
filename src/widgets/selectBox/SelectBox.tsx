@@ -10,20 +10,14 @@ import { IconSprite } from '@/shared/ui/icon/IconSprite';
 type Props = SelectProps & {
   title?: string;
   className?: string;
-  contentClassName?: string;
   placeholder?: string;
-  showValue?: boolean;
-  iconSize?: number;
 };
 
 export function SelectBox({
   title,
   placeholder,
   className,
-  contentClassName,
   children,
-  showValue = true,
-  iconSize,
   ...props
 }: Props): ReactElement {
   validateChildrenValues(children);
@@ -48,15 +42,13 @@ export function SelectBox({
             className
           )}
         >
-          {showValue && <Select.Value placeholder={placeholder} />}
+          <Select.Value placeholder={placeholder} />
           <Select.Icon>
             <IconSprite
               iconName="arrow-ios-Down-outline"
-              className={cn(
+              className={
                 'fill-light-100 duration-500 ease-in-out group-data-[state=open]:-rotate-180'
-              )}
-              width={iconSize ? iconSize : 24}
-              height={iconSize ? iconSize : 24}
+              }
             />
           </Select.Icon>
         </Select.Trigger>
@@ -65,7 +57,7 @@ export function SelectBox({
           className={cn(
             'bg-dark-500 border-light-100 w-[210px] cursor-pointer rounded-b-[2px] border',
             'border-t-0',
-            contentClassName
+            className
           )}
           position={'popper'}
           onCloseAutoFocus={onCloseHandler}

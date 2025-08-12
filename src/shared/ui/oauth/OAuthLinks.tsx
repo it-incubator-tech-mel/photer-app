@@ -1,3 +1,4 @@
+// src/shared/ui/oauth/OAuthLinks.tsx
 import { ReactElement } from 'react';
 import Link from 'next/link';
 import { IconSprite } from '../icon/IconSprite';

@@ -1,60 +1,35 @@
 // src/app/page.tsx
+import { PostType } from '@/features/posts/types/post.types';
+import { MainFeed } from '@/widgets/main-feed/MainFeed';
 import { ReactElement } from 'react';
-import { UsersCount } from '@/entities/user/ui/UsersCount';
-import { Posts } from '@/features/posts/lib/post.types';
-import { Toaster } from '@/shared/ui';
-import { PublicPostItem } from '@/features/posts/ui/public-post/PublicPostItem';
 
-async function getUsersCount(): Promise<number> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/count`);
-  if (!res.ok) {
-    throw new Error('Failed to fetch users count.');
-  }
-  return res.json();
-}
-
-async function getPosts(): Promise<Posts> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?pageNumber=1&pageSize=4&sortDirection=desc&sortBy=createdAt`
-  );
-  if (!res.ok) {
-    throw new Error('Failed to fetch posts.');
-  }
-  return res.json();
-}
-
-export const revalidate = 60;
+export const revalidate = 60; // ISR: обновлять раз в 60 сек
 
 export default async function HomePage(): Promise<ReactElement> {
-  const usersCountData = getUsersCount();
-  const postsData = getPosts();
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/posts?pageSize=100`, // запрашиваем больше, чтобы точно выбрать 4
+    {
+      // включаем ISR для запроса (опционально, можно и без этого)
+      next: { revalidate: 60 },
+    }
+  );
 
-  const [usersCountResult, postsResult] = await Promise.allSettled([
-    usersCountData,
-    postsData,
-  ]);
+  if (!res.ok) {
+    return <p className="text-light-900 p-6">Ошибка загрузки постов</p>;
+  }
 
-  const usersCount =
-    usersCountResult.status === 'fulfilled' ? usersCountResult.value : 0;
-  const posts =
-    postsResult.status === 'fulfilled' ? postsResult.value.items : [];
+  const data = await res.json();
+  const allPosts: PostType[] = data.items;
 
-  const errors: string[] = [
-    usersCountResult.status === 'rejected'
-      ? usersCountResult.reason.message
-      : null,
-    postsResult.status === 'rejected' ? postsResult.reason.message : null,
-  ];
+  // ограничиваем только 4 постами (можешь заменить на 8, 6, и т.п.)
+  const posts = allPosts.slice(0, 4);
 
   return (
-    <main className="flex flex-1 flex-col items-center px-4">
-      <Toaster messages={errors} type={'error'} />
-      <UsersCount usersCount={usersCount} />
-
-      <div className="mt-9 flex flex-wrap justify-center gap-3">
-        {posts &&
-          posts.map((post) => <PublicPostItem key={post.id} post={post} />)}
-      </div>
+    <main className="flex-1">
+      <h1 className="text-light-100 mb-4 px-6 text-2xl font-bold">
+        Лента постов
+      </h1>
+      <MainFeed posts={posts} />
     </main>
   );
 }
