@@ -2,17 +2,20 @@ import { Button, Checkbox } from '@/shared/ui';
 import { Modal } from '@/widgets/modal/Modal';
 import { useState } from 'react';
 
-type Props = { callback: () => void };
-export const ModalNofify = ({ callback }: Props) => {
-  const [isOpen, setIsOpen] = useState(true);
+type Props = {
+  isOpen: boolean;
+  callback: () => void;
+  onClose: () => void;
+};
+
+export const AcceptRenewalNotify = ({ isOpen, onClose, callback }: Props) => {
   const [isAccepted, setIsAccepted] = useState(false);
   return (
-    // <div className="fixed inset-0 items-center justify-center bg-black/50">
     <div>
       <Modal
         open={isOpen}
         size="sm"
-        onClose={() => setIsOpen(false)}
+        onClose={onClose}
         title="Create payment"
         modal={true}
       >
@@ -29,7 +32,13 @@ export const ModalNofify = ({ callback }: Props) => {
               }
             }}
           />
-          <Button onClick={() => callback()} disabled={!isAccepted}>
+          <Button
+            onClick={() => {
+              callback();
+              setIsAccepted(false);
+            }}
+            disabled={!isAccepted}
+          >
             Ok
           </Button>
         </div>

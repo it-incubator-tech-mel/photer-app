@@ -1,27 +1,25 @@
 import { Checkbox, IconSprite, RadioReusableGroup } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
-import { Modal } from '@/widgets/modal/Modal';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { ModalNofify } from './ModalNofify';
+import { useAccountManagement } from '../hooks/useAccountManagement';
+import { AcceptRenewalNotify } from './AcceptRenewalNotify';
+import { PaymentStatusNotify } from './PaymentStatusNotify';
 
 export const AccountManagement = (): ReactNode => {
   const {
     handleSubmit,
-    watch,
+    onSubmit,
     control,
-    formState: { isDirty, errors },
-  } = useForm({
-    defaultValues: { 'account-type': 'Personal', costs: '10' },
-  });
-
-  const isBusiness = watch('account-type') === 'Business';
-
-  const onSubmit = (data: any, type: 'STRIPE' | 'PAYPAL') => {
-    console.log(type, data);
-    toast.success('Payment was successful!');
-  };
+    isBusiness,
+    handleProviderButton,
+    isLoading,
+    isError,
+    isOpenNotify,
+    handleCloseNotify,
+    paymentStatus,
+    setPaymentStatus,
+  } = useAccountManagement();
   return (
     <div className="flex flex-col gap-[24px]">
       {isBusiness && (
@@ -45,7 +43,7 @@ export const AccountManagement = (): ReactNode => {
           <h3>Account type</h3>
           <Card className="px-[20px] py-[14px]">
             <Controller
-              name="account-type"
+              name="accountType"
               control={control}
               render={({ field: { onChange, value } }) => {
                 return (
@@ -72,7 +70,7 @@ export const AccountManagement = (): ReactNode => {
               <h3>Your subscription costs:</h3>
               <Card className="px-[20px] py-[14px]">
                 <Controller
-                  name="costs"
+                  name="subscriptionPeriod"
                   control={control}
                   render={({ field: { onChange, value } }) => {
                     return (
@@ -82,9 +80,9 @@ export const AccountManagement = (): ReactNode => {
                           onChange(e);
                         }}
                         options={[
-                          { value: 'MONTHLY', label: '$10 per 1 Day' },
+                          { value: 'DAILY', label: '$10 per 1 Day' },
                           { value: 'WEEKLY', label: '$50 per 7 Day' },
-                          { value: 'DAILY', label: '$100 per month' },
+                          { value: 'MONTHLY', label: '$100 per month' },
                         ]}
                         orientation="vertical"
                       />
@@ -97,7 +95,7 @@ export const AccountManagement = (): ReactNode => {
               <button
                 className="cursor-pointer"
                 type="button"
-                onClick={handleSubmit((data) => onSubmit(data, 'PAYPAL'))}
+                onClick={() => handleProviderButton('PAYPAL')}
               >
                 <IconSprite
                   iconName="paypal"
@@ -110,7 +108,7 @@ export const AccountManagement = (): ReactNode => {
               <button
                 className="cursor-pointer"
                 type="button"
-                onClick={handleSubmit((data) => onSubmit(data, 'STRIPE'))}
+                onClick={() => handleProviderButton('STRIPE')}
               >
                 <IconSprite
                   iconName="stripe"
@@ -123,7 +121,15 @@ export const AccountManagement = (): ReactNode => {
           </>
         )}
       </form>
-      <ModalNofify />
+      <AcceptRenewalNotify
+        isOpen={isOpenNotify}
+        onClose={handleCloseNotify}
+        callback={handleSubmit(onSubmit)}
+      />
+      <PaymentStatusNotify
+        status={paymentStatus}
+        onClose={() => setPaymentStatus(null)}
+      />
     </div>
   );
 };

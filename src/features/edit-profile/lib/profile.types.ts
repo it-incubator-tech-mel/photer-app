@@ -33,3 +33,18 @@ export type Cca2Code = {
 export type UploadAvatarResponse = {
   fileUrl: string;
 };
+
+export type PaymentProvider = 'STRIPE' | 'PAYPAL';
+
+type SubscriptionPeriod = 'MONTHLY' | 'WEEKLY' | 'DAILY';
+
+export type PaymentSubscribtionQuery = {
+  subscriptionPeriod: SubscriptionPeriod;
+  paymentProvider: PaymentProvider;
+  baseUrl: string;
+};
+
+export type PaymentFormData = {
+  accountType: 'Personal' | 'Business';
+  subscriptionPeriod: SubscriptionPeriod;
+};

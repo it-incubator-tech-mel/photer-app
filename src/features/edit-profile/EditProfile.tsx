@@ -5,20 +5,27 @@ import { AccountManagement } from './account-management/AccountManagement';
 import { MyPayments } from './my-payments/MyPayments';
 import { ProfileTabs } from './profile-tabs/ProfileTabs';
 import { Button } from '@/shared/ui';
+import { useSearchParams } from 'next/navigation';
+import { tabs } from './lib/commonLib';
 
-const tabs = [
-  'General iformation',
-  'Devices',
-  'Account Management',
-  'My payments',
-];
 export type Tabs = typeof tabs;
 
 type Props = { onClose: () => void };
 export const EditProfile = ({ onClose }: Props): ReactNode => {
-  // const [currentTab, setCurrentTab] = useState(tabs[0]);
-  const [currentTab, setCurrentTab] = useState(tabs[2]);
+  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  // const [currentTab, setCurrentTab] = useState(tabs[2]);
+  const searchParams = useSearchParams();
+  const tab = searchParams.get('tab');
 
+  if (tab) {
+    const targetIndex = tabs
+      .map((t) => t.toLowerCase())
+      .indexOf(tab.toLowerCase());
+
+    if (tabs[targetIndex] !== currentTab) {
+      setCurrentTab(tabs[targetIndex]);
+    }
+  }
   const renderTab = (): ReactNode => {
     switch (currentTab) {
       case 'General iformation':
