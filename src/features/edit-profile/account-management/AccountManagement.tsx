@@ -49,7 +49,6 @@ export const AccountManagement = (): ReactNode => {
                   <RadioReusableGroup
                     defaultValue={value}
                     onValueChange={(e) => {
-                      console.log(e);
                       onChange(e);
                     }}
                     options={[
