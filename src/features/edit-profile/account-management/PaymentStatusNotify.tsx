@@ -1,13 +1,16 @@
 import { Button } from '@/shared/ui';
 import { Modal } from '@/widgets/modal/Modal';
+import { ReactNode } from 'react';
 
 type Props = {
   onClose: () => void;
   status: 'success' | 'error' | null;
 };
 
-export const PaymentStatusNotify = ({ status, onClose }: Props) => {
-  if (!status) return null;
+export const PaymentStatusNotify = ({ status, onClose }: Props): ReactNode => {
+  if (!status) {
+    return null;
+  }
 
   const notifyData = {
     success: {

@@ -31,15 +31,13 @@ export const ProfileCard = ({
   profile,
 }: Props): ReactElement => {
   const dispatch = useAppDispatch();
-  // const [isEditProfile, setIsEditProfile] = useState(true);
   const [isEditProfile, setIsEditProfile] = useState(false);
   const searchParams = useSearchParams();
   const tab = searchParams.get('tab');
 
   if (tab && isOwner && !isEditProfile) {
     const normalizedTabs = tabs.map((t) => t.toLowerCase());
-    // const isTabIncluded = normalizedTabs.includes(tab.toLowerCase());
-    const isTabIncluded = true;
+    const isTabIncluded = normalizedTabs.includes(tab.toLowerCase());
     if (isTabIncluded) {
       setIsEditProfile(true);
     }

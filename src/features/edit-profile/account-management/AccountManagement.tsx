@@ -1,7 +1,7 @@
 import { Checkbox, IconSprite, RadioReusableGroup } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
-import { ReactNode, useRef, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { ReactNode } from 'react';
+import { Controller } from 'react-hook-form';
 import { useAccountManagement } from '../hooks/useAccountManagement';
 import { AcceptRenewalNotify } from './AcceptRenewalNotify';
 import { PaymentStatusNotify } from './PaymentStatusNotify';
@@ -9,29 +9,28 @@ import { PaymentStatusNotify } from './PaymentStatusNotify';
 export const AccountManagement = (): ReactNode => {
   const {
     handleSubmit,
-    onSubmit,
     control,
     isBusiness,
     handleProviderButton,
-    isLoading,
-    isError,
     isOpenNotify,
     handleCloseNotify,
     paymentStatus,
     setPaymentStatus,
+    mySubscription,
   } = useAccountManagement();
+
   return (
     <div className="flex flex-col gap-[24px]">
-      {isBusiness && (
+      {mySubscription.isActive && (
         <>
           <Card className="flex gap-[42px] px-[24px] py-[12px]">
             <div className="flex flex-col gap-[12px]">
               <h4>Expire at</h4>
-              <span>10.10.2023</span>
+              <span>{mySubscription.expiredDate}</span>
             </div>
             <div className="flex flex-col gap-[12px]">
               <h4>Next payment</h4>
-              <span>10.10.2023</span>
+              <span>{mySubscription.paymentDate}</span>
             </div>
           </Card>
           <Checkbox label="Auto-Renewal" />
@@ -124,7 +123,7 @@ export const AccountManagement = (): ReactNode => {
       <AcceptRenewalNotify
         isOpen={isOpenNotify}
         onClose={handleCloseNotify}
-        callback={handleSubmit(onSubmit)}
+        callback={handleSubmit}
       />
       <PaymentStatusNotify
         status={paymentStatus}

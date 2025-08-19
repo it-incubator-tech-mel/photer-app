@@ -1,6 +1,6 @@
 import { Button, Checkbox } from '@/shared/ui';
 import { Modal } from '@/widgets/modal/Modal';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 type Props = {
   isOpen: boolean;
@@ -8,7 +8,11 @@ type Props = {
   onClose: () => void;
 };
 
-export const AcceptRenewalNotify = ({ isOpen, onClose, callback }: Props) => {
+export const AcceptRenewalNotify = ({
+  isOpen,
+  onClose,
+  callback,
+}: Props): ReactNode => {
   const [isAccepted, setIsAccepted] = useState(false);
   return (
     <div>

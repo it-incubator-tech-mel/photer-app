@@ -1,7 +1,9 @@
 import { baseApi } from '@/shared/lib/baseApi';
 import {
-  PaymentFormData,
+  GetPaymentsQuery,
+  GetSubscriptionsResponse,
   PaymentSubscribtionQuery,
+  PaymentSubscribtionResponse,
   ProfileGenIfo,
   UploadAvatarResponse,
 } from '../lib/profile.types';
@@ -45,11 +47,24 @@ export const profileApi = baseApi.injectEndpoints({
       transformResponse: (response: UploadAvatarResponse) => response.fileUrl,
       invalidatesTags: ['Profile'], // This will refetch profile data after upload
     }),
-    createPaymentSubscription: builder.mutation<any, PaymentSubscribtionQuery>({
+    createPaymentSubscription: builder.mutation<
+      PaymentSubscribtionResponse,
+      PaymentSubscribtionQuery
+    >({
       query: (body) => ({
         url: '/subscriptions',
         method: 'POST',
         body: body,
+      }),
+    }),
+    getMySubscriptions: builder.query<
+      GetSubscriptionsResponse,
+      GetPaymentsQuery
+    >({
+      query: (body) => ({
+        url: '/subscriptions/my-payments',
+        method: 'GET',
+        params: body,
       }),
     }),
   }),
@@ -61,4 +76,5 @@ export const {
   useUpdateProfileGenInfoMutation,
   useUploadAvatarMutation,
   useCreatePaymentSubscriptionMutation,
+  useGetMySubscriptionsQuery,
 } = profileApi;
