@@ -62,7 +62,7 @@ export const profileApi = baseApi.injectEndpoints({
       GetPaymentsQuery
     >({
       query: (body) => ({
-        url: '/subscriptions/my-payments',
+        url: '/subscriptions',
         method: 'GET',
         params: body,
       }),

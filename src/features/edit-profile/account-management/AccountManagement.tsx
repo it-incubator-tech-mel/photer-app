@@ -23,16 +23,24 @@ export const AccountManagement = (): ReactNode => {
     <div className="flex flex-col gap-[24px]">
       {mySubscription.isActive && (
         <>
-          <Card className="flex gap-[42px] px-[24px] py-[12px]">
-            <div className="flex flex-col gap-[12px]">
-              <h4>Expire at</h4>
-              <span>{mySubscription.expiredDate}</span>
-            </div>
-            <div className="flex flex-col gap-[12px]">
-              <h4>Next payment</h4>
-              <span>{mySubscription.paymentDate}</span>
-            </div>
-          </Card>
+          {mySubscription.subscriptions.map((subscription) => {
+            if (!subscription.expiredDate || !subscription.paymentDate) {
+              return null;
+            }
+
+            return (
+              <Card className="flex gap-[42px] px-[24px] py-[12px]">
+                <div className="flex flex-col gap-[12px]">
+                  <h4>Expire at</h4>
+                  <span>{subscription.expiredDate}</span>
+                </div>
+                <div className="flex flex-col gap-[12px]">
+                  <h4>Next payment</h4>
+                  <span>{subscription.paymentDate}</span>
+                </div>
+              </Card>
+            );
+          })}
           <Checkbox label="Auto-Renewal" />
         </>
       )}

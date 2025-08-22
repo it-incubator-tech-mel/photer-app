@@ -29,8 +29,7 @@ type UseAccountManagementReturn = {
   setPaymentStatus: (value: 'success' | 'error' | null) => void;
   mySubscription: {
     isActive: boolean;
-    expiredDate: string;
-    paymentDate: string;
+    subscriptions: Array<{ expiredDate: string; paymentDate: string }>;
   };
 };
 
@@ -52,7 +51,7 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
     pageNumber: 1,
     pageSize: 10,
     sortDirection: 'asc',
-    sortBy: 'dateOfPayment',
+    sortBy: 'validUntil',
   });
 
   // Form
@@ -107,27 +106,30 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
     router.replace(`/profile/${userId}?tab=Account%20Management`);
   };
 
-  // Активная подписка
+  // Активные подписки
   const mySubscription = {
     isActive: false,
-    expiredDate: '',
-    paymentDate: '',
+    subscriptions: [
+      {
+        expiredDate: '',
+        paymentDate: '',
+      },
+    ],
   };
 
   if (
     activeSubscription &&
-    'data' in activeSubscription &&
-    activeSubscription.data.items.length
+    'items' in activeSubscription &&
+    activeSubscription.items.length
   ) {
     mySubscription.isActive = true;
-    mySubscription.expiredDate = convertDateToString(
-      convertStringToDate(activeSubscription.data.items[0].dateOfPayment)
-    );
-    mySubscription.paymentDate = convertDateToString(
-      convertStringToDate(
-        activeSubscription.data.items[0].endDateOfSubscription
-      )
-    );
+    activeSubscription.items.forEach((item) => {
+      const subscription = {
+        expiredDate: convertDateToString(convertStringToDate(item.createdAt)),
+        paymentDate: convertDateToString(convertStringToDate(item.validUntil)),
+      };
+      mySubscription.subscriptions.push(subscription);
+    });
   }
 
   return {

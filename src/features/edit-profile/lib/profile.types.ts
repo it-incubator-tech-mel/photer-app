@@ -72,28 +72,28 @@ export type GetPaymentsQuery = {
   pageNumber: number;
   pageSize: number;
   sortDirection: 'asc' | 'desc';
-  sortBy: 'dateOfPayment' | 'EndDateOfSubscription';
+  sortBy: 'createdAt' | 'validUntil';
 };
 
 type Subscription = {
-  dateOfPayment: string;
-  endDateOfSubscription: string;
-  paymentType: PaymentProvider;
-  price: number;
-  subscriptionId: string;
-  subscriptionType: SubscriptionPeriod;
+  id: string;
   userId: string;
+  status: string;
+  accountType: 'PERSONAL' | 'BUSINESS';
+  validUntil: string;
+  autoRenewal: boolean;
+  paymentProvider: PaymentProvider;
+  externalId: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type GetSubscriptionsSuccessResponse = {
-  data: {
-    items: Subscription[];
-    totalCount: number;
-    pagesCount: number;
-    page: number;
-    pageSize: number;
-  };
-  status: string;
+  items: Subscription[];
+  totalCount: number;
+  pagesCount: number;
+  page: number;
+  pageSize: number;
 };
 
 export type GetSubscriptionsResponse =
