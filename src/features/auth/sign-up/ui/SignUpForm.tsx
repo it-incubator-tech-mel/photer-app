@@ -16,7 +16,7 @@ export default function SignUpForm(): React.ReactElement {
   // Следим за значениями полей в реальном времени
   const watchedValues = useWatch({ control: formState.control });
 
-  const isFormValid = () => {
+  const isFormValid = (): boolean => {
     const { username, email, password, confirmPassword, terms } = watchedValues;
 
     if (!username || !email || !password || !confirmPassword || !terms) {
