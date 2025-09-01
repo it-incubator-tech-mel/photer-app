@@ -7,10 +7,29 @@ import { Card } from '@/widgets/card/card';
 import { useSignUpForm } from '../hooks/useSignUpForm';
 import { SignUpPrompt } from './SignUpPrompt';
 import { OAuthLinks } from '@/shared/ui/oauth/OAuthLinks';
+import { useWatch } from 'react-hook-form';
 
 export default function SignUpForm(): React.ReactElement {
   const formState = useSignUpForm();
   const onFormSubmit = formState.handleSubmit(formState.onSubmit);
+
+  // Следим за значениями полей в реальном времени
+  const watchedValues = useWatch({ control: formState.control });
+
+  const isFormValid = (): boolean => {
+    const { username, email, password, confirmPassword, terms } = watchedValues;
+
+    if (!username || !email || !password || !confirmPassword || !terms) {
+      return false;
+    }
+    if (password !== confirmPassword) {
+      return false;
+    }
+    if (username.length < 6 || password.length < 6 || !email.includes('@')) {
+      return false;
+    }
+    return true;
+  };
 
   return (
     <Card className="m-0-auto mt-6 flex min-h-162 w-[378px] flex-col items-center justify-center">
@@ -22,7 +41,7 @@ export default function SignUpForm(): React.ReactElement {
           errors={formState.errors}
           control={formState.control}
         />
-        <SubmitButton isValid={formState.isValid} text={'Sign Up'} />
+        <SubmitButton isValid={isFormValid()} text={'Sign Up'} />
         <SignUpPrompt
           promptText={'Do you have an account?'}
           buttonText={'Sign In'}
