@@ -82,26 +82,11 @@ export const postsApi = baseApi.injectEndpoints({
         url: `/posts/${postId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Posts'],
-      async onQueryStarted(postId, { queryFulfilled, dispatch }) {
-        try {
-          await queryFulfilled;
-          dispatch(
-            postsApi.util.updateQueryData(
-              'getProfilePosts',
-              { profileId: '', pageNumber: 0 },
-              (draft) => {
-                const index = draft.items.findIndex((p) => p.id === postId);
-                if (index !== -1) {
-                  draft.items.splice(index, 1);
-                }
-              }
-            )
-          );
-        } catch (e) {
-          errorHandler(e);
-        }
-      },
+      invalidatesTags: (result, error, postId) => [
+        'Posts',
+        { type: 'Posts', id: postId },
+        { type: 'Posts', id: 'PROFILE_POSTS_LIST' },
+      ],
     }),
 
     getProfilePosts: builder.query<
