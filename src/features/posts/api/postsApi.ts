@@ -57,17 +57,22 @@ export const postsApi = baseApi.injectEndpoints({
           method: 'PATCH',
           body: { description },
         }),
-        invalidatesTags: ['Posts'],
-        // Optimistic update
+        invalidatesTags: (result, error, { postId }) => [
+          'Posts',
+          { type: 'Posts', id: postId },
+          { type: 'Posts', id: 'PROFILE_POSTS_LIST' },
+        ],
         async onQueryStarted(
           { postId, description },
           { dispatch, queryFulfilled }
         ) {
+          // Обновляем кеш отдельного поста (для модалки)
           const patchResult = dispatch(
             postsApi.util.updateQueryData('getPost', postId, (draft) => {
               draft.description = description;
             })
           );
+
           try {
             await queryFulfilled;
           } catch (e) {
