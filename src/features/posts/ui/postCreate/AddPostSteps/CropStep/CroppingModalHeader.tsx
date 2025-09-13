@@ -10,12 +10,14 @@ type CroppingModalHeaderProps = {
   stepToGo: CreationStep;
   stepToBack: CreationStep;
   onNext?: () => void;
+  onClose?: () => void;
 };
 
 export function CroppingModalHeader({
   stepToGo,
   stepToBack,
   onNext,
+  onClose,
 }: CroppingModalHeaderProps): React.ReactElement {
   const dispatch = useAppDispatch();
   const handleNext = (): void => {
@@ -35,9 +37,19 @@ export function CroppingModalHeader({
         <IconSprite iconName={'arrow-ios-back'} width={24} height={24} />
       </Button>
       <h2>Cropping</h2>
-      <Button onClick={handleNext} variant="text">
-        Next
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button onClick={handleNext} variant="text">
+          Next
+        </Button>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="hover:bg-dark-100 focus-visible:bg-dark-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 transition-all duration-100 focus-visible:outline-none"
+          >
+            <IconSprite iconName="close" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
