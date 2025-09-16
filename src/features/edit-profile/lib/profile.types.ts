@@ -33,3 +33,28 @@ export type Cca2Code = {
 export type UploadAvatarResponse = {
   fileUrl: string;
 };
+
+export type MyPaymentsRequest = {
+  pageNumber: number;
+  pageSize: number;
+  sortDirection: 'asc' | 'desc';
+  sortBy: 'dateOfPayment' | 'endDateOfSubscription';
+};
+
+export type SubscriptionItem = {
+  userId: number;
+  subscriptionId: string;
+  dateOfPayment: string;
+  endDateOfSubscription: string;
+  price: number;
+  subscriptionType: string;
+  paymentType: string;
+};
+
+export type MyPaymentsResponse = {
+  items: SubscriptionItem[];
+  totalCount: number;
+  pagesCount: number;
+  page: number;
+  pageSize: number;
+};

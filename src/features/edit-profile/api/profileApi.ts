@@ -1,5 +1,10 @@
 import { baseApi } from '@/shared/lib/baseApi';
-import { ProfileGenIfo, UploadAvatarResponse } from '../lib/profile.types';
+import {
+  MyPaymentsRequest,
+  MyPaymentsResponse,
+  ProfileGenIfo,
+  UploadAvatarResponse,
+} from '../lib/profile.types';
 import { ProfileGenInfoSchema } from '../general-iformation/genInfoSchema';
 
 export const profileApi = baseApi.injectEndpoints({
@@ -40,6 +45,15 @@ export const profileApi = baseApi.injectEndpoints({
       transformResponse: (response: UploadAvatarResponse) => response.fileUrl,
       invalidatesTags: ['Profile'], // This will refetch profile data after upload
     }),
+
+    getMyPayments: builder.query<MyPaymentsResponse, MyPaymentsRequest>({
+      query: (params) => ({
+        url: '/subscriptions/my-payments',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['Profile'], // Assuming payments are related to the profile
+    }),
   }),
 });
 
@@ -48,4 +62,5 @@ export const {
   useCreateProfileGenInfoMutation,
   useUpdateProfileGenInfoMutation,
   useUploadAvatarMutation,
+  useGetMyPaymentsQuery,
 } = profileApi;
