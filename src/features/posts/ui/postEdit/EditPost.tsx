@@ -21,6 +21,7 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
     description,
     openConfirmClose,
     setOpenConfirmClose,
+    isUpdating,
     handleChange,
     confirmChange,
     handleAccept,
@@ -45,16 +46,16 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
         </button>
       </div>
       <div className="flex h-full">
-        <Carousel className="flex-1">
+        <Carousel className="relative flex-1">
           {post.photos.map((photo, index: number) => (
-            <Image
-              src={photo}
-              alt={'Post image'}
-              key={index}
-              width={1000}
-              height={1000}
-              unoptimized
-            />
+            <div key={index} className="relative h-full w-full">
+              <img
+                src={photo}
+                alt={'Post image'}
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
           ))}
         </Carousel>
         <div className="flex flex-1 flex-col justify-between px-[24px] pb-[24px]">
@@ -75,8 +76,12 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
               </span>
             </div>
           </div>
-          <Button onClick={handleUpdatePost} className="ml-auto">
-            Save Change
+          <Button
+            onClick={handleUpdatePost}
+            disabled={isUpdating}
+            className="ml-auto"
+          >
+            {isUpdating ? 'Saving...' : 'Save Changes'}
           </Button>
         </div>
       </div>

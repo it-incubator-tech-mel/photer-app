@@ -1,8 +1,8 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import { getYear } from 'date-fns/getYear';
 import { getMonth } from 'date-fns/getMonth';
-import { SelectBox } from '@/widgets/selectBox/SelectBox';
-import { SelectItem } from '@/widgets/selectBox/SelectItem';
+import { SelectBox } from '@/widgets/SelectBox/SelectBox';
+import { SelectItem } from '@/widgets/SelectBox/SelectItem';
 import { ReactElement } from 'react';
 
 function range(start: number, end: number): number[] {

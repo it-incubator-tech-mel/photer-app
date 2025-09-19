@@ -7,6 +7,7 @@ import { cn } from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button/Button';
 import { Input } from '@/shared/ui/input/Input';
 import { OAuthLinks } from '@/shared/ui/oauth/OAuthLinks';
+import { Spinner } from '@/shared/ui';
 import { Card } from '@/widgets/card/card';
 import Link from 'next/link';
 import { ReactElement } from 'react';
@@ -17,6 +18,7 @@ export default function LogIn(): ReactElement {
     handleSubmit,
     isDirty,
     hasLoginError,
+    loginErrorMessage,
     formErrors,
     isLoading,
   } = useLogInForm();
@@ -29,12 +31,13 @@ export default function LogIn(): ReactElement {
       )}
     >
       <h1 className="h1-text text-center">Sign In</h1>
-      <OAuthLinks />
+      <OAuthLinks data-testid="oauth-links" />
       <div className="mt-6 flex w-full flex-col justify-center align-middle">
         <form onSubmit={handleSubmit} className={'flex flex-col items-end'}>
-          {hasLoginError && (
+          {(hasLoginError || loginErrorMessage) && (
             <p className={'text-danger-500 text-center'}>
-              The email or password are incorrect. Try again please
+              {loginErrorMessage ||
+                'The email or password are incorrect. Try again please'}
             </p>
           )}
           <Input
@@ -50,9 +53,15 @@ export default function LogIn(): ReactElement {
             errorMessage={formErrors.password?.message}
             {...register('password')}
           />
-          <Link href="/forgot-password" className={'text-light-900'}>
-            Forgot Password
-          </Link>
+          <div className="flex w-full justify-between">
+            <Link href="/forgot-password" className={'text-light-900'}>
+              Forgot Password
+            </Link>
+            <Link href="/resend-link" className={'text-light-900'}>
+              Resend Confirmation
+            </Link>
+          </div>
+          {/* Кнопка входа с состоянием загрузки и редиректа */}
           <Button
             className="my-5 w-full"
             type="submit"
@@ -63,7 +72,16 @@ export default function LogIn(): ReactElement {
               !!formErrors.password?.message
             }
           >
-            Sign In
+            {isLoading ? (
+              // Состояние загрузки: спиннер + сообщение (показывается до перехода на профиль)
+              <div className="flex items-center justify-center gap-2">
+                <Spinner data-testid="spinner" size={16} />
+                <span>Вход в систему...</span>
+              </div>
+            ) : (
+              // Обычное состояние: текст кнопки
+              'Sign In'
+            )}
           </Button>
         </form>
         <p className="regular-text-16 text-center">Don’t have an account? </p>

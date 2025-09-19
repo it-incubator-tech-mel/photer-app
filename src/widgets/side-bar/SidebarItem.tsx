@@ -21,7 +21,7 @@ type SidebarItemProps = {
   isSidebarOpen: boolean;
 };
 
-export default function SidebarItem({
+const SidebarItem = React.memo(function SidebarItem({
   title,
   defaultIconName,
   activeIconName,
@@ -37,10 +37,12 @@ export default function SidebarItem({
   const iconAndText = (
     <HoverDiv
       isActive={pathname === path}
-      className={cn('flex w-full items-center gap-5 px-[20px]', {
-        'min-w-[40px] flex-col items-start gap-1 rounded-full px-[12px]':
-          !isSidebarOpen,
-      })}
+      className={cn(
+        'flex w-full px-[20px]',
+        isSidebarOpen
+          ? 'items-center gap-5'
+          : 'min-w-[40px] flex-col items-start gap-1 rounded-full px-[12px]'
+      )}
     >
       <IconSprite
         iconName={isSidebarOpen ? defaultIconName : activeIconName}
@@ -58,20 +60,52 @@ export default function SidebarItem({
     </HoverDiv>
   );
 
-  if (title === 'Profile' && userId) {
-    path = `/profile/${userId}`;
+  // Специальная логика для Profile
+  if (title === 'Profile') {
+    if (userId) {
+      // Если пользователь авторизован - переходим на его профиль
+      path = `/profile/${userId}`;
+    } else {
+      // Если пользователь не авторизован - перенаправляем на Sign In
+      return (
+        <button
+          className="w-full"
+          onClick={() => (window.location.href = '/sign-in')}
+        >
+          {iconAndText}
+        </button>
+      );
+    }
   }
 
+  // Специальная логика для Create - требует авторизации
   if (title === 'Create') {
-    return (
-      <button
-        className="w-full"
-        onClick={() => dispatch(openModal({ type: 'post-create' }))}
-      >
-        {iconAndText}
-      </button>
-    );
+    if (userId) {
+      // Если пользователь авторизован - открываем модал создания поста
+      return (
+        <button
+          className="w-full"
+          onClick={() => dispatch(openModal({ type: 'post-create' }))}
+        >
+          {iconAndText}
+        </button>
+      );
+    } else {
+      // Если пользователь не авторизован - перенаправляем на Sign In
+      return (
+        <button
+          className="w-full"
+          onClick={() => (window.location.href = '/sign-in')}
+        >
+          {iconAndText}
+        </button>
+      );
+    }
   }
 
   return <Link href={path ?? '#'}>{iconAndText}</Link>;
-}
+});
+
+SidebarItem.displayName = 'SidebarItem';
+
+export default SidebarItem;

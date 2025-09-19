@@ -2,13 +2,27 @@ import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '@/shared/state/store';
 import { closeModal } from '@/shared/state/slices/modalSlice';
-import { useCreatePostMutation } from '../../api/postsApi';
-import { goToStep, resetPhotoFilter, resetState } from '../../model/postSlice';
+import {
+  useCreatePostMutation,
+  postsApi,
+  useLazyGetProfilePostsQuery,
+} from '@/features/posts/api/postsApi';
+import { authApi } from '@/features/auth/api/authApi';
+import { errorHandler } from '../../lib/errorHandler';
+import {
+  goToStep,
+  resetPhotoFilter,
+  resetState,
+  setDescription,
+  setTags,
+  setPostCreated,
+} from '../../model/postSlice';
 
 const MAX_DESCRIPTION_LENGTH = 500;
 
 type FormData = {
   description: string;
+  tags: string;
 };
 
 export function usePostDescription(onClose: () => void): {
@@ -24,12 +38,19 @@ export function usePostDescription(onClose: () => void): {
 } {
   const dispatch = useAppDispatch();
   const description = useSelector((state: RootState) => state.post.description);
+  const tags = useSelector((state: RootState) => state.post.tags);
   const photos = useSelector((state: RootState) => state.post.photos);
   const currentIndex = useSelector(
     (state: RootState) => state.post.currentPhotoIndex
   );
 
+  // Получаем profileId из auth state
+  const profileId = useSelector(
+    (state: RootState) => authApi.endpoints.getMe.select()(state).data?.userId
+  );
+
   const [createPost] = useCreatePostMutation();
+  const [getProfilePosts] = useLazyGetProfilePostsQuery();
 
   const {
     register,
@@ -39,6 +60,7 @@ export function usePostDescription(onClose: () => void): {
   } = useForm<FormData>({
     defaultValues: {
       description: description || '',
+      tags: tags?.join(', ') || '',
     },
     mode: 'onChange',
   });
@@ -61,6 +83,16 @@ export function usePostDescription(onClose: () => void): {
         return;
       }
 
+      // Parse tags from comma-separated string
+      const tagsArray = data.tags
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0);
+
+      // Update Redux state
+      dispatch(setDescription(data.description));
+      dispatch(setTags(tagsArray));
+
       for (let i = 0; i < photos.length; i++) {
         const photo = photos[i];
         try {
@@ -71,7 +103,7 @@ export function usePostDescription(onClose: () => void): {
           const file = new File([blob], filename, {
             type: blob.type || 'image/jpeg',
           });
-          formData.append('photos', file);
+          formData.append('files', file);
         } catch (error) {
           console.error(`Error fetching photo ${i}:`, error);
         }
@@ -80,12 +112,42 @@ export function usePostDescription(onClose: () => void): {
       dispatch(closeModal());
 
       formData.append('description', data.description);
+      if (tagsArray.length > 0) {
+        formData.append('tags', JSON.stringify(tagsArray));
+      }
 
       await createPost(formData).unwrap();
+
       dispatch(resetState());
       onClose();
+
+      // Устанавливаем флаг создания поста ПОСЛЕ resetState
+      console.log('Setting postCreated flag to true');
+      dispatch(setPostCreated(true));
+
+      // Принудительно обновляем кэш постов пользователя
+      console.log('Invalidating Posts cache');
+      dispatch(postsApi.util.invalidateTags(['Posts']));
+
+      // Дополнительно обновляем конкретный запрос постов пользователя
+      console.log('Refetching Posts cache');
+      dispatch(postsApi.util.invalidateTags(['Posts']));
+
+      // Принудительно обновляем кэш для конкретного профиля
+      console.log('Invalidating specific profile posts cache');
+      dispatch(
+        postsApi.util.invalidateTags([
+          { type: 'Posts', id: 'PROFILE_POSTS_LIST' },
+        ])
+      );
+
+      // Принудительно запрашиваем обновленные данные
+      if (profileId) {
+        console.log('Force refetching profile posts for profileId:', profileId);
+        getProfilePosts({ profileId, pageNumber: 1 });
+      }
     } catch (error) {
-      console.error('Ошибка:', error);
+      errorHandler(error);
     }
   };
 

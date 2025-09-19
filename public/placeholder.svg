@@ -1,0 +1,6 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#1f2937"/>
+  <path d="M200 150C200 133.431 213.431 120 230 120C246.569 120 260 133.431 260 150C260 166.569 246.569 180 230 180C213.431 180 200 166.569 200 150Z" fill="#6b7280"/>
+  <path d="M150 250C150 235.36 162.36 223 177 223H283C297.64 223 310 235.36 310 250V280C310 294.64 297.64 307 283 307H177C162.36 307 150 294.64 150 280V250Z" fill="#6b7280"/>
+  <text x="200" y="350" text-anchor="middle" fill="#9ca3af" font-family="Arial, sans-serif" font-size="16">Изображение не найдено</text>
+</svg>

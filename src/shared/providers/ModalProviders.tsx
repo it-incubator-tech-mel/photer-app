@@ -19,12 +19,12 @@ export function ModalProvider(): React.ReactElement | null {
 
   return (
     <>
-      {type === 'auth' && (
+      {type === 'auth' && <AuthModal />}
+      {type === 'post-create' && (
         <Modal open={isOpen} onClose={() => dispatch(closeModal())}>
-          <AuthModal {...props} />
+          <PostCreationWizard {...props} />
         </Modal>
       )}
-      {type === 'post-create' && <PostCreationWizard {...props} />}
     </>
   );
 }
