@@ -21,7 +21,14 @@ export const PostModal = ({ onCloseAction, post }: Props): ReactNode => {
   // Получаем актуальные данные поста из кеша
   const { data: currentPost } = useGetPostQuery(Number(post.id));
 
-  const { userId, isOwner, handleDelete } = usePostModal({
+  const {
+    userId,
+    isOwner,
+    handleDelete,
+    showDeleteConfirm,
+    handleConfirmDelete,
+    handleCancelDelete,
+  } = usePostModal({
     onCloseAction,
     post: currentPost || post,
   });
