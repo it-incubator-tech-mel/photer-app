@@ -7,6 +7,7 @@ import { ViewPost } from '@/features/posts';
 import { PostModalWrapper } from '@/features/posts/ui/postView/PostWrapper';
 import { PostType } from '@/features/posts/lib/post.types';
 import { usePostModal } from '@/features/posts/hooks/view/usePostModal';
+import { useGetPostQuery } from '@/features/posts/api/postsApi';
 import { DeletePostModal } from '@/features/posts/ui/postView/DeletePostModal';
 
 type Props = {
@@ -17,6 +18,9 @@ type Props = {
 export const PostModal = ({ onCloseAction, post }: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
 
+  // Получаем актуальные данные поста из кеша
+  const { data: currentPost } = useGetPostQuery(Number(post.id));
+
   const {
     userId,
     isOwner,
@@ -26,13 +30,13 @@ export const PostModal = ({ onCloseAction, post }: Props): ReactNode => {
     handleCancelDelete,
   } = usePostModal({
     onCloseAction,
-    post,
+    post: currentPost || post,
   });
 
   return (
     <PostModalWrapper onCloseAction={onCloseAction}>
       {!isEdit ? (
-        <ViewPost isAuthorized={!!userId} post={post}>
+        <ViewPost isAuthorized={!!userId} post={currentPost || post}>
           {isOwner && (
             <EllipsisMenu
               menuItems={[
@@ -53,7 +57,10 @@ export const PostModal = ({ onCloseAction, post }: Props): ReactNode => {
           )}
         </ViewPost>
       ) : (
-        <EditPost post={post} onCloseAction={() => setIsEdit(false)} />
+        <EditPost
+          post={currentPost || post}
+          onCloseAction={() => setIsEdit(false)}
+        />
       )}
 
       <DeletePostModal

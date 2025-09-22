@@ -58,9 +58,13 @@ export function useEditPost({
     setOpenConfirmClose(false);
   };
 
-  const handleUpdatePost = (): void => {
-    updatePost({ postId: Number(post.id), description });
-    onCloseAction();
+  const handleUpdatePost = async (): Promise<void> => {
+    try {
+      await updatePost({ postId: Number(post.id), description }).unwrap();
+      onCloseAction();
+    } catch (error) {
+      console.error('Failed to update post:', error);
+    }
   };
 
   const handleClickOutside = useCallback(
