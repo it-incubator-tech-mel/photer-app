@@ -56,6 +56,7 @@ export const Modal = ({
             )}
             forceMount
             aria-describedby={undefined}
+            data-testid="confirm-dialog"
           >
             <DialogTitle className="sr-only">
               {title || 'Modal dialog'}

@@ -6,7 +6,7 @@ import { PostInfo } from './PostInfo';
 import { AddComment } from './AddComment';
 import { AvatarWithName } from './AvatarWithName';
 import { PostDescription } from './PostDescription';
-import { ViewComment } from './ViewComment';
+import { CommentsList } from './CommentsList';
 import { Carousel } from '@/shared/ui/carousel/Carousel';
 import { PostType } from '../../lib/post.types';
 
@@ -23,6 +23,12 @@ export const ViewPost = ({
   isAuthorized,
   isOwner,
 }: Props): ReactNode => {
+  // Debug logging for ViewPost
+  console.log('=== VIEW POST DEBUG ===', {
+    postId: post.id,
+    description: post.description,
+    timestamp: new Date().toISOString(),
+  });
   return (
     <div className="bg-dark-300 border-dark-100 flex h-full w-full overflow-hidden">
       {/* Левая часть — фото со скроллом при необходимости */}
@@ -64,15 +70,14 @@ export const ViewPost = ({
 
           <div className="border-dark-100 flex flex-col gap-4 border-b px-6 pt-4 pb-2">
             <PostDescription post={post} />
-            <ViewComment isAuthorized={isAuthorized} />
-            <ViewComment isAuthorized={isAuthorized} />
+            <CommentsList postId={post.id} isAuthorized={isAuthorized} />
           </div>
         </div>
 
         {/* Низ: инфо + форма добавления комментария */}
         <div className="border-dark-100 flex flex-col pt-4">
           <PostInfo createdDate={post.createdAt} isAuthorized={isAuthorized} />
-          {isOwner && <AddComment />}
+          {isOwner && <AddComment postId={post.id} />}
         </div>
       </div>
     </div>

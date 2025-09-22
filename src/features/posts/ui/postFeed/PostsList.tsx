@@ -24,9 +24,34 @@ export const PostsList = ({
       profileId,
     }
   );
+
+  // Добавляем детальное логирование PostsList
+  console.log('=== POSTS LIST DEBUG ===', {
+    profileId,
+    ssrPosts: ssrPosts
+      ? {
+          itemsCount: ssrPosts.items?.length || 0,
+          totalCount: ssrPosts.totalCount,
+          hasItems: !!(ssrPosts.items && ssrPosts.items.length > 0),
+          firstPost: ssrPosts.items?.[0],
+        }
+      : null,
+    posts: posts
+      ? {
+          itemsCount: posts.items?.length || 0,
+          totalCount: posts.totalCount,
+          hasItems: !!(posts.items && posts.items.length > 0),
+          firstPost: posts.items?.[0],
+        }
+      : null,
+    isFetching,
+    error,
+    hasMore,
+    timestamp: new Date().toISOString(),
+  });
   const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
 
-  const { data: fetchedPost } = useGetPostQuery(postId, {
+  const { data: fetchedPost } = useGetPostQuery(Number(postId), {
     skip: !postId || (posts?.items && posts.items.some((p) => p.id === postId)),
   });
 
@@ -45,23 +70,21 @@ export const PostsList = ({
     setSelectedPost(null);
   };
 
-  const handlePostUpdated = (updatedPost: PostType): void => {
-    console.log('🔄 [POSTS LIST] Post updated, updating selected post', {
-      postId: updatedPost.id,
-      oldDescription: selectedPost?.description,
-      newDescription: updatedPost.description,
-      timestamp: new Date().toISOString(),
-    });
-    setSelectedPost(updatedPost);
-  };
-
   return (
     <div className="mt-12 flex flex-col">
       <div className="flex flex-wrap justify-center gap-[12px]">
         {posts?.items &&
         Array.isArray(posts.items) &&
         posts.items.length > 0 ? (
-          posts.items.map((post) => <PostItem key={post.id} post={post} />)
+          posts.items.map((post) => {
+            // Debug logging for PostsList -> PostItem
+            console.log('=== POSTS LIST -> POST ITEM DEBUG ===', {
+              postId: post.id,
+              description: post.description,
+              timestamp: new Date().toISOString(),
+            });
+            return <PostItem key={post.id} post={post} />;
+          })
         ) : (
           <div className="py-8 text-center">
             <p className="text-lg font-medium text-gray-400">No posts found</p>
@@ -89,11 +112,7 @@ export const PostsList = ({
         {isFetching ? 'Загрузка...' : hasMore ? 'Прокрути вниз 👇' : 'Конец 🎉'}
       </div>
       {selectedPost && (
-        <PostModal
-          post={selectedPost}
-          onCloseAction={handleCloseModal}
-          onPostUpdated={handlePostUpdated}
-        />
+        <PostModal post={selectedPost} onCloseAction={handleCloseModal} />
       )}
     </div>
   );

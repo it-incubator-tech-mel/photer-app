@@ -13,35 +13,48 @@ const MAX_SYMBOL_COUNT = 500;
 type Props = {
   post: PostType;
   onCloseAction: () => void;
+  onPostUpdated?: (updatedPost: PostType) => void;
 };
 
-export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
+export const EditPost = ({ post, onCloseAction, onPostUpdated }: Props): ReactNode => {
   const {
     editPostRef,
     description,
     openConfirmClose,
     setOpenConfirmClose,
-    isUpdating,
     handleChange,
     confirmChange,
     handleAccept,
     handleDecline,
     handleUpdatePost,
+    isUpdating,
+    hasChanges,
   } = useEditPost({
     post,
     onCloseAction,
+    onPostUpdated,
     MAX_SYMBOL_COUNT,
   });
 
-  console.log('post', post);
+  // Debug logging for EditPost
+  console.log('=== EDIT POST COMPONENT DEBUG ===', {
+    postId: post.id,
+    description: post.description,
+    timestamp: new Date().toISOString(),
+  });
   return (
     <div
       ref={editPostRef}
       className="bg-dark-300 border-dark-100 flex w-full flex-col rounded-[2px] border-[1px]"
+      data-testid="edit-post-modal"
     >
       <div className="border-dark-100 flex justify-between border-b-[1px] px-[24px] py-[12px]">
         <h2 className="text-light-100 text-[20px] font-bold">Edit Post</h2>
-        <button onClick={confirmChange} className="outline-none">
+        <button
+          onClick={confirmChange}
+          className="outline-none"
+          data-testid="edit-close-button"
+        >
           <IconSprite iconName="close" />
         </button>
       </div>
@@ -70,6 +83,8 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
                 value={description ? description : ''}
                 onValueChange={handleChange}
                 className="w-full"
+                data-testid="edit-description"
+                data-cy="edit-description-textarea"
               />
               <span className="text-light-900">
                 {description ? description.length : 0}/{MAX_SYMBOL_COUNT}
@@ -78,8 +93,8 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
           </div>
           <Button
             onClick={handleUpdatePost}
-            disabled={isUpdating}
             className="ml-auto"
+            disabled={!hasChanges || isUpdating}
           >
             {isUpdating ? 'Saving...' : 'Save Changes'}
           </Button>

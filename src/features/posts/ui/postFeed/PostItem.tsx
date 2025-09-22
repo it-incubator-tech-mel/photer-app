@@ -10,28 +10,35 @@ type Props = {
 
 export const PostItem = ({ post }: Props): ReactElement => {
   const [isOpenPost, setIsOpenPost] = useState(false);
-  const [currentPost, setCurrentPost] = useState<PostType>(post);
 
-  const handlePostUpdated = (updatedPost: PostType): void => {
-    console.log('🔄 [POST ITEM] Post updated, updating local state', {
-      postId: updatedPost.id,
-      oldDescription: currentPost.description,
-      newDescription: updatedPost.description,
-      timestamp: new Date().toISOString(),
-    });
-    setCurrentPost(updatedPost);
-  };
+  // Логирование данных поста
+  console.log('=== POST ITEM DEBUG ===', {
+    postId: post.id,
+    hasPhotos: !!(post.photos && post.photos.length > 0),
+    photosCount: post.photos?.length || 0,
+    firstPhoto: post.photos?.[0],
+    photosArray: post.photos,
+    timestamp: new Date().toISOString(),
+  });
 
   return (
     <>
+      {/* Debug logging for PostItem -> PostModal */}
+      {isOpenPost &&
+        console.log('=== POST ITEM -> POST MODAL DEBUG ===', {
+          postId: post.id,
+          description: post.description,
+          timestamp: new Date().toISOString(),
+        })}
       <div
         className={'relative h-57 w-[250px]'}
         onClick={() => setIsOpenPost(true)}
+        data-testid="post-item"
       >
-        {currentPost.photos.length > 0 ? (
+        {post.photos.length > 0 ? (
           <div className="relative h-full w-full">
             <img
-              src={currentPost.photos[0]}
+              src={post.photos[0]}
               alt={'post image'}
               className="absolute inset-0 h-full w-full object-cover"
               style={{ width: '100%', height: '100%' }}
@@ -44,11 +51,7 @@ export const PostItem = ({ post }: Props): ReactElement => {
         )}
       </div>
       {isOpenPost && (
-        <PostModal
-          post={currentPost}
-          onCloseAction={() => setIsOpenPost(false)}
-          onPostUpdated={handlePostUpdated}
-        />
+        <PostModal post={post} onCloseAction={() => setIsOpenPost(false)} />
       )}
     </>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { EditPost } from '@/features/posts/ui/postEdit/EditPost';
 import { EllipsisMenu } from '@/features/posts/ui/postView/EllipsisMenu';
 import { ViewPost } from '@/features/posts';
@@ -12,53 +12,77 @@ import { useGetPostQuery } from '@/features/posts/api/postsApi';
 type Props = {
   post: PostType;
   onCloseAction: () => void;
-  onPostUpdated?: (updatedPost: PostType) => void;
 };
 
-export const PostModal = ({
-  onCloseAction,
-  post,
-  onPostUpdated,
-}: Props): ReactNode => {
+export const PostModal = ({ onCloseAction, post }: Props): ReactNode => {
   const [isEdit, setIsEdit] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0); // Force re-render when needed
 
-  // Используем RTK Query для получения актуальных данных поста
-  const { data: currentPost } = useGetPostQuery(post.id, {
-    skip: !post.id,
+  // Fetch the latest post data from cache to reflect any updates
+  // Use post.id as string (CUID format)
+  const { data: latestPost, refetch } = useGetPostQuery(post.id, {
+    // Force refetch when cache is invalidated
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
   });
 
-  // Используем актуальные данные поста или исходные
-  const displayPost = currentPost || post;
+  // Force refetch when component mounts or post changes
+  useEffect(() => {
+    console.log('=== FORCING REFETCH ON MOUNT ===', { postId: post.id });
+    refetch();
+  }, [post.id, refetch]);
 
-  const { userId, isOwner, handleDelete } = usePostModal({
-    onCloseAction,
-    post: displayPost,
-  });
+  // Always use the latest post data from RTK Query, fallback to prop only if no query data
+  const currentPost = latestPost || post;
 
-  console.log('📋 [POST MODAL] Render state', {
-    isEdit,
-    userId,
-    isOwner,
-    postId: displayPost.id,
-    postOwnerId: displayPost.owner.userId,
-    showEditButton: isOwner && !isEdit,
-    hasCurrentPost: !!currentPost,
-    description: displayPost.description,
+  // Debug logging for PostModal
+  console.log('=== POST MODAL DEBUG ===', {
+    postId: post.id,
+    hasLatestPost: !!latestPost,
+    propDescription: post.description,
+    latestDescription: latestPost?.description,
+    currentDescription: currentPost?.description,
     timestamp: new Date().toISOString(),
   });
 
-  const handleEditClose = (): void => {
-    setIsEdit(false);
-    // После завершения редактирования, уведомляем родителя об обновлении
-    if (onPostUpdated && currentPost) {
-      onPostUpdated(currentPost);
-    }
+  // Function to handle post update from EditPost component
+  const handlePostUpdated = (updatedPost: PostType) => {
+    console.log('=== HANDLE POST UPDATED DEBUG ===', {
+      postId: updatedPost.id,
+      newDescription: updatedPost.description,
+      timestamp: new Date().toISOString(),
+    });
+
+    // Update the local post data immediately
+    // This will cause re-render with new data
+    setRefreshKey((prev) => prev + 1);
   };
 
+  // Function to handle closing edit mode and refresh data
+  const handleCloseEdit = () => {
+    console.log('=== HANDLE CLOSE EDIT DEBUG ===', {
+      postId: post.id,
+      currentDescription: currentPost?.description,
+      timestamp: new Date().toISOString(),
+    });
+    setIsEdit(false);
+    // Force refetch to get latest data after editing
+    console.log('Forcing refetch after edit for post:', post.id);
+    refetch();
+    // Force re-render to ensure UI updates
+    setRefreshKey((prev) => prev + 1);
+  };
+
+  const { userId, isOwner, handleDelete } = usePostModal({
+    onCloseAction,
+    post: currentPost,
+  });
+
   return (
-    <PostModalWrapper onCloseAction={onCloseAction}>
+    <PostModalWrapper key={refreshKey} onCloseAction={onCloseAction}>
       {!isEdit ? (
-        <ViewPost isAuthorized={!!userId} post={displayPost} isOwner={isOwner}>
+        <ViewPost isAuthorized={!!userId} post={currentPost} isOwner={isOwner}>
           {isOwner && (
             <EllipsisMenu
               menuItems={[
@@ -79,7 +103,11 @@ export const PostModal = ({
           )}
         </ViewPost>
       ) : (
-        <EditPost post={displayPost} onCloseAction={handleEditClose} />
+        <EditPost
+          post={currentPost}
+          onCloseAction={handleCloseEdit}
+          onPostUpdated={handlePostUpdated}
+        />
       )}
     </PostModalWrapper>
   );
