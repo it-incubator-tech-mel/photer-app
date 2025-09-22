@@ -25,7 +25,7 @@ export const usePostModal = ({
   post,
   onCloseAction,
 }: Props): usePostModalReturn => {
-  const [deletePost, { isLoading: isDeletingPost }] = useDeletePostMutation();
+  const [deletePost] = useDeletePostMutation();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const isOwnerPost = useRef(false);
 
