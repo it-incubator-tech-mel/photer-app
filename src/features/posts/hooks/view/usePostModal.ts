@@ -3,7 +3,7 @@ import { useDeletePostMutation } from '@/features/posts/api/postsApi';
 import { errorHandler } from '@/features/posts/lib/errorHandler';
 import { PostType } from '@/features/posts/lib/post.types';
 import { RootState } from '@/shared/state/store';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 type Props = {
@@ -15,7 +15,10 @@ type Props = {
 type usePostModalReturn = {
   userId: string | undefined;
   isOwner: boolean;
-  handleDelete: () => Promise<void>;
+  handleDelete: () => void;
+  showDeleteConfirm: boolean;
+  handleConfirmDelete: () => Promise<void>;
+  handleCancelDelete: () => void;
 };
 
 export const usePostModal = ({
@@ -23,6 +26,7 @@ export const usePostModal = ({
   onCloseAction,
 }: Props): usePostModalReturn => {
   const [deletePost] = useDeletePostMutation();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const isOwnerPost = useRef(false);
 
   const userId = useSelector(
@@ -34,17 +38,30 @@ export const usePostModal = ({
   }
   const isOwner = isOwnerPost.current;
 
-  const handleDelete = async (): Promise<void> => {
+  const handleDelete = (): void => {
+    setShowDeleteConfirm(true);
+  };
+
+  const handleConfirmDelete = async (): Promise<void> => {
     try {
-      deletePost(post.id).unwrap();
+      await deletePost(post.id).unwrap();
+      setShowDeleteConfirm(false);
       onCloseAction();
     } catch (e) {
       errorHandler(e);
     }
   };
+
+  const handleCancelDelete = (): void => {
+    setShowDeleteConfirm(false);
+  };
+
   return {
     userId,
     isOwner,
     handleDelete,
+    showDeleteConfirm,
+    handleConfirmDelete,
+    handleCancelDelete,
   };
 };
