@@ -12,7 +12,7 @@ export function UploadStep({
   const { handleFileChange } = useUploadPhotos();
 
   return (
-    <Modal open onClose={onCloseAction}>
+    <Modal open onClose={onCloseAction} disableOutsideClick>
       <div className="flex flex-col items-center gap-4">
         <Card className="flex min-h-[220px] min-w-[220px] items-center justify-center">
           <IconSprite iconName={'image-outline'} width={48} height={48} />

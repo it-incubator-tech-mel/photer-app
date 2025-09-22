@@ -33,11 +33,13 @@ export function FiltersStep({
           onNext={handleNext}
           disabled={false}
           title="Filters"
+          onClose={onCloseAction}
         />
       }
       size="md"
       open={true}
-      showCloseButton={false}
+      showCloseButton={true}
+      disableOutsideClick
     >
       <div className="flex flex-col items-center">
         <PhotoPreviewWithNav

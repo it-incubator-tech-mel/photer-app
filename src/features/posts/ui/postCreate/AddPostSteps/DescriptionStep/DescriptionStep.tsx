@@ -38,11 +38,13 @@ export function DescriptionStep({
           disabled={!isValid || !isDescriptionValid}
           title="Publication"
           text={'Publish'}
+          onClose={onCloseAction}
         />
       }
       size="md"
       open
-      showCloseButton={false}
+      showCloseButton={true}
+      disableOutsideClick
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <PhotoPreviewWithNav

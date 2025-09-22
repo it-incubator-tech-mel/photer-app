@@ -8,6 +8,7 @@ import { PostModalWrapper } from '@/features/posts/ui/postView/PostWrapper';
 import { PostType } from '@/features/posts/lib/post.types';
 import { usePostModal } from '@/features/posts/hooks/view/usePostModal';
 import { useGetPostQuery } from '@/features/posts/api/postsApi';
+import { DeletePostModal } from '@/features/posts/ui/postView/DeletePostModal';
 
 type Props = {
   post: PostType;
@@ -54,6 +55,12 @@ export const PostModal = ({ onCloseAction, post }: Props): ReactNode => {
           onCloseAction={() => setIsEdit(false)}
         />
       )}
+
+      <DeletePostModal
+        open={showDeleteConfirm}
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </PostModalWrapper>
   );
 };
