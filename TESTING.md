@@ -209,13 +209,13 @@ tests/
 
 ### 🎯 Обязательные метрики качества
 
-| Категория | Минимум | Цель | Статус |
-|-----------|---------|------|--------|
-| **Покрытие кода** | 85% | 90% | 🔄 В процессе |
-| **E2E стабильность** | 95% | 99% | ❌ Требует исправления |
-| **Производительность** | < 100ms | < 50ms | ✅ Соответствует |
-| **Доступность** | WCAG AA | WCAG AAA | 🆕 Новое |
-| **API интеграция** | 100% | 100% | 🆕 Новое |
+| Категория              | Минимум | Цель     | Статус                 |
+| ---------------------- | ------- | -------- | ---------------------- |
+| **Покрытие кода**      | 85%     | 90%      | 🔄 В процессе          |
+| **E2E стабильность**   | 95%     | 99%      | ❌ Требует исправления |
+| **Производительность** | < 100ms | < 50ms   | ✅ Соответствует       |
+| **Доступность**        | WCAG AA | WCAG AAA | 🆕 Новое               |
+| **API интеграция**     | 100%    | 100%     | 🆕 Новое               |
 
 ### ✅ Текущее покрытие (обновлено)
 
@@ -475,7 +475,7 @@ function calculateTotal(items) {
 
 // ✅ Тесты остаются теми же!
 test('should calculate total price', () => {
-  expect(calculateTotal([{price: 10}, {price: 20}])).toBe(30);
+  expect(calculateTotal([{ price: 10 }, { price: 20 }])).toBe(30);
 });
 ```
 
@@ -661,12 +661,15 @@ expect(component.state.error).toBe('message');
 ## Изменения в версии X.X.X
 
 ### 🆕 Новая функциональность
+
 - Добавлена валидация email в форме входа
 
 ### 🔄 Изменения API
+
 - `formatPrice()` теперь принимает `currency` параметр
 
 ### 🐛 Исправления
+
 - Исправлена ошибка округления цен
 ```
 
@@ -674,7 +677,7 @@ expect(component.state.error).toBe('message');
 
 ### 🚨 **8. ПРАВИЛО БОЛЬШОГО ПАЛЬЦА**
 
-> *"Если изменение ломает существующие тесты - либо это баг в вашем коде, либо нужно обновить спецификацию (тесты)"*
+> _"Если изменение ломает существующие тесты - либо это баг в вашем коде, либо нужно обновить спецификацию (тесты)"_
 
 **Тесты должны помогать разработке, а не мешать ей!** 🧪✨
 
@@ -769,12 +772,12 @@ pnpm build
 
 ### 🔄 **Continuous Integration Quality Gates:**
 
-| Этап | Проверки | Критерий прохождения |
-|------|----------|---------------------|
-| **Pre-commit** | Lint + Types + Unit | ✅ Все проходят |
-| **PR Created** | Full Quality Suite | ✅ 95% тестов проходят |
-| **Before Merge** | E2E + Visual + Performance | ✅ 100% критических |
-| **After Merge** | Regression Suite | ✅ Мониторинг метрик |
+| Этап             | Проверки                   | Критерий прохождения   |
+| ---------------- | -------------------------- | ---------------------- |
+| **Pre-commit**   | Lint + Types + Unit        | ✅ Все проходят        |
+| **PR Created**   | Full Quality Suite         | ✅ 95% тестов проходят |
+| **Before Merge** | E2E + Visual + Performance | ✅ 100% критических    |
+| **After Merge**  | Regression Suite           | ✅ Мониторинг метрик   |
 
 ### 🎯 **Регрессионное тестирование:**
 
@@ -858,15 +861,16 @@ coverageThreshold: {
 
 ```typescript
 // В HomePage (page.tsx) - ДО:
-description: `Фото пользователя ${userData.userName}`
+description: `Фото пользователя ${userData.userName}`;
 
 // ПОСЛЕ:
-const sortedPosts = userData.posts.sort((a, b) =>
-  new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+const sortedPosts = userData.posts.sort(
+  (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 );
-const lastPostDescription = sortedPosts.length > 0
-  ? sortedPosts[0].description
-  : `Фото пользователя ${userData.userName}`;
+const lastPostDescription =
+  sortedPosts.length > 0
+    ? sortedPosts[0].description
+    : `Фото пользователя ${userData.userName}`;
 description: lastPostDescription;
 ```
 
@@ -915,7 +919,8 @@ description: lastPostDescription;
 
 ```typescript
 // В PostModal.tsx - пропуск запросов для виртуальных постов с главной страницы:
-const isVirtualPostFromMainPage = post.id.startsWith('virtual-') && !post.id.includes('profile');
+const isVirtualPostFromMainPage =
+  post.id.startsWith('virtual-') && !post.id.includes('profile');
 const { data: latestPost, refetch } = useGetPostQuery(post.id, {
   skip: isVirtualPostFromMainPage, // Пропускаем запрос
 });
@@ -1004,12 +1009,16 @@ useEffect(() => {
 
 ```typescript
 // Тест виртуальных постов на главной странице
-test('should display virtual posts with actual descriptions', async ({ page }) => {
+test('should display virtual posts with actual descriptions', async ({
+  page,
+}) => {
   // Проверяет, что виртуальные посты показывают описание последнего поста
 });
 
 // Тест блокировки редактирования виртуальных постов
-test('should not allow editing virtual posts from main page', async ({ page }) => {
+test('should not allow editing virtual posts from main page', async ({
+  page,
+}) => {
   // Проверяет, что кнопка редактирования скрыта для виртуальных постов
 });
 ```
@@ -1018,13 +1027,13 @@ test('should not allow editing virtual posts from main page', async ({ page }) =
 
 #### **📊 Метрики качества после изменений**
 
-| Метрика | До изменений | После изменений |
-|---------|-------------|------------------|
-| **Время загрузки главной страницы** | ~2.1 сек | ~1.9 сек (-10%) |
-| **Количество ошибок React** | 3-5 на сессию | 0 |
-| **API запросы на главную** | 50+ (с ошибками) | 25 (-50%) |
-| **Покрытие тестами** | 68% | 85% (+25%) |
-| **Время выполнения E2E** | 95 сек | 78 сек (-18%) |
+| Метрика                             | До изменений     | После изменений |
+| ----------------------------------- | ---------------- | --------------- |
+| **Время загрузки главной страницы** | ~2.1 сек         | ~1.9 сек (-10%) |
+| **Количество ошибок React**         | 3-5 на сессию    | 0               |
+| **API запросы на главную**          | 50+ (с ошибками) | 25 (-50%)       |
+| **Покрытие тестами**                | 68%              | 85% (+25%)      |
+| **Время выполнения E2E**            | 95 сек           | 78 сек (-18%)   |
 
 ---
 
@@ -1104,19 +1113,27 @@ pnpm test:e2e --grep "post"
 ```typescript
 // tests/e2e/virtual-posts.spec.ts
 test.describe('Virtual Posts', () => {
-  test('should display virtual posts with actual descriptions on homepage', async ({ page }) => {
+  test('should display virtual posts with actual descriptions on homepage', async ({
+    page,
+  }) => {
     // Проверяет, что виртуальные посты показывают описание последнего поста
   });
 
-  test('should open virtual posts without API errors for unauthorized users', async ({ page }) => {
+  test('should open virtual posts without API errors for unauthorized users', async ({
+    page,
+  }) => {
     // Проверяет отсутствие ошибок 404 при открытии виртуальных постов
   });
 
-  test('should hide edit/delete buttons for virtual posts from homepage', async ({ page }) => {
+  test('should hide edit/delete buttons for virtual posts from homepage', async ({
+    page,
+  }) => {
     // Проверяет, что кнопки редактирования скрыты для виртуальных постов
   });
 
-  test('should show comments and edit options for virtual posts from profile', async ({ page }) => {
+  test('should show comments and edit options for virtual posts from profile', async ({
+    page,
+  }) => {
     // Проверяет, что виртуальные посты с профиля имеют полный функционал
   });
 });
@@ -1126,7 +1143,9 @@ test.describe('Virtual Posts', () => {
 
 ```typescript
 // Добавить проверку синхронизации состояния после сохранения
-test('should maintain textarea content after save and re-edit', async ({ page }) => {
+test('should maintain textarea content after save and re-edit', async ({
+  page,
+}) => {
   // Сохранить пост → закрыть → открыть снова → проверить текст в textarea
 });
 
@@ -1173,15 +1192,15 @@ test('should prevent editing virtual posts from homepage', async ({ page }) => {
 
 ## 📊 **ИТОГОВЫЕ МЕТРИКИ ПРОЕКТА**
 
-| Категория | До изменений | После изменений | Улучшение |
-|-----------|-------------|------------------|-----------|
-| **Время загрузки главной** | ~2.1 сек | ~1.9 сек | -10% |
-| **Количество ошибок React** | 3-5/сессию | 0 | -100% |
-| **API запросы на главную** | 50+ (с ошибками) | 25 | -50% |
-| **Покрытие тестами** | 68% | 85% | +25% |
-| **Время E2E тестов** | 95 сек | 78 сек | -18% |
-| **Количество багов** | 5 критических | 0 | -100% |
-| **UX для неавторизованных** | С ошибками | Полноценный | +∞ |
+| Категория                   | До изменений     | После изменений | Улучшение |
+| --------------------------- | ---------------- | --------------- | --------- |
+| **Время загрузки главной**  | ~2.1 сек         | ~1.9 сек        | -10%      |
+| **Количество ошибок React** | 3-5/сессию       | 0               | -100%     |
+| **API запросы на главную**  | 50+ (с ошибками) | 25              | -50%      |
+| **Покрытие тестами**        | 68%              | 85%             | +25%      |
+| **Время E2E тестов**        | 95 сек           | 78 сек          | -18%      |
+| **Количество багов**        | 5 критических    | 0               | -100%     |
+| **UX для неавторизованных** | С ошибками       | Полноценный     | +∞        |
 
 ---
 
@@ -1222,15 +1241,15 @@ test('should prevent editing virtual posts from homepage', async ({ page }) => {
 
 ### 🎯 **Достигнутые улучшения:**
 
-| Метрика | До | После | Улучшение |
-|---------|----|---------|-----------|
-| **Покрытие тестами** | 30% | 85%+ | +183% |
-| **Quality Gates** | ❌ Нет | ✅ Есть | +∞ |
-| **E2E стабильность** | 60% | 95%+ | +58% |
-| **Типы тестов** | 2 | 6 | +300% |
-| **Accessibility** | ❌ Нет | ✅ WCAG AA | +∞ |
-| **Performance тесты** | ❌ Нет | ✅ Есть | +∞ |
-| **CI/CD интеграция** | Базовая | Полная | +100% |
+| Метрика               | До      | После      | Улучшение |
+| --------------------- | ------- | ---------- | --------- |
+| **Покрытие тестами**  | 30%     | 85%+       | +183%     |
+| **Quality Gates**     | ❌ Нет  | ✅ Есть    | +∞        |
+| **E2E стабильность**  | 60%     | 95%+       | +58%      |
+| **Типы тестов**       | 2       | 6          | +300%     |
+| **Accessibility**     | ❌ Нет  | ✅ WCAG AA | +∞        |
+| **Performance тесты** | ❌ Нет  | ✅ Есть    | +∞        |
+| **CI/CD интеграция**  | Базовая | Полная     | +100%     |
 
 ### 🛡️ **Гарантии качества:**
 
