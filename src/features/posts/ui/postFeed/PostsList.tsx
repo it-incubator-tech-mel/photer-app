@@ -51,7 +51,7 @@ export const PostsList = ({
   });
   const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
 
-  const { data: fetchedPost } = useGetPostQuery(Number(postId), {
+  const { data: fetchedPost } = useGetPostQuery(postId || '', {
     skip: !postId || (posts?.items && posts.items.some((p) => p.id === postId)),
   });
 
@@ -83,7 +83,9 @@ export const PostsList = ({
               description: post.description,
               timestamp: new Date().toISOString(),
             });
-            return <PostItem key={post.id} post={post} />;
+            return (
+              <PostItem key={post.id} post={post} allUserPosts={posts.items} />
+            );
           })
         ) : (
           <div className="py-8 text-center">
@@ -112,7 +114,11 @@ export const PostsList = ({
         {isFetching ? 'Загрузка...' : hasMore ? 'Прокрути вниз 👇' : 'Конец 🎉'}
       </div>
       {selectedPost && (
-        <PostModal post={selectedPost} onCloseAction={handleCloseModal} />
+        <PostModal
+          post={selectedPost}
+          allUserPosts={posts?.items}
+          onCloseAction={handleCloseModal}
+        />
       )}
     </div>
   );

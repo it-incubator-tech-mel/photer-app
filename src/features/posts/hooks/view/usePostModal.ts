@@ -20,6 +20,7 @@ type usePostModalReturn = {
   setIsDeleteModalOpen: (value: boolean) => void;
   handleDeleteConfirm: () => void;
   handleDeleteCancel: () => void;
+  handleDelete: () => Promise<void>;
 };
 
 export const usePostModal = ({

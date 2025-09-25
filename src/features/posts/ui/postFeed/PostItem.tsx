@@ -6,10 +6,49 @@ import { PostModal } from '@/widgets/posts';
 
 type Props = {
   post: PostType;
+  allUserPosts?: PostType[]; // Все посты пользователя для создания виртуальной карусели
 };
 
-export const PostItem = ({ post }: Props): ReactElement => {
+export const PostItem = ({ post, allUserPosts }: Props): ReactElement => {
   const [isOpenPost, setIsOpenPost] = useState(false);
+
+  // Создаем виртуальный пост со всеми фото пользователя (как на главной странице)
+  const createVirtualPostWithAllPhotos = (): PostType => {
+    if (!allUserPosts || allUserPosts.length === 0) {
+      return post; // Fallback к оригинальному посту
+    }
+
+    // Собираем все фото пользователя из всех постов
+    const allPhotos: string[] = [];
+    allUserPosts.forEach((userPost) => {
+      if (userPost.photos && userPost.photos.length > 0) {
+        allPhotos.push(...userPost.photos);
+      }
+    });
+
+    // Создаем виртуальный пост с ID как на главной странице
+    const virtualPost: PostType = {
+      ...post,
+      id: `virtual-profile-${post.owner.id}`,
+      photos: allPhotos,
+      description: `All photos from ${post.owner.userName}`,
+      totalCount: allPhotos.length,
+    };
+
+    console.log('=== VIRTUAL POST CREATED FOR PROFILE ===', {
+      originalPostId: post.id,
+      virtualPostId: virtualPost.id,
+      userId: post.owner.id,
+      userName: post.owner.userName,
+      originalPhotosCount: post.photos?.length || 0,
+      totalPhotosFromAllPosts: allPhotos.length,
+      allUserPostsCount: allUserPosts.length,
+      allPhotos: allPhotos,
+      timestamp: new Date().toISOString(),
+    });
+
+    return virtualPost;
+  };
 
   // Логирование данных поста
   console.log('=== POST ITEM DEBUG ===', {
@@ -18,6 +57,9 @@ export const PostItem = ({ post }: Props): ReactElement => {
     photosCount: post.photos?.length || 0,
     firstPhoto: post.photos?.[0],
     photosArray: post.photos,
+    hasAllUserPosts: !!(allUserPosts && allUserPosts.length > 0),
+    allUserPostsCount: allUserPosts?.length || 0,
+    willCreateVirtualPost: !!(allUserPosts && allUserPosts.length > 1),
     timestamp: new Date().toISOString(),
   });
 
@@ -50,9 +92,27 @@ export const PostItem = ({ post }: Props): ReactElement => {
           </div>
         )}
       </div>
-      {isOpenPost && (
-        <PostModal post={post} onCloseAction={() => setIsOpenPost(false)} />
-      )}
+      {isOpenPost &&
+        (() => {
+          console.log('=== POST MODAL OPEN DEBUG - FROM POST ITEM ===', {
+            postId: post.id,
+            postDescription: post.description,
+            allUserPostsCount: allUserPosts?.length || 0,
+            allUserPostsDescriptions:
+              allUserPosts?.map((p) => ({
+                id: p.id,
+                description: p.description,
+              })) || [],
+            timestamp: new Date().toISOString(),
+          });
+          return (
+            <PostModal
+              post={post}
+              allUserPosts={allUserPosts}
+              onCloseAction={() => setIsOpenPost(false)}
+            />
+          );
+        })()}
     </>
   );
 };

@@ -57,30 +57,64 @@ export const postsApi = baseApi.injectEndpoints({
           { postId, description },
           { dispatch, queryFulfilled }
         ) {
-          console.log('=== EDIT POST DEBUG ===', {
+          console.log('=== API REQUEST STARTED ===', {
             postId,
             description,
+            descriptionLength: description?.length || 0,
             timestamp: new Date().toISOString(),
           });
 
           try {
             const result = await queryFulfilled;
-            console.log('Post update successful');
+            console.log('=== API REQUEST SUCCESSFUL ===', {
+              postId,
+              description,
+              result,
+              timestamp: new Date().toISOString(),
+            });
 
-            // Invalidate specific caches for immediate UI update
+            // Manually update the cache for the specific post
+            console.log('=== CACHE UPDATE STARTED ===', {
+              postId,
+              newDescription: description,
+              timestamp: new Date().toISOString(),
+            });
+
             dispatch(
-              postsApi.util.invalidateTags([
-                { type: 'Posts', id: postId }, // string id
-                { type: 'Posts', id: 'PROFILE_POSTS_LIST' }, // profile posts list
-              ])
+              postsApi.util.updateQueryData('getPost', postId, (draft) => {
+                if (draft) {
+                  console.log('=== CACHE BEFORE UPDATE ===', {
+                    postId: draft.id,
+                    oldDescription: draft.description,
+                    oldDescriptionLength: draft.description?.length || 0,
+                    timestamp: new Date().toISOString(),
+                  });
+
+                  draft.description = description;
+                  draft.updatedAt = new Date().toISOString();
+
+                  console.log('=== CACHE AFTER UPDATE ===', {
+                    postId: draft.id,
+                    newDescription: draft.description,
+                    newDescriptionLength: draft.description?.length || 0,
+                    timestamp: new Date().toISOString(),
+                  });
+                }
+              })
             );
 
-            console.log('Specific caches invalidated for immediate UI update', {
+            console.log('=== CACHE UPDATE COMPLETED ===', {
               postId,
+              newDescription: description,
               timestamp: new Date().toISOString(),
             });
           } catch (e) {
-            console.error('Post update failed:', e);
+            console.error('=== API REQUEST FAILED ===', {
+              postId,
+              description,
+              error: e,
+              timestamp: new Date().toISOString(),
+            });
             errorHandler(e);
           }
         },
@@ -124,7 +158,8 @@ export const postsApi = baseApi.injectEndpoints({
       query: ({ profileId, pageNumber = 1 }) =>
         `/posts/users/${profileId}?pageNumber=${pageNumber}`,
       keepUnusedDataFor: 300,
-      serializeQueryArgs: ({ endpointName }) => `${endpointName}`,
+      serializeQueryArgs: ({ endpointName, queryArgs }) =>
+        `${endpointName}-${queryArgs?.profileId || 'unknown'}`,
       merge: (currentCacheData, responseData) => {
         // Безопасная проверка на существование items
         const currentItems =

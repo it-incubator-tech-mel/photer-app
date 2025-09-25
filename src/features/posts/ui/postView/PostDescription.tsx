@@ -11,9 +11,11 @@ export const PostDescription = ({ post }: Props): ReactNode => {
   const timeAgo = useTimeAgo(post.createdAt);
 
   // Debug logging for PostDescription
-  console.log('=== POST DESCRIPTION DEBUG ===', {
+  console.log('=== POST DESCRIPTION RENDER ===', {
     postId: post.id,
     description: post.description,
+    descriptionLength: post.description?.length || 0,
+    isVirtualPost: post.id.startsWith('virtual-'),
     timestamp: new Date().toISOString(),
   });
   return (

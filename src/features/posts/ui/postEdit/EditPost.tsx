@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { Button, IconSprite, Textarea } from '@/shared/ui';
 import { ConfirmCloseModal } from './ConfirmCloseModal';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Carousel } from '@/shared/ui/carousel/Carousel';
 import { AvatarWithName } from '../postView/AvatarWithName';
 import { PostType } from '../../lib/post.types';
@@ -12,11 +12,15 @@ const MAX_SYMBOL_COUNT = 500;
 
 type Props = {
   post: PostType;
-  onCloseAction: () => void;
+  onReturnToView: () => void; // Changed from onCloseAction to stay on post page
   onPostUpdated?: (updatedPost: PostType) => void;
 };
 
-export const EditPost = ({ post, onCloseAction, onPostUpdated }: Props): ReactNode => {
+export const EditPost = ({
+  post,
+  onReturnToView,
+  onPostUpdated,
+}: Props): ReactNode => {
   const {
     editPostRef,
     description,
@@ -29,17 +33,42 @@ export const EditPost = ({ post, onCloseAction, onPostUpdated }: Props): ReactNo
     handleUpdatePost,
     isUpdating,
     hasChanges,
+    saveStatus,
   } = useEditPost({
     post,
-    onCloseAction,
+    onReturnToView,
     onPostUpdated,
     MAX_SYMBOL_COUNT,
   });
 
+  // Prevent editing virtual posts (they don't exist in database)
+  const isVirtualPost = post.id.startsWith('virtual-');
+
+  useEffect(() => {
+    if (isVirtualPost) {
+      console.warn('Attempted to edit virtual post, closing edit mode', {
+        postId: post.id,
+        isVirtualPost,
+      });
+      // Use setTimeout to defer the state update
+      setTimeout(() => onReturnToView(), 0);
+    }
+  }, [isVirtualPost, onReturnToView, post.id]);
+
+  if (isVirtualPost) {
+    return null;
+  }
+
   // Debug logging for EditPost
   console.log('=== EDIT POST COMPONENT DEBUG ===', {
     postId: post.id,
-    description: post.description,
+    originalDescription: post.description,
+    originalDescriptionLength: post.description?.length || 0,
+    currentDescription: description,
+    currentDescriptionLength: description?.length || 0,
+    hasChanges: hasChanges,
+    isUpdating: isUpdating,
+    saveStatus: saveStatus,
     timestamp: new Date().toISOString(),
   });
   return (
@@ -86,9 +115,27 @@ export const EditPost = ({ post, onCloseAction, onPostUpdated }: Props): ReactNo
                 data-testid="edit-description"
                 data-cy="edit-description-textarea"
               />
-              <span className="text-light-900">
-                {description ? description.length : 0}/{MAX_SYMBOL_COUNT}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-light-900">
+                  {description ? description.length : 0}/{MAX_SYMBOL_COUNT}
+                </span>
+                {/* Save status indicator */}
+                {saveStatus !== 'idle' && (
+                  <span
+                    className={`rounded px-2 py-1 text-xs ${
+                      saveStatus === 'saving'
+                        ? 'bg-blue-100 text-blue-600'
+                        : saveStatus === 'saved'
+                          ? 'bg-green-100 text-green-600'
+                          : 'bg-red-100 text-red-600'
+                    }`}
+                  >
+                    {saveStatus === 'saving' && 'Saving...'}
+                    {saveStatus === 'saved' && 'Saved ✓'}
+                    {saveStatus === 'error' && 'Save failed'}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
           <Button
@@ -96,7 +143,11 @@ export const EditPost = ({ post, onCloseAction, onPostUpdated }: Props): ReactNo
             className="ml-auto"
             disabled={!hasChanges || isUpdating}
           >
-            {isUpdating ? 'Saving...' : 'Save Changes'}
+            {saveStatus === 'saving' && 'Saving...'}
+            {saveStatus === 'saved' && 'Saved ✓'}
+            {saveStatus === 'error' && 'Try Again'}
+            {saveStatus === 'idle' &&
+              (isUpdating ? 'Saving...' : 'Save Changes')}
           </Button>
         </div>
       </div>

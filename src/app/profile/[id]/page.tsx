@@ -1,7 +1,11 @@
 // src/app/profile/[id]/page.tsx
 import { ProfileCard } from '@/widgets/profile-card/ui/ProfileCard';
 import { ReactElement } from 'react';
-import { getUserId, isUserAuthorized, getValidAccessToken } from '@/shared/lib/ssr/getUserId';
+import {
+  getUserId,
+  isUserAuthorized,
+  getValidAccessToken,
+} from '@/shared/lib/ssr/getUserId';
 import { cookies } from 'next/headers';
 
 export default async function SSRProfilePage({
@@ -23,6 +27,12 @@ export default async function SSRProfilePage({
     isUserIdPresent: !!userId,
     isAuthorized,
     isProfileOwner: userId == profileId,
+    timestamp: new Date().toISOString(),
+  });
+
+  console.log('PAGE DEBUG - POSTS FETCH:', {
+    profileId,
+    apiUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/posts/users/${profileId}?pageNumber=1&pageSize=8&sortDirection=desc&sortBy=createdAt`,
     timestamp: new Date().toISOString(),
   });
 
@@ -48,12 +58,16 @@ export default async function SSRProfilePage({
       );
     }
     posts = await resToPosts.json();
-    console.log('Posts fetched from SSR:', {
+    console.log('PAGE DEBUG - POSTS RECEIVED:', {
       profileId,
       postsCount: posts?.items?.length || 0,
       totalCount: posts?.totalCount || 0,
-      hasItems: !!(posts?.items && posts.items.length > 0),
-      postsData: posts,
+      hasPosts: !!(posts?.items && posts.items.length > 0),
+      postIds:
+        posts?.items?.map((p) => ({
+          id: p.id,
+          photos: p.photos?.length || 0,
+        })) || [],
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
