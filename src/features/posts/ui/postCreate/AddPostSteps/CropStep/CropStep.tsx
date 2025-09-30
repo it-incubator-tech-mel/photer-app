@@ -62,11 +62,13 @@ export function CropStep({ onCloseAction }: CropStep): React.ReactElement {
           stepToGo="filters"
           stepToBack="upload"
           onNext={() => confirmCropping(croppedAreaPixels)}
+          onClose={onCloseAction}
         />
       }
       size="md"
       open={true}
-      showCloseButton={false}
+      showCloseButton={true}
+      disableOutsideClick
     >
       <div className="flex flex-col items-center">
         <div className="relative h-[400px] w-full">
