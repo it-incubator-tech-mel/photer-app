@@ -209,13 +209,13 @@ tests/
 
 ### 🎯 Обязательные метрики качества
 
-| Категория              | Минимум | Цель     | Статус                 |
-| ---------------------- | ------- | -------- | ---------------------- |
-| **Покрытие кода**      | 85%     | 90%      | 🔄 В процессе          |
-| **E2E стабильность**   | 95%     | 99%      | ❌ Требует исправления |
-| **Производительность** | < 100ms | < 50ms   | ✅ Соответствует       |
-| **Доступность**        | WCAG AA | WCAG AAA | 🆕 Новое               |
-| **API интеграция**     | 100%    | 100%     | 🆕 Новое               |
+| Категория | Минимум | Цель | Статус |
+|-----------|---------|------|--------|
+| **Покрытие кода** | 85% | 90% | 🔄 В процессе |
+| **E2E стабильность** | 95% | 99% | ❌ Требует исправления |
+| **Производительность** | < 100ms | < 50ms | ✅ Соответствует |
+| **Доступность** | WCAG AA | WCAG AAA | 🆕 Новое |
+| **API интеграция** | 100% | 100% | 🆕 Новое |
 
 ### ✅ Текущее покрытие (обновлено)
 
@@ -475,7 +475,7 @@ function calculateTotal(items) {
 
 // ✅ Тесты остаются теми же!
 test('should calculate total price', () => {
-  expect(calculateTotal([{ price: 10 }, { price: 20 }])).toBe(30);
+  expect(calculateTotal([{price: 10}, {price: 20}])).toBe(30);
 });
 ```
 
@@ -661,15 +661,12 @@ expect(component.state.error).toBe('message');
 ## Изменения в версии X.X.X
 
 ### 🆕 Новая функциональность
-
 - Добавлена валидация email в форме входа
 
 ### 🔄 Изменения API
-
 - `formatPrice()` теперь принимает `currency` параметр
 
 ### 🐛 Исправления
-
 - Исправлена ошибка округления цен
 ```
 
@@ -677,7 +674,7 @@ expect(component.state.error).toBe('message');
 
 ### 🚨 **8. ПРАВИЛО БОЛЬШОГО ПАЛЬЦА**
 
-> _"Если изменение ломает существующие тесты - либо это баг в вашем коде, либо нужно обновить спецификацию (тесты)"_
+> *"Если изменение ломает существующие тесты - либо это баг в вашем коде, либо нужно обновить спецификацию (тесты)"*
 
 **Тесты должны помогать разработке, а не мешать ей!** 🧪✨
 
@@ -772,12 +769,12 @@ pnpm build
 
 ### 🔄 **Continuous Integration Quality Gates:**
 
-| Этап             | Проверки                   | Критерий прохождения   |
-| ---------------- | -------------------------- | ---------------------- |
-| **Pre-commit**   | Lint + Types + Unit        | ✅ Все проходят        |
-| **PR Created**   | Full Quality Suite         | ✅ 95% тестов проходят |
-| **Before Merge** | E2E + Visual + Performance | ✅ 100% критических    |
-| **After Merge**  | Regression Suite           | ✅ Мониторинг метрик   |
+| Этап | Проверки | Критерий прохождения |
+|------|----------|---------------------|
+| **Pre-commit** | Lint + Types + Unit | ✅ Все проходят |
+| **PR Created** | Full Quality Suite | ✅ 95% тестов проходят |
+| **Before Merge** | E2E + Visual + Performance | ✅ 100% критических |
+| **After Merge** | Regression Suite | ✅ Мониторинг метрик |
 
 ### 🎯 **Регрессионное тестирование:**
 
@@ -861,16 +858,15 @@ coverageThreshold: {
 
 ```typescript
 // В HomePage (page.tsx) - ДО:
-description: `Фото пользователя ${userData.userName}`;
+description: `Фото пользователя ${userData.userName}`
 
 // ПОСЛЕ:
-const sortedPosts = userData.posts.sort(
-  (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+const sortedPosts = userData.posts.sort((a, b) =>
+  new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 );
-const lastPostDescription =
-  sortedPosts.length > 0
-    ? sortedPosts[0].description
-    : `Фото пользователя ${userData.userName}`;
+const lastPostDescription = sortedPosts.length > 0
+  ? sortedPosts[0].description
+  : `Фото пользователя ${userData.userName}`;
 description: lastPostDescription;
 ```
 
@@ -919,8 +915,7 @@ description: lastPostDescription;
 
 ```typescript
 // В PostModal.tsx - пропуск запросов для виртуальных постов с главной страницы:
-const isVirtualPostFromMainPage =
-  post.id.startsWith('virtual-') && !post.id.includes('profile');
+const isVirtualPostFromMainPage = post.id.startsWith('virtual-') && !post.id.includes('profile');
 const { data: latestPost, refetch } = useGetPostQuery(post.id, {
   skip: isVirtualPostFromMainPage, // Пропускаем запрос
 });
@@ -1009,16 +1004,12 @@ useEffect(() => {
 
 ```typescript
 // Тест виртуальных постов на главной странице
-test('should display virtual posts with actual descriptions', async ({
-  page,
-}) => {
+test('should display virtual posts with actual descriptions', async ({ page }) => {
   // Проверяет, что виртуальные посты показывают описание последнего поста
 });
 
 // Тест блокировки редактирования виртуальных постов
-test('should not allow editing virtual posts from main page', async ({
-  page,
-}) => {
+test('should not allow editing virtual posts from main page', async ({ page }) => {
   // Проверяет, что кнопка редактирования скрыта для виртуальных постов
 });
 ```
@@ -1027,13 +1018,13 @@ test('should not allow editing virtual posts from main page', async ({
 
 #### **📊 Метрики качества после изменений**
 
-| Метрика                             | До изменений     | После изменений |
-| ----------------------------------- | ---------------- | --------------- |
-| **Время загрузки главной страницы** | ~2.1 сек         | ~1.9 сек (-10%) |
-| **Количество ошибок React**         | 3-5 на сессию    | 0               |
-| **API запросы на главную**          | 50+ (с ошибками) | 25 (-50%)       |
-| **Покрытие тестами**                | 68%              | 85% (+25%)      |
-| **Время выполнения E2E**            | 95 сек           | 78 сек (-18%)   |
+| Метрика | До изменений | После изменений |
+|---------|-------------|------------------|
+| **Время загрузки главной страницы** | ~2.1 сек | ~1.9 сек (-10%) |
+| **Количество ошибок React** | 3-5 на сессию | 0 |
+| **API запросы на главную** | 50+ (с ошибками) | 25 (-50%) |
+| **Покрытие тестами** | 68% | 85% (+25%) |
+| **Время выполнения E2E** | 95 сек | 78 сек (-18%) |
 
 ---
 
@@ -1113,27 +1104,19 @@ pnpm test:e2e --grep "post"
 ```typescript
 // tests/e2e/virtual-posts.spec.ts
 test.describe('Virtual Posts', () => {
-  test('should display virtual posts with actual descriptions on homepage', async ({
-    page,
-  }) => {
+  test('should display virtual posts with actual descriptions on homepage', async ({ page }) => {
     // Проверяет, что виртуальные посты показывают описание последнего поста
   });
 
-  test('should open virtual posts without API errors for unauthorized users', async ({
-    page,
-  }) => {
+  test('should open virtual posts without API errors for unauthorized users', async ({ page }) => {
     // Проверяет отсутствие ошибок 404 при открытии виртуальных постов
   });
 
-  test('should hide edit/delete buttons for virtual posts from homepage', async ({
-    page,
-  }) => {
+  test('should hide edit/delete buttons for virtual posts from homepage', async ({ page }) => {
     // Проверяет, что кнопки редактирования скрыты для виртуальных постов
   });
 
-  test('should show comments and edit options for virtual posts from profile', async ({
-    page,
-  }) => {
+  test('should show comments and edit options for virtual posts from profile', async ({ page }) => {
     // Проверяет, что виртуальные посты с профиля имеют полный функционал
   });
 });
@@ -1143,9 +1126,7 @@ test.describe('Virtual Posts', () => {
 
 ```typescript
 // Добавить проверку синхронизации состояния после сохранения
-test('should maintain textarea content after save and re-edit', async ({
-  page,
-}) => {
+test('should maintain textarea content after save and re-edit', async ({ page }) => {
   // Сохранить пост → закрыть → открыть снова → проверить текст в textarea
 });
 
@@ -1192,15 +1173,15 @@ test('should prevent editing virtual posts from homepage', async ({ page }) => {
 
 ## 📊 **ИТОГОВЫЕ МЕТРИКИ ПРОЕКТА**
 
-| Категория                   | До изменений     | После изменений | Улучшение |
-| --------------------------- | ---------------- | --------------- | --------- |
-| **Время загрузки главной**  | ~2.1 сек         | ~1.9 сек        | -10%      |
-| **Количество ошибок React** | 3-5/сессию       | 0               | -100%     |
-| **API запросы на главную**  | 50+ (с ошибками) | 25              | -50%      |
-| **Покрытие тестами**        | 68%              | 85%             | +25%      |
-| **Время E2E тестов**        | 95 сек           | 78 сек          | -18%      |
-| **Количество багов**        | 5 критических    | 0               | -100%     |
-| **UX для неавторизованных** | С ошибками       | Полноценный     | +∞        |
+| Категория | До изменений | После изменений | Улучшение |
+|-----------|-------------|------------------|-----------|
+| **Время загрузки главной** | ~2.1 сек | ~1.9 сек | -10% |
+| **Количество ошибок React** | 3-5/сессию | 0 | -100% |
+| **API запросы на главную** | 50+ (с ошибками) | 25 | -50% |
+| **Покрытие тестами** | 68% | 85% | +25% |
+| **Время E2E тестов** | 95 сек | 78 сек | -18% |
+| **Количество багов** | 5 критических | 0 | -100% |
+| **UX для неавторизованных** | С ошибками | Полноценный | +∞ |
 
 ---
 
@@ -1241,15 +1222,15 @@ test('should prevent editing virtual posts from homepage', async ({ page }) => {
 
 ### 🎯 **Достигнутые улучшения:**
 
-| Метрика               | До      | После      | Улучшение |
-| --------------------- | ------- | ---------- | --------- |
-| **Покрытие тестами**  | 30%     | 85%+       | +183%     |
-| **Quality Gates**     | ❌ Нет  | ✅ Есть    | +∞        |
-| **E2E стабильность**  | 60%     | 95%+       | +58%      |
-| **Типы тестов**       | 2       | 6          | +300%     |
-| **Accessibility**     | ❌ Нет  | ✅ WCAG AA | +∞        |
-| **Performance тесты** | ❌ Нет  | ✅ Есть    | +∞        |
-| **CI/CD интеграция**  | Базовая | Полная     | +100%     |
+| Метрика | До | После | Улучшение |
+|---------|----|---------|-----------|
+| **Покрытие тестами** | 30% | 85%+ | +183% |
+| **Quality Gates** | ❌ Нет | ✅ Есть | +∞ |
+| **E2E стабильность** | 60% | 95%+ | +58% |
+| **Типы тестов** | 2 | 6 | +300% |
+| **Accessibility** | ❌ Нет | ✅ WCAG AA | +∞ |
+| **Performance тесты** | ❌ Нет | ✅ Есть | +∞ |
+| **CI/CD интеграция** | Базовая | Полная | +100% |
 
 ### 🛡️ **Гарантии качества:**
 
@@ -1283,6 +1264,331 @@ pnpm test:production:ready
 - **Alerts:** Уведомления при снижении покрытия < 85%
 - **Reports:** Еженедельные отчеты о качестве кода
 - **Trends:** Анализ трендов и улучшений
+
+---
+
+## 🆕 **ИЗМЕНЕНИЯ В КОММЕНТАРИЯХ (версия 2.1.0)**
+
+### 📋 **Описание проблемы:**
+
+**Дата:** 2025-09-30
+**Версия:** 2.1.0 - "Comments Synchronization Fix"
+
+Комментарии, написанные в модалке на странице профиля, сохранялись корректно,
+но при открытии той же модалки на главной странице эти комментарии не отображались.
+
+### 🔧 **Реализованные изменения:**
+
+#### **1. ViewPost.tsx - Отображение комментариев для всех постов**
+
+##### **Проблема:**
+
+```typescript
+// ДО: Комментарии показывались только для определенных типов постов
+{(!post.id.startsWith('virtual-') || post.id.includes('profile')) && (
+  <CommentsList postId={realPostId || post.id} isAuthorized={isAuthorized} />
+)}
+```
+
+##### **Решение:**
+
+```typescript
+// ПОСЛЕ: Комментарии показываются для всех постов, используя realPostId
+<CommentsList
+  postId={realPostId || post.id}
+  isAuthorized={isAuthorized}
+/>
+```
+
+##### **Результат:**
+
+- ✅ Комментарии отображаются на главной странице
+- ✅ Комментарии отображаются на странице профиля
+- ✅ Используется реальный ID поста для загрузки комментариев
+
+---
+
+#### **2. ViewPost.tsx - Форма добавления комментариев**
+
+##### **Проблема:**
+
+Форма "Add a Comment" показывалась на главной странице, хотя не должна.
+
+##### **Решение:**
+
+```typescript
+// Показываем AddComment только для владельца И не для виртуальных постов с главной
+{isOwner &&
+  (!post.id.startsWith('virtual-') || post.id.includes('profile')) && (
+    <AddComment postId={realPostId || post.id} />
+  )}
+```
+
+##### **Результат:**
+
+- ✅ Форма комментариев скрыта на главной странице (только просмотр)
+- ✅ Форма комментариев доступна на странице профиля (редактирование)
+
+---
+
+#### **3. CommentsList.tsx - Загрузка комментариев**
+
+##### **Проблема:**
+
+```typescript
+// ДО: Комментарии пропускались для виртуальных постов
+const isVirtualPost = postId.startsWith('virtual-');
+const { data: comments } = useGetPostCommentsQuery(postId, {
+  skip: isVirtualPost, // Пропускаем запрос
+});
+```
+
+##### **Решение:**
+
+```typescript
+// ПОСЛЕ: Загружаем комментарии для всех постов
+const { data: comments } = useGetPostCommentsQuery(postId, {
+  refetchOnMountOrArgChange: true,
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
+});
+```
+
+##### **Результат:**
+
+- ✅ Комментарии загружаются для всех типов постов
+- ✅ Автоматическое обновление при изменениях
+
+---
+
+#### **4. page.tsx - Передача реального ID поста**
+
+##### **Проблема:**
+
+Виртуальные посты на главной странице не содержали информацию о реальном ID поста для загрузки комментариев.
+
+##### **Решение:**
+
+```typescript
+// Добавлено поле latestPostId в виртуальный пост
+return {
+  id: `virtual-${userData.userId}`,
+  description: lastPostDescription,
+  // ... другие поля
+  latestPostId: userData.latestPostId, // Real post ID for comments
+  owner: { ... }
+};
+```
+
+##### **Результат:**
+
+- ✅ Виртуальные посты хранят ссылку на реальный пост
+- ✅ Комментарии загружаются по реальному ID
+
+---
+
+#### **5. post.types.ts - Обновление типа PostType**
+
+##### **Изменение:**
+
+```typescript
+export type PostType = {
+  id: string;
+  description: string;
+  // ... другие поля
+  latestPostId?: string; // Real post ID for virtual posts (for comments, etc.)
+  owner: { ... };
+};
+```
+
+##### **Результат:**
+
+- ✅ Типизация поддерживает новое поле
+- ✅ TypeScript валидация работает корректно
+
+---
+
+#### **6. PostModal.tsx - Использование realPostId**
+
+##### **Проблема:**
+
+```typescript
+// ДО: realPostId не учитывал latestPostId
+realPostId={isVirtualPost ? post.id : undefined}
+```
+
+##### **Решение:**
+
+```typescript
+// ПОСЛЕ: Используем latestPostId для виртуальных постов
+realPostId={
+  isVirtualPost
+    ? post.latestPostId || post.id // Use latestPostId for virtual posts
+    : undefined
+}
+```
+
+##### **Результат:**
+
+- ✅ Корректная передача реального ID в ViewPost
+- ✅ Комментарии загружаются по правильному ID
+
+---
+
+### 📊 **Затронутые файлы:**
+
+| Файл | Изменения | Статус |
+|------|-----------|--------|
+| `src/features/posts/ui/postView/ViewPost.tsx` | Условия отображения комментариев и формы | ✅ Обновлен |
+| `src/features/posts/ui/postView/CommentsList.tsx` | Логика загрузки комментариев | ✅ Обновлен |
+| `src/app/page.tsx` | Добавлено поле latestPostId | ✅ Обновлен |
+| `src/features/posts/lib/post.types.ts` | Обновлен тип PostType | ✅ Обновлен |
+| `src/widgets/posts/postView/PostModal.tsx` | Передача realPostId | ✅ Обновлен |
+
+---
+
+### 🧪 **Тестовые сценарии:**
+
+#### **Unit тесты:** ✅ **СОЗДАНЫ И РАБОТАЮТ**
+
+📁 **Файл:** `tests/unit/components/CommentsList.test.tsx`
+
+**Покрытие:** 16 тестов, все проходят успешно
+
+```typescript
+// Основные тесты
+✅ Loading State - отображение загрузки
+✅ Error State - обработка ошибок
+✅ Empty State - пустые комментарии
+✅ Successful Comments Display - успешное отображение
+✅ API Query Configuration - конфигурация запросов
+✅ Authorization Context - авторизованные/неавторизованные пользователи
+✅ Debug Logging - логирование отладки
+✅ Edge Cases - граничные случаи
+✅ Refetch Behavior - поведение обновления
+```
+
+**Запуск тестов:**
+
+```bash
+# Запустить все unit тесты
+npm test
+
+# Запустить только тесты CommentsList
+npm test -- CommentsList.test.tsx
+
+# С подробным выводом
+npm test -- CommentsList.test.tsx --verbose
+```
+
+**Результаты запуска:**
+
+```text
+Test Suites: 1 passed, 1 total
+Tests:       16 passed, 16 total
+Time:        ~4.3s
+```
+
+---
+
+#### **E2E тесты:** ✅ **СОЗДАНЫ**
+
+📁 **Файл:** `tests/e2e/comments-synchronization.spec.ts`
+
+**Покрытие:** 7 E2E тестов для комментариев
+
+```typescript
+// Главные тесты синхронизации
+✅ should display comments on both profile and home page modals
+   - Добавление комментария на странице профиля
+   - Проверка отображения на главной странице
+
+✅ should hide comment form on home page modal
+   - Форма комментариев скрыта на главной
+
+✅ should show comment form on profile page modal
+   - Форма комментариев видна в профиле
+
+✅ should load comments using realPostId for virtual posts
+   - Загрузка комментариев с правильным ID
+
+✅ should not make API calls for invalid post IDs
+   - Отсутствие ошибок 404
+
+✅ should display same comments count on both pages
+   - Согласованность количества комментариев
+
+✅ should use correct API endpoint for comment fetching
+   - Валидация API endpoint
+```
+
+**Запуск E2E тестов:**
+
+```bash
+# Запустить все E2E тесты для комментариев
+npm run test:e2e -- comments-synchronization.spec.ts
+
+# В UI режиме
+npm run test:e2e:ui -- comments-synchronization.spec.ts
+
+# В debug режиме
+npm run test:e2e:debug -- comments-synchronization.spec.ts
+```
+
+---
+
+### 🎯 **Результаты:**
+
+| Аспект | До изменений | После изменений |
+|--------|-------------|------------------|
+| **Комментарии на главной** | ❌ Не отображались | ✅ Отображаются |
+| **Комментарии в профиле** | ✅ Работали | ✅ Работают |
+| **Форма на главной** | ❌ Показывалась | ✅ Скрыта |
+| **Форма в профиле** | ✅ Показывалась | ✅ Показывается |
+| **API запросы** | Лишние 404 ошибки | Корректные запросы |
+| **UX** | Некорректный | Улучшен |
+
+---
+
+### ✅ **Проверочный чек-лист:**
+
+- [x] Комментарии отображаются на главной странице в модалке
+- [x] Комментарии отображаются на странице профиля в модалке
+- [x] Форма "Add a Comment" скрыта на главной странице
+- [x] Форма "Add a Comment" доступна на странице профиля
+- [x] Используется реальный ID поста для загрузки комментариев
+- [x] Нет ошибок 404 при загрузке комментариев
+- [x] TypeScript типизация корректна
+- [x] Приложение не сломалось после изменений
+- [x] **Unit тесты созданы и проходят (16/16 ✅)**
+- [x] **E2E тесты созданы (7 тестов ✅)**
+- [x] **Документация обновлена ✅**
+
+---
+
+### 🚀 **Команды для тестирования:**
+
+```bash
+# Проверка TypeScript
+pnpm tsc --noEmit
+
+# Запуск unit тестов
+pnpm test
+
+# Запуск E2E тестов
+pnpm test:e2e
+
+# Полная проверка качества
+pnpm run quality:full
+```
+
+---
+
+### 📝 **Рекомендации для разработчиков:**
+
+1. **При добавлении новых типов постов:** Убедитесь, что `realPostId` передается корректно
+2. **При работе с комментариями:** Всегда используйте `realPostId` вместо виртуального ID
+3. **При изменении логики отображения:** Проверяйте поведение на обеих страницах (главная и профиль)
 
 ---
 
