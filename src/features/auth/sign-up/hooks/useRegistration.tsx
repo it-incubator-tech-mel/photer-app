@@ -37,10 +37,9 @@ export function useRegistration(): UseRegistrationReturn {
         })
       );
       reset?.();
-      router.push('/sign-in');
       return true;
     } catch (error) {
-      console.log(error);
+      console.log('Registration failed:', error);
 
       return false;
     }

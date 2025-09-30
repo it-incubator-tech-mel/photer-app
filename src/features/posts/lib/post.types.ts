@@ -3,10 +3,12 @@ import { PixelCrop } from './aspectRatios';
 export type PostType = {
   id: string;
   description: string;
+  tags?: string[];
   createdAt: string;
   updatedAt: string;
   status: boolean;
   photos: string[];
+  latestPostId?: string; // Real post ID for virtual posts (for comments, etc.)
   owner: {
     userId: string;
     userName: string;
@@ -48,10 +50,12 @@ export type PostCreationState = {
   photos: PhotoSettings[];
   currentPhotoIndex: number;
   description: string;
+  tags: string[];
   error?: string;
 };
 export type PostCachedState = {
   cachedProfilePages: number;
+  postCreated: boolean;
 };
 
 export type ErrorResponse = {

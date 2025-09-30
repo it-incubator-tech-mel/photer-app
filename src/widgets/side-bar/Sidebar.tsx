@@ -1,32 +1,192 @@
 // src/widgets/side-bar/Sidebar.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import HoverDiv from './HoverDiv';
 import { ytSidebarDataset } from './SidebarData';
 import SidebarItem from './SidebarItem';
 import { cn } from '@/shared/lib/cn';
-import { IconSprite, Scrollbar } from '@/shared/ui';
+import { Button, IconSprite, Scrollbar } from '@/shared/ui';
 import { authApi } from '@/features/auth/api/authApi';
 import { LogoutButton } from '../logout-button/LogoutButton';
 import { LogoutModal } from '@/features/auth/ui/login-form/LogoutForm';
 import { useLogout } from '@/features/auth/hooks/useLogout';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/shared/state/store';
+import { getCookie } from '@/shared/lib/cookies';
+import { appLogger } from '@/shared/lib/appLogger';
+import { createSelector } from '@reduxjs/toolkit';
+import { clearSessionExpired } from '@/shared/state/slices/authSlice';
+
+// Memoized selector to avoid returning a new object reference each time
+const getMeSelector = authApi.endpoints.getMe.select();
+const selectAuthData = createSelector([getMeSelector], (queryState) => ({
+  data: queryState.data,
+  isLoading: queryState.isLoading,
+  error: queryState.error,
+}));
 
 export const Sidebar = (): React.JSX.Element | null => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const data = useSelector(
-    (state: RootState) => authApi.endpoints.getMe.select()(state).data
+  const [isClient, setIsClient] = useState(false);
+  const dispatch = useDispatch();
+
+  // Флаг монтирования клиента для предотвращения гидратационных рассинхронов
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Получаем данные из RTK Query кэша вместо дублирующего запроса
+  const hasToken = getCookie('accessToken');
+
+  // Используем мемоизированный селектор для предотвращения лишних рендеров
+  const authData = useSelector(selectAuthData);
+
+  // Деструктурируем мемоизированные данные
+  const { data, isLoading, error } = authData;
+
+  // 🔍 DIAGNOSTIC LOG: Track component re-renders (только в development)
+  const renderCounter = useRef(0);
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🔄 SIDEBAR RENDER:', {
+      hasToken: !!hasToken,
+      tokenValue: hasToken ? 'present' : 'null',
+      isLoading,
+      hasError: !!error,
+      hasData: !!data,
+      renderCount: renderCounter.current++,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  // Определяем, авторизован ли пользователь
+  // ВАЖНО: до монтирования клиента считаем неавторизованным, чтобы SSR и клиент совпадали
+  // Данные пользователя получаем из кэша RTK Query (загружаются в AuthInitializer)
+  const isAuthenticated = isClient ? !!hasToken : false;
+
+  // Получаем состояние истечения сессии
+  const sessionExpired = useSelector(
+    (state: RootState) => state.auth.sessionExpired
   );
+
+  // Логируем монтирование Sidebar
+  useEffect(() => {
+    console.log('🔍 SIDEBAR useEffect [] - MOUNT:', {
+      hasToken: !!hasToken,
+      tokenValue: hasToken ? 'exists' : 'null',
+      hasData: !!data,
+      isLoading,
+      hasError: !!error,
+      isAuthenticated,
+      timestamp: new Date().toISOString(),
+    });
+    appLogger.sidebar('SIDEBAR_MOUNTED', {
+      hasToken: !!hasToken,
+      tokenValue: hasToken ? 'exists' : 'null',
+      hasData: !!data,
+      isLoading,
+      hasError: !!error,
+      isAuthenticated,
+      timestamp: new Date().toISOString(),
+    });
+  }, []);
+
+  // Логируем изменения состояния аутентификации
+  useEffect(() => {
+    console.log('🔍 SIDEBAR useEffect [auth deps] - AUTH STATE CHANGE:', {
+      hasToken: !!hasToken,
+      tokenValue: hasToken ? 'exists' : 'null',
+      hasData: !!data,
+      dataUserId: data?.userId,
+      dataEmail: data?.email,
+      isLoading,
+      hasError: !!error,
+      errorMessage: error ? 'Error exists' : 'No error',
+      isAuthenticated,
+      timestamp: new Date().toISOString(),
+    });
+    appLogger.sidebar('SIDEBAR_AUTH_STATE_CHANGED', {
+      hasToken: !!hasToken,
+      tokenValue: hasToken ? 'exists' : 'null',
+      hasData: !!data,
+      dataUserId: data?.userId,
+      dataEmail: data?.email,
+      isLoading,
+      hasError: !!error,
+      errorMessage: error ? 'Error exists' : 'No error',
+      isAuthenticated,
+      timestamp: new Date().toISOString(),
+    });
+  }, [hasToken, data, isLoading, error, isAuthenticated]);
+
+  // Отладочная информация для диагностики проблемы (только в development)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Sidebar Debug:', {
+      hasToken: !!hasToken,
+      tokenValue: hasToken ? 'exists' : 'null',
+      data: !!data,
+      isLoading,
+      error: !!error,
+      isAuthenticated,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
   const { isOpen, openModal, closeModal, confirmLogout } = useLogout();
 
+  const handleLogoutModalOpen = () => {
+    appLogger.sidebar('SIDEBAR_LOGOUT_MODAL_OPENING', {
+      hasToken: !!hasToken,
+      hasData: !!data,
+      isAuthenticated,
+      sessionExpired,
+      timestamp: new Date().toISOString(),
+    });
+    // Сбрасываем состояние истечения сессии при открытии модального окна выхода
+    if (sessionExpired) {
+      dispatch(clearSessionExpired());
+    }
+    openModal();
+  };
+
+  const handleLogoutModalClose = () => {
+    appLogger.sidebar('SIDEBAR_LOGOUT_MODAL_CLOSING', {
+      hasToken: !!hasToken,
+      hasData: !!data,
+      isAuthenticated,
+      timestamp: new Date().toISOString(),
+    });
+    closeModal();
+  };
+
+  const handleSignInClick = () => {
+    appLogger.sidebar('SIDEBAR_SIGN_IN_CLICKED', {
+      hasToken: !!hasToken,
+      hasData: !!data,
+      isAuthenticated,
+      sessionExpired,
+      timestamp: new Date().toISOString(),
+    });
+    // Сбрасываем состояние истечения сессии при переходе на страницу входа
+    if (sessionExpired) {
+      dispatch(clearSessionExpired());
+    }
+    window.location.href = '/sign-in';
+  };
+
+  // 🔒 КОНТРОЛЬ ВИДИМОСТИ SIDEBAR ДЛЯ НЕАВТОРИЗОВАННЫХ ПОЛЬЗОВАТЕЛЕЙ
+  //
+  // ✅ РАСКОММЕНТИРОВАТЬ ЭТИ СТРОКИ, чтобы СКРЫТЬ Sidebar для неавторизованных пользователей:
   if (!data) {
     return null;
   }
+  //
+  // ❌ ЗАКОММЕНТИРОВАТЬ ЭТИ СТРОКИ, чтобы ПОКАЗЫВАТЬ Sidebar для всех пользователей:
+  // (текущее состояние - Sidebar показывается всем)
 
   return (
     <aside
+      data-testid="sidebar"
       className={cn(
         'sticky top-[60px] left-0 flex h-[calc(100vh-60px)] w-60 flex-col justify-between border-r-2 border-zinc-700 bg-black text-slate-50 transition-all duration-300',
         {
@@ -99,15 +259,85 @@ export const Sidebar = (): React.JSX.Element | null => {
         </nav>
       </Scrollbar>
 
-      {/* Нижняя часть: Log Out */}
+      {/* Нижняя часть: Log Out / Sign In */}
       <div className="pb-6">
-        <LogoutButton hideText={!isSidebarOpen} openModal={openModal} />
-        <LogoutModal
-          open={isOpen}
-          userEmail={''}
-          onConfirmed={confirmLogout}
-          onCanceled={closeModal}
-        />
+        {isLoading && isAuthenticated ? (
+          // Показываем загрузку только если пользователь авторизован и идет загрузка
+          <div className="flex items-center gap-3 px-4 py-2">
+            <div className="border-light-100 h-5 w-5 animate-spin rounded-full border-2 border-t-transparent" />
+            {isSidebarOpen && (
+              <span className="regular-text-14 text-light-100">Loading...</span>
+            )}
+          </div>
+        ) : isAuthenticated && !sessionExpired ? (
+          // Для авторизованных пользователей с активной сессией - кнопка выхода
+          <>
+            <LogoutButton
+              hideText={!isSidebarOpen}
+              openModal={handleLogoutModalOpen}
+            />
+            <LogoutModal
+              open={isOpen}
+              userEmail={data?.email || ''}
+              onConfirmed={confirmLogout}
+              onCanceled={handleLogoutModalClose}
+            />
+          </>
+        ) : isAuthenticated && sessionExpired ? (
+          // Для авторизованных пользователей с истекшей сессией - сообщение и кнопка повторного входа
+          <>
+            <div className="flex flex-col gap-2">
+              {/* Сообщение об истечении сессии */}
+              {isSidebarOpen && (
+                <div className="px-4 py-2">
+                  <span className="regular-text-12 text-yellow-400">
+                    Сессия истекла
+                  </span>
+                </div>
+              )}
+              {/* Кнопка повторного входа */}
+              <Button
+                variant="text"
+                className="text-light-100 hover:text-light-100 active:text-light-100 focus:text-light-100 w-full cursor-pointer border-none"
+                onClick={handleSignInClick}
+              >
+                <div className="flex items-center gap-3">
+                  <IconSprite iconName="person-outline" />
+                  {isSidebarOpen && (
+                    <span className="regular-text-14">Войти снова</span>
+                  )}
+                </div>
+              </Button>
+              {/* Кнопка выхода (очистка cookies) */}
+              <LogoutButton
+                hideText={!isSidebarOpen}
+                openModal={handleLogoutModalOpen}
+              />
+              <LogoutModal
+                open={isOpen}
+                userEmail={data?.email || ''}
+                onConfirmed={confirmLogout}
+                onCanceled={handleLogoutModalClose}
+              />
+            </div>
+          </>
+        ) : (
+          // Для неавторизованных пользователей - кнопка входа
+          <>
+            <Button
+              variant="text"
+              className="text-light-100 hover:text-light-100 active:text-light-100 focus:text-light-100 w-full cursor-pointer border-none"
+              onClick={handleSignInClick}
+            >
+              <div className="flex items-center gap-3">
+                <IconSprite iconName="person-outline" />
+                {isSidebarOpen && (
+                  <span className="regular-text-14">Sign In</span>
+                )}
+              </div>
+            </Button>
+          </>
+        )}
       </div>
     </aside>
   );

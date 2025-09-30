@@ -12,11 +12,11 @@ This command will turn off automatic conversion of LF characters to CRLF.
 
 ### After Cloning Repository
 
-1.  Install all dependencies using this command:
+1. Install all dependencies using this command:
 
         pnpm install
 
-2.  Run DEV server
+2. Run DEV server
 
         pnpm dev
 
@@ -30,7 +30,7 @@ Add `--fix` argument to auto fix all Prettier errors:
 
     pnpm lint --fix
 
-# Структура проекта
+## Структура проекта
 
 - `app/`: Маршруты и страницы Next.js.
 - `entities/`: Бизнес-сущности (например, пользователь, продукт).

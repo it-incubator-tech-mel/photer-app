@@ -55,7 +55,10 @@ export const Modal = ({
     >
       {open && (
         <DialogPortal forceMount>
-          <DialogOverlay className="fixed inset-0 z-[998] bg-black/50" />
+          <DialogOverlay
+            className="fixed inset-0 z-[998] bg-black/50"
+            data-testid="dialog-overlay"
+          />
           <DialogContent
             className={cn(
               className,
@@ -63,9 +66,9 @@ export const Modal = ({
               modalWidth[size]
             )}
             forceMount
-            aria-describedby={undefined}
+            data-testid="confirm-dialog"
           >
-            <DialogTitle className="sr-only">
+            <DialogTitle className="sr-only" data-testid="dialog-title">
               {title || 'Modal dialog'}
             </DialogTitle>
             {showHeader && (
