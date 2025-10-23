@@ -32,7 +32,7 @@ export const PaginationButton = ({
     <button
       onClick={handleClick}
       disabled={isDisabled}
-      className={`:focus-visible:outline-none rounded-md p-2 ${isDisabled ? 'cursor-not-allowed text-gray-600' : 'hover:bg-dark-500'}`}
+      className={`focus-visible:outline-none rounded-md p-2 ${isDisabled ? 'cursor-not-allowed text-gray-600' : 'hover:bg-dark-500'}`}
     >
       <IconSprite
         iconName={iconName}
