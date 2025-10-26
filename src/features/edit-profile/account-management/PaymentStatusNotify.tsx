@@ -28,7 +28,13 @@ export const PaymentStatusNotify = ({ status, onClose }: Props): ReactNode => {
 
   return (
     <div>
-      <Modal open={true} size="sm" onClose={onClose} title={title} modal={true}>
+      <Modal
+        open={true}
+        size="sm"
+        onClose={onClose}
+        title={title}
+        disableOutsideClick={true}
+      >
         <div className="flex flex-col gap-[54px]">
           {message}
           <Button onClick={onClose}>{textInButton}</Button>
