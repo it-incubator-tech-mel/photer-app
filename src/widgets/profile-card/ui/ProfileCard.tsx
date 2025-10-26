@@ -35,7 +35,15 @@ export const ProfileCard = ({
   const searchParams = useSearchParams();
   const tab = searchParams.get('tab');
 
-  if (tab && isOwner && !isEditProfile) {
+useEffect(() => {
+if (!tab || !isOwner) return;
+
+const normalizedTabs = tabs.map((t) => t.toLowerCase());
+const isTabIncluded = normalizedTabs.includes(tab.toLowerCase());
+if (isTabIncluded) {
+setIsEditProfile(true);
+}
+}, [tab, isOwner]);
     const normalizedTabs = tabs.map((t) => t.toLowerCase());
     const isTabIncluded = normalizedTabs.includes(tab.toLowerCase());
     if (isTabIncluded) {
