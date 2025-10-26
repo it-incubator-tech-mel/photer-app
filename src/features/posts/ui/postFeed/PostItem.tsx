@@ -14,7 +14,7 @@ export const PostItem = ({ post }: Props): ReactElement => {
   return (
     <>
       <div
-        className={'relative h-57 w-[250px]'}
+        className={'relative aspect-square w-full cursor-pointer'}
         onClick={() => setIsOpenPost(true)}
       >
         {post.photos.length > 0 && (

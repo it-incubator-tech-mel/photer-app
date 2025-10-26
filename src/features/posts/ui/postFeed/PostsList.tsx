@@ -18,7 +18,7 @@ export const PostsList = ({ profileId, ssrPosts }: Props): ReactElement => {
 
   return (
     <div className="mt-12 flex flex-col">
-      <div className="flex flex-wrap justify-center gap-[12px]">
+      <div className="grid grid-cols-2 gap-[12px] sm:grid-cols-3 lg:grid-cols-4">
         {posts?.items.map((post) => <PostItem key={post.id} post={post} />)}
       </div>
       <div

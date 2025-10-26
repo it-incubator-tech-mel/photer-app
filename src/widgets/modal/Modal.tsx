@@ -21,6 +21,7 @@ export type ModalProps = {
   title?: string;
   headerContent?: ReactNode;
   showHeader?: boolean;
+  disableOutsideClick?: boolean;
 } & ComponentProps<'div'>;
 
 export const Modal = ({
@@ -33,9 +34,12 @@ export const Modal = ({
   title,
   headerContent,
   showHeader = true,
+  disableOutsideClick = false,
 }: ModalProps): ReactElement => {
   const handleModalClosed = (): void => {
-    onClose?.();
+    if (!disableOutsideClick) {
+      onClose?.();
+    }
   };
   const modalWidth = {
     sm: 'w-[367px]',
@@ -44,7 +48,11 @@ export const Modal = ({
   };
 
   return (
-    <Dialog onOpenChange={handleModalClosed} open={open}>
+    <Dialog
+      onOpenChange={handleModalClosed}
+      open={open}
+      modal={disableOutsideClick ? true : false}
+    >
       {open && (
         <DialogPortal forceMount>
           <DialogOverlay className="fixed inset-0 z-[998] bg-black/50" />
@@ -69,11 +77,19 @@ export const Modal = ({
                     <DialogTitle asChild>
                       <h2>{title}</h2>
                     </DialogTitle>
-                    {showCloseButton && (
-                      <DialogClose className="hover:bg-dark-100 focus-visible:bg-dark-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 transition-all duration-100 focus-visible:outline-none">
-                        <IconSprite iconName="close" />
-                      </DialogClose>
-                    )}
+                    {showCloseButton &&
+                      (disableOutsideClick ? (
+                        <button
+                          onClick={onClose}
+                          className="hover:bg-dark-100 focus-visible:bg-dark-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 transition-all duration-100 focus-visible:outline-none"
+                        >
+                          <IconSprite iconName="close" />
+                        </button>
+                      ) : (
+                        <DialogClose className="hover:bg-dark-100 focus-visible:bg-dark-100 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 transition-all duration-100 focus-visible:outline-none">
+                          <IconSprite iconName="close" />
+                        </DialogClose>
+                      ))}
                   </>
                 )}
               </header>
