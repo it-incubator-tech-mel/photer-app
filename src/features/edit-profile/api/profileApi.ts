@@ -40,6 +40,24 @@ export const profileApi = baseApi.injectEndpoints({
       transformResponse: (response: UploadAvatarResponse) => response.fileUrl,
       invalidatesTags: ['Profile'], // This will refetch profile data after upload
     }),
+    createPaymentSubscription: builder.mutation<void, void>({
+      query: (body) => ({
+        url: '/subscriptions',
+        method: 'POST',
+        body: body,
+      }),
+    }),
+    // UC-2: Отмена автоматического продления подписки
+    updateAutoRenewal: builder.mutation<
+      void,
+      { subscriptionId: string; autoRenewal: boolean }
+    >({
+      query: ({ subscriptionId, autoRenewal }) => ({
+        url: `/subscriptions/${subscriptionId}/auto-renewal`,
+        method: 'PATCH',
+        body: { autoRenewal },
+      }),
+    }),
   }),
 });
 
@@ -48,4 +66,6 @@ export const {
   useCreateProfileGenInfoMutation,
   useUpdateProfileGenInfoMutation,
   useUploadAvatarMutation,
+  useCreatePaymentSubscriptionMutation,
+  useUpdateAutoRenewalMutation,
 } = profileApi;

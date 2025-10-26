@@ -16,7 +16,8 @@ export type Tabs = typeof tabs;
 
 type Props = { onClose: () => void };
 export const EditProfile = ({ onClose }: Props): ReactNode => {
-  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  // const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [currentTab, setCurrentTab] = useState(tabs[2]);
 
   const renderTab = (): ReactNode => {
     switch (currentTab) {
