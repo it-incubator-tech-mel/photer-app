@@ -29,7 +29,7 @@ type UseAccountManagementReturn = {
   setPaymentStatus: (value: 'success' | 'error' | null) => void;
   mySubscription: {
     isActive: boolean;
-    subscriptions: Array<{ expiredDate: string; paymentDate: string }>;
+    subscriptions: { expiredDate: string; paymentDate: string }[];
   };
 };
 

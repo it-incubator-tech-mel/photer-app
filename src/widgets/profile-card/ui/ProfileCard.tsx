@@ -35,21 +35,18 @@ export const ProfileCard = ({
   const searchParams = useSearchParams();
   const tab = searchParams.get('tab');
 
-useEffect(() => {
-if (!tab || !isOwner) return;
+  useEffect(() => {
+    if (!tab || !isOwner) {
+      return;
+    }
 
-const normalizedTabs = tabs.map((t) => t.toLowerCase());
-const isTabIncluded = normalizedTabs.includes(tab.toLowerCase());
-if (isTabIncluded) {
-setIsEditProfile(true);
-}
-}, [tab, isOwner]);
     const normalizedTabs = tabs.map((t) => t.toLowerCase());
     const isTabIncluded = normalizedTabs.includes(tab.toLowerCase());
     if (isTabIncluded) {
       setIsEditProfile(true);
     }
-  }
+  }, [tab, isOwner]);
+
   const user = useSelector(
     (state: RootState) =>
       profileApi.endpoints.getCurrentUser.select()(state).data

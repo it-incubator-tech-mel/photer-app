@@ -57,6 +57,8 @@ export const profileApi = baseApi.injectEndpoints({
         params,
       }),
       providesTags: ['Profile'], // Assuming payments are related to the profile
+    }),
+
     createPaymentSubscription: builder.mutation<
       PaymentSubscribtionResponse,
       PaymentSubscribtionQuery

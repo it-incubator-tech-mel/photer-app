@@ -23,13 +23,13 @@ export const AccountManagement = (): ReactNode => {
     <div className="flex flex-col gap-[24px]">
       {mySubscription.isActive && (
         <>
-          {mySubscription.subscriptions.map((subscription) => {
+          {mySubscription.subscriptions.map((subscription, index) => {
             if (!subscription.expiredDate || !subscription.paymentDate) {
               return null;
             }
 
             return (
-              <Card className="flex gap-[42px] px-[24px] py-[12px]">
+              <Card key={index} className="flex gap-[42px] px-[24px] py-[12px]">
                 <div className="flex flex-col gap-[12px]">
                   <h4>Expire at</h4>
                   <span>{subscription.expiredDate}</span>

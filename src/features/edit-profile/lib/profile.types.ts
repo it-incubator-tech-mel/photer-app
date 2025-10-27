@@ -58,6 +58,8 @@ export type SubscriptionItem = {
 
 export type MyPaymentsResponse = {
   items: SubscriptionItem[];
+};
+
 export type PaymentProvider = 'STRIPE' | 'PAYPAL';
 
 type SubscriptionPeriod = 'MONTHLY' | 'WEEKLY' | 'DAILY';
