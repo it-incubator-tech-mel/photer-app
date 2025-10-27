@@ -58,6 +58,10 @@ export type SubscriptionItem = {
 
 export type MyPaymentsResponse = {
   items: SubscriptionItem[];
+  totalCount: number;
+  pagesCount: number;
+  page: number;
+  pageSize: number;
 };
 
 export type PaymentProvider = 'STRIPE' | 'PAYPAL';
