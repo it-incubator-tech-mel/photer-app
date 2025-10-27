@@ -21,7 +21,7 @@ export const AcceptRenewalNotify = ({
         size="sm"
         onClose={onClose}
         title="Create payment"
-        modal={true}
+        disableOutsideClick={true}
       >
         Auto-renewal will be enabled with this payment. You can disable it
         anytime in your profile settings

@@ -1,5 +1,7 @@
 import { baseApi } from '@/shared/lib/baseApi';
 import {
+  MyPaymentsRequest,
+  MyPaymentsResponse,
   GetPaymentsQuery,
   GetSubscriptionsResponse,
   PaymentSubscribtionQuery,
@@ -47,6 +49,16 @@ export const profileApi = baseApi.injectEndpoints({
       transformResponse: (response: UploadAvatarResponse) => response.fileUrl,
       invalidatesTags: ['Profile'], // This will refetch profile data after upload
     }),
+
+    getMyPayments: builder.query<MyPaymentsResponse, MyPaymentsRequest>({
+      query: (params) => ({
+        url: '/subscriptions/my-payments',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['Profile'], // Assuming payments are related to the profile
+    }),
+
     createPaymentSubscription: builder.mutation<
       PaymentSubscribtionResponse,
       PaymentSubscribtionQuery
@@ -75,6 +87,7 @@ export const {
   useCreateProfileGenInfoMutation,
   useUpdateProfileGenInfoMutation,
   useUploadAvatarMutation,
+  useGetMyPaymentsQuery,
   useCreatePaymentSubscriptionMutation,
   useGetMySubscriptionsQuery,
 } = profileApi;
