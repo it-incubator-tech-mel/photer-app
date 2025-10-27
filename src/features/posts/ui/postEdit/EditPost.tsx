@@ -32,7 +32,6 @@ export const EditPost = ({ post, onCloseAction }: Props): ReactNode => {
     MAX_SYMBOL_COUNT,
   });
 
-  console.log('post', post);
   return (
     <div
       ref={editPostRef}
