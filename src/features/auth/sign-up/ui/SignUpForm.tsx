@@ -19,15 +19,16 @@ export default function SignUpForm(): React.ReactElement {
   const isFormValid = (): boolean => {
     const { username, email, password, confirmPassword, terms } = watchedValues;
 
+    // Проверяем наличие всех полей
     if (!username || !email || !password || !confirmPassword || !terms) {
       return false;
     }
-    if (password !== confirmPassword) {
+
+    // Проверяем, что нет ошибок валидации
+    if (Object.keys(formState.errors).length > 0) {
       return false;
     }
-    if (username.length < 6 || password.length < 6 || !email.includes('@')) {
-      return false;
-    }
+
     return true;
   };
 

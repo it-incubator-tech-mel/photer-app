@@ -14,3 +14,16 @@ export type User = {
   userId: string;
   email: string;
 };
+
+export type ErrorIncorrectValue = {
+  status: 400;
+  errorsMessage: [
+    {
+      message: string;
+      field: string;
+    },
+  ];
+};
+export type ErrorUnauthorized = {
+  status: 401;
+};

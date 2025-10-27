@@ -38,6 +38,7 @@ export default async function SSRProfilePage({
       <ProfileCard
         profileId={profileId}
         isOwner={isProfileOwner}
+        // isOwner={true}
         isAuthorized={!!userId}
         posts={posts}
         profile={profile}

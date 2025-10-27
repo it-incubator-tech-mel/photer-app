@@ -1,3 +1,7 @@
+import {
+  ErrorIncorrectValue,
+  ErrorUnauthorized,
+} from '@/shared/types/commonTypes';
 import { PixelCrop } from './aspectRatios';
 
 export type PostType = {
@@ -61,20 +65,6 @@ export type ErrorResponse = {
     | ErrorNotFound
     | ErrorNotOwner
     | ErrorUnauthorized;
-};
-
-type ErrorIncorrectValue = {
-  status: 400;
-  errorsMessage: [
-    {
-      message: string;
-      field: string;
-    },
-  ];
-};
-
-type ErrorUnauthorized = {
-  status: 401;
 };
 
 type ErrorNotOwner = {

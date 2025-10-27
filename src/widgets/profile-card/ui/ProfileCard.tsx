@@ -12,6 +12,8 @@ import { profileApi } from '@/features/edit-profile/api/profileApi';
 import { RootState, useAppDispatch } from '@/shared/state/store';
 import { useSelector } from 'react-redux';
 import { ProfileGenIfo } from '@/features/edit-profile/lib/profile.types';
+import { useSearchParams } from 'next/navigation';
+import { tabs } from '@/features/edit-profile/lib/commonLib';
 
 type Props = {
   isOwner: boolean;
@@ -30,7 +32,24 @@ export const ProfileCard = ({
 }: Props): ReactElement => {
   const dispatch = useAppDispatch();
   const [isEditProfile, setIsEditProfile] = useState(false);
+  const searchParams = useSearchParams();
+  const tab = searchParams.get('tab');
 
+useEffect(() => {
+if (!tab || !isOwner) return;
+
+const normalizedTabs = tabs.map((t) => t.toLowerCase());
+const isTabIncluded = normalizedTabs.includes(tab.toLowerCase());
+if (isTabIncluded) {
+setIsEditProfile(true);
+}
+}, [tab, isOwner]);
+    const normalizedTabs = tabs.map((t) => t.toLowerCase());
+    const isTabIncluded = normalizedTabs.includes(tab.toLowerCase());
+    if (isTabIncluded) {
+      setIsEditProfile(true);
+    }
+  }
   const user = useSelector(
     (state: RootState) =>
       profileApi.endpoints.getCurrentUser.select()(state).data
