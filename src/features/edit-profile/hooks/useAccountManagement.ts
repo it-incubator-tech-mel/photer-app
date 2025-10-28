@@ -29,8 +29,6 @@ type UseAccountManagementReturn = {
   handleCloseNotify: () => void;
   paymentStatus: 'success' | 'error' | null;
   setPaymentStatus: (value: 'success' | 'error' | null) => void;
-  lastCreatedAutoRenewal: boolean;
-  debugToggleAutoRenewal: (nextChecked: boolean) => Promise<void>;
   currentAutoRenewal: boolean;
   isTogglingAutoRenewal: boolean;
   toggleAutoRenewal: (nextChecked: boolean) => Promise<void>;
@@ -75,135 +73,6 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
     sortDirection: 'desc',
     sortBy: 'createdAt',
   });
-
-  // Debug: логируем статус автопродления из GET /subscriptions
-  useEffect(() => {
-    if (
-      activeSubscription &&
-      'items' in activeSubscription &&
-      Array.isArray(activeSubscription.items)
-    ) {
-      const activeLatest = activeSubscription.items
-        .filter((s) => s.status === 'ACTIVE')
-        .sort(
-          (a, b) =>
-            new Date(b.validUntil).getTime() - new Date(a.validUntil).getTime()
-        )[0];
-      console.log('[GET /subscriptions] items:', activeSubscription.items);
-      console.log(
-        '[GET /subscriptions] ACTIVE autoRenewal:',
-        activeLatest?.autoRenewal ?? null
-      );
-    }
-  }, [activeSubscription]);
-
-  // Логируем autoRenewal последней созданной подписки
-  useEffect(() => {
-    if (
-      lastCreatedSubscription &&
-      'items' in lastCreatedSubscription &&
-      Array.isArray(lastCreatedSubscription.items)
-    ) {
-      const latest = lastCreatedSubscription.items[0];
-      console.log(
-        '[GET /subscriptions createdAt desc size=1] autoRenewal:',
-        latest?.autoRenewal ?? null
-      );
-    }
-  }, [lastCreatedSubscription]);
-
-  // DEBUG: последовательность GET -> POST (enable/cancel) -> GET с логами
-  const debugToggleAutoRenewal = async (
-    nextChecked: boolean
-  ): Promise<void> => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const token =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('accessToken')
-        : null;
-    if (!baseUrl || !token) {
-      console.warn('[DEBUG] Missing baseUrl or token');
-      return;
-    }
-
-    const headers: HeadersInit = {
-      Accept: '*/*',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    };
-
-    const getSubs = async () => {
-      const url = `${baseUrl}/subscriptions?pageNumber=1&pageSize=50&sortDirection=desc&sortBy=createdAt`;
-      const res = await fetch(url, {
-        method: 'GET',
-        headers,
-        credentials: 'include',
-      });
-      const data = await res.json();
-      return data as {
-        items?: Array<{
-          id: number | string;
-          status: string;
-          autoRenewal: boolean;
-          validUntil: string;
-          createdAt: string;
-          updatedAt: string;
-          externalId?: string;
-        }>;
-      };
-    };
-
-    const postToggle = async () => {
-      const endpoint = nextChecked
-        ? '/subscriptions/enable-auto-renewal'
-        : '/subscriptions/cancel-auto-renewal';
-      const res = await fetch(`${baseUrl}${endpoint}`, {
-        method: 'POST',
-        headers,
-        credentials: 'include',
-        body: '',
-      });
-      return res;
-    };
-
-    // BEFORE
-    const before = await getSubs();
-    console.log('[DEBUG BEFORE] items:', before.items);
-
-    // ACTION
-    const actionRes = await postToggle();
-    console.log('[DEBUG ACTION] status:', actionRes.status);
-    if (!actionRes.ok && actionRes.status !== 204) {
-      try {
-        const err = await actionRes.json();
-        console.log('[DEBUG ACTION] error body:', err);
-      } catch {}
-    }
-
-    // AFTER
-    const after = await getSubs();
-    console.log('[DEBUG AFTER] items:', after.items);
-
-    // DIFF
-    const mapBefore = new Map<string | number, boolean>();
-    before.items?.forEach((i) => mapBefore.set(i.id, i.autoRenewal));
-    const changed = after.items?.filter(
-      (i) => mapBefore.has(i.id) && mapBefore.get(i.id) !== i.autoRenewal
-    );
-    console.log('[DEBUG DIFF] changed:', changed);
-
-    // Текущая "целевая" запись, которую считает UI (последняя по createdAt)
-    const current = after.items
-      ?.slice()
-      .sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      )[0];
-    console.log(
-      '[DEBUG CURRENT createdAt max] autoRenewal:',
-      current?.autoRenewal
-    );
-  };
 
   // Form
   const { handleSubmit, watch, control } = useForm<PaymentFormData>({
@@ -268,13 +137,6 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
     ],
   };
 
-  // Статус автопродления у последней созданной подписки
-  const lastCreatedAutoRenewal =
-    (lastCreatedSubscription &&
-      'items' in lastCreatedSubscription &&
-      lastCreatedSubscription.items?.[0]?.autoRenewal) ||
-    false;
-
   // Статус автопродления у "текущей" активной подписки по минимальному validUntil
   const currentAutoRenewal = useMemo(() => {
     let result = false;
@@ -292,15 +154,9 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
           (a, b) =>
             new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         );
-      console.log('[ALL ACTIVE STRIPE SORTED]', activeStripeOnly);
       const minValid = activeStripeOnly[0];
       if (minValid) {
         result = minValid.autoRenewal;
-        console.log('[CURRENT SUBSCRIPTION]', {
-          id: minValid.id,
-          validUntil: minValid.validUntil,
-          autoRenewal: minValid.autoRenewal,
-        });
       }
     }
     return result;
@@ -370,8 +226,6 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
     handleCloseNotify,
     paymentStatus,
     setPaymentStatus,
-    lastCreatedAutoRenewal,
-    debugToggleAutoRenewal,
     currentAutoRenewal,
     isTogglingAutoRenewal,
     toggleAutoRenewal,

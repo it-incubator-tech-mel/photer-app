@@ -17,7 +17,6 @@ export const AccountManagement = (): ReactNode => {
     paymentStatus,
     setPaymentStatus,
     currentAutoRenewal,
-    debugToggleAutoRenewal,
     mySubscription,
     isTogglingAutoRenewal,
     toggleAutoRenewal,
@@ -51,22 +50,6 @@ export const AccountManagement = (): ReactNode => {
             disabled={isTogglingAutoRenewal}
             onCheckedChange={(checked) => void toggleAutoRenewal(!!checked)}
           />
-          <div className="mt-[8px] flex gap-[8px]">
-            <button
-              type="button"
-              className="rounded border px-[8px] py-[4px]"
-              onClick={() => void debugToggleAutoRenewal(true)}
-            >
-              DEBUG Enable
-            </button>
-            <button
-              type="button"
-              className="rounded border px-[8px] py-[4px]"
-              onClick={() => void debugToggleAutoRenewal(false)}
-            >
-              DEBUG Disable
-            </button>
-          </div>
         </>
       )}
 
