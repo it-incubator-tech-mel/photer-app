@@ -37,10 +37,10 @@ export default async function SSRProfilePage({
     <div className={'h-full w-full px-[24px] pt-9'}>
       <ProfileCard
         profileId={profileId}
-        // isOwner={isProfileOwner}
-        isOwner={true}
-        // isAuthorized={!!userId}
-        isAuthorized={true}
+        isOwner={isProfileOwner}
+        // isOwner={true}
+        isAuthorized={!!userId}
+        // isAuthorized={true}
         posts={posts}
         profile={profile}
       />

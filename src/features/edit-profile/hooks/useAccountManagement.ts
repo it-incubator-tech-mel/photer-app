@@ -6,7 +6,7 @@ import {
   PaymentSubscribtionResponse,
   PaymentSuccessSubscribtionResponse,
 } from '../lib/profile.types';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   useCreatePaymentSubscriptionMutation,
   useGetMySubscriptionsQuery,
@@ -46,7 +46,6 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
   const [paymentStatus, setPaymentStatus] = useState<
     'success' | 'error' | null
   >(null);
-  const [refreshKey, setRefreshKey] = useState(0);
   const userId = useSelector(
     (state: RootState) => authApi.endpoints.getMe.select()(state).data?.userId
   );
@@ -65,14 +64,6 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
   const [enableAutoRenewal, { isLoading: isEnabling }] =
     useEnableAutoRenewalMutation();
   const isTogglingAutoRenewal = isCanceling || isEnabling;
-
-  // Дополнительный запрос: последняя созданная подписка (по createdAt desc, 1 запись)
-  const { data: lastCreatedSubscription } = useGetMySubscriptionsQuery({
-    pageNumber: 1,
-    pageSize: 1,
-    sortDirection: 'desc',
-    sortBy: 'createdAt',
-  });
 
   // Form
   const { handleSubmit, watch, control } = useForm<PaymentFormData>({
@@ -146,21 +137,21 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
       Array.isArray(activeSubscription.items) &&
       activeSubscription.items.length
     ) {
-      // Берем ту ACTIVE STRIPE, у которой максимальный updatedAt (последняя измененная бэкендом)
-      const activeStripeOnly = activeSubscription.items
-        .filter((s) => s.status === 'ACTIVE' && s.paymentProvider === 'STRIPE')
+      // Берем ту ACTIVE, у которой максимальный updatedAt (последняя измененная бэкендом)
+      const activeOnly = activeSubscription.items
+        .filter((s) => s.status === 'ACTIVE')
         .slice()
         .sort(
           (a, b) =>
             new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         );
-      const minValid = activeStripeOnly[0];
+      const minValid = activeOnly[0];
       if (minValid) {
         result = minValid.autoRenewal;
       }
     }
     return result;
-  }, [activeSubscription, refreshKey]);
+  }, [activeSubscription]);
 
   if (
     activeSubscription &&
@@ -179,41 +170,32 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
 
   const toggleAutoRenewal = async (nextChecked: boolean): Promise<void> => {
     try {
-      if (isTogglingAutoRenewal) return;
-      let result;
-      if (nextChecked) {
-        result = await enableAutoRenewal();
-      } else {
-        result = await cancelAutoRenewal();
-      }
-      if ('error' in result && result.error) {
-        const error = result.error as { status?: number };
-        if (error.status === 401) {
-          toast.error('Unauthorized. Please sign in again.');
-        } else if (error.status === 404) {
-          toast.error('Active subscription not found.');
-        } else if (error.status === 409) {
-          toast.error(
-            nextChecked
-              ? 'Auto-renewal is already enabled.'
-              : 'Auto-renewal is already disabled.'
-          );
-        } else {
-          toast.error('Failed to update auto-renewal. Try again.');
-        }
+      if (isTogglingAutoRenewal) {
         return;
       }
       if (nextChecked) {
+        await enableAutoRenewal().unwrap();
         toast.success('Auto-renewal enabled');
       } else {
+        await cancelAutoRenewal().unwrap();
         toast.success('Auto-renewal disabled');
       }
-      // Принудительно обновляем данные и ререндерим
       await refetchSubscriptions();
-      setRefreshKey((k) => k + 1);
-    } catch (e) {
-      console.error('[ERROR] toggleAutoRenewal', e);
-      toast.error('Failed to update auto-renewal. Try again.');
+    } catch (e: unknown) {
+      const status = (e as { status?: number })?.status;
+      if (status === 401) {
+        toast.error('Unauthorized. Please sign in again.');
+      } else if (status === 404) {
+        toast.error('Active subscription not found.');
+      } else if (status === 409) {
+        toast.error(
+          nextChecked
+            ? 'Auto-renewal is already enabled.'
+            : 'Auto-renewal is already disabled.'
+        );
+      } else {
+        toast.error('Failed to update auto-renewal. Try again.');
+      }
     }
   };
 

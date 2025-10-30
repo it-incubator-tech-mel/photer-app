@@ -87,10 +87,12 @@ export const profileApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        await queryFulfilled;
-        dispatch(
-          profileApi.util.invalidateTags([{ type: 'Profile', id: 'LIST' }])
-        );
+        try {
+          await queryFulfilled;
+          dispatch(
+            profileApi.util.invalidateTags([{ type: 'Profile', id: 'LIST' }])
+          );
+        } catch {}
       },
     }),
     enableAutoRenewal: builder.mutation<void, void>({
@@ -100,10 +102,12 @@ export const profileApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        await queryFulfilled;
-        dispatch(
-          profileApi.util.invalidateTags([{ type: 'Profile', id: 'LIST' }])
-        );
+        try {
+          await queryFulfilled;
+          dispatch(
+            profileApi.util.invalidateTags([{ type: 'Profile', id: 'LIST' }])
+          );
+        } catch {}
       },
     }),
   }),
