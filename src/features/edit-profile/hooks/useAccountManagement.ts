@@ -6,10 +6,12 @@ import {
   PaymentSubscribtionResponse,
   PaymentSuccessSubscribtionResponse,
 } from '../lib/profile.types';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   useCreatePaymentSubscriptionMutation,
   useGetMySubscriptionsQuery,
+  useCancelAutoRenewalMutation,
+  useEnableAutoRenewalMutation,
 } from '../api/profileApi';
 import { toast } from 'react-toastify';
 import { usePathname, useRouter } from 'next/navigation';
@@ -27,6 +29,9 @@ type UseAccountManagementReturn = {
   handleCloseNotify: () => void;
   paymentStatus: 'success' | 'error' | null;
   setPaymentStatus: (value: 'success' | 'error' | null) => void;
+  currentAutoRenewal: boolean;
+  isTogglingAutoRenewal: boolean;
+  toggleAutoRenewal: (nextChecked: boolean) => Promise<void>;
   mySubscription: {
     isActive: boolean;
     subscriptions: { expiredDate: string; paymentDate: string }[];
@@ -47,12 +52,18 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
 
   // API
   const [createPayment] = useCreatePaymentSubscriptionMutation();
-  const { data: activeSubscription } = useGetMySubscriptionsQuery({
-    pageNumber: 1,
-    pageSize: 10,
-    sortDirection: 'asc',
-    sortBy: 'validUntil',
-  });
+  const { data: activeSubscription, refetch: refetchSubscriptions } =
+    useGetMySubscriptionsQuery({
+      pageNumber: 1,
+      pageSize: 50,
+      sortDirection: 'asc',
+      sortBy: 'validUntil',
+    });
+  const [cancelAutoRenewal, { isLoading: isCanceling }] =
+    useCancelAutoRenewalMutation();
+  const [enableAutoRenewal, { isLoading: isEnabling }] =
+    useEnableAutoRenewalMutation();
+  const isTogglingAutoRenewal = isCanceling || isEnabling;
 
   // Form
   const { handleSubmit, watch, control } = useForm<PaymentFormData>({
@@ -117,6 +128,31 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
     ],
   };
 
+  // Статус автопродления у "текущей" активной подписки по минимальному validUntil
+  const currentAutoRenewal = useMemo(() => {
+    let result = false;
+    if (
+      activeSubscription &&
+      'items' in activeSubscription &&
+      Array.isArray(activeSubscription.items) &&
+      activeSubscription.items.length
+    ) {
+      // Берем ту ACTIVE, у которой максимальный updatedAt (последняя измененная бэкендом)
+      const activeOnly = activeSubscription.items
+        .filter((s) => s.status === 'ACTIVE')
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+      const minValid = activeOnly[0];
+      if (minValid) {
+        result = minValid.autoRenewal;
+      }
+    }
+    return result;
+  }, [activeSubscription]);
+
   if (
     activeSubscription &&
     'items' in activeSubscription &&
@@ -132,6 +168,37 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
     });
   }
 
+  const toggleAutoRenewal = async (nextChecked: boolean): Promise<void> => {
+    try {
+      if (isTogglingAutoRenewal) {
+        return;
+      }
+      if (nextChecked) {
+        await enableAutoRenewal().unwrap();
+        toast.success('Auto-renewal enabled');
+      } else {
+        await cancelAutoRenewal().unwrap();
+        toast.success('Auto-renewal disabled');
+      }
+      await refetchSubscriptions();
+    } catch (e: unknown) {
+      const status = (e as { status?: number })?.status;
+      if (status === 401) {
+        toast.error('Unauthorized. Please sign in again.');
+      } else if (status === 404) {
+        toast.error('Active subscription not found.');
+      } else if (status === 409) {
+        toast.error(
+          nextChecked
+            ? 'Auto-renewal is already enabled.'
+            : 'Auto-renewal is already disabled.'
+        );
+      } else {
+        toast.error('Failed to update auto-renewal. Try again.');
+      }
+    }
+  };
+
   return {
     handleSubmit: handleSubmit(onSubmit),
     control,
@@ -141,6 +208,9 @@ export const useAccountManagement = (): UseAccountManagementReturn => {
     handleCloseNotify,
     paymentStatus,
     setPaymentStatus,
+    currentAutoRenewal,
+    isTogglingAutoRenewal,
+    toggleAutoRenewal,
     mySubscription,
   };
 };

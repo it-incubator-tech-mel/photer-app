@@ -40,6 +40,7 @@ export default async function SSRProfilePage({
         isOwner={isProfileOwner}
         // isOwner={true}
         isAuthorized={!!userId}
+        // isAuthorized={true}
         posts={posts}
         profile={profile}
       />

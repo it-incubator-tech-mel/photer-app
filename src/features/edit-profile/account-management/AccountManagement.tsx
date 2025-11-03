@@ -16,7 +16,10 @@ export const AccountManagement = (): ReactNode => {
     handleCloseNotify,
     paymentStatus,
     setPaymentStatus,
+    currentAutoRenewal,
     mySubscription,
+    isTogglingAutoRenewal,
+    toggleAutoRenewal,
   } = useAccountManagement();
 
   return (
@@ -41,7 +44,12 @@ export const AccountManagement = (): ReactNode => {
               </Card>
             );
           })}
-          <Checkbox label="Auto-Renewal" />
+          <Checkbox
+            label="Auto-Renewal"
+            checked={currentAutoRenewal}
+            disabled={isTogglingAutoRenewal}
+            onCheckedChange={(checked) => void toggleAutoRenewal(!!checked)}
+          />
         </>
       )}
 

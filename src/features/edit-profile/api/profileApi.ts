@@ -78,6 +78,37 @@ export const profileApi = baseApi.injectEndpoints({
         method: 'GET',
         params: body,
       }),
+      providesTags: [{ type: 'Profile', id: 'LIST' }],
+    }),
+    cancelAutoRenewal: builder.mutation<void, void>({
+      query: () => ({
+        url: '/subscriptions/cancel-auto-renewal',
+        method: 'POST',
+      }),
+      invalidatesTags: [],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            profileApi.util.invalidateTags([{ type: 'Profile', id: 'LIST' }])
+          );
+        } catch {}
+      },
+    }),
+    enableAutoRenewal: builder.mutation<void, void>({
+      query: () => ({
+        url: '/subscriptions/enable-auto-renewal',
+        method: 'POST',
+      }),
+      invalidatesTags: [],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            profileApi.util.invalidateTags([{ type: 'Profile', id: 'LIST' }])
+          );
+        } catch {}
+      },
     }),
   }),
 });
@@ -90,4 +121,6 @@ export const {
   useGetMyPaymentsQuery,
   useCreatePaymentSubscriptionMutation,
   useGetMySubscriptionsQuery,
+  useCancelAutoRenewalMutation,
+  useEnableAutoRenewalMutation,
 } = profileApi;
